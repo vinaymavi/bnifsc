@@ -1,4 +1,5 @@
 package bnifsc.entites;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,8 +11,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 
 public class Branch {
-	public static String ENTITY_NAME="Bank";
-	private final static Logger LOGGER = Logger.getLogger(BulkUpload.class.getName());
+	public static String ENTITY_NAME = "Bank";
+	private final static Logger LOGGER = Logger.getLogger(BulkUpload.class
+			.getName());
 	private final static Gson GSON = new Gson();
 	private String name;
 	private String state;
@@ -26,10 +28,13 @@ public class Branch {
 	private String micr;
 	private String swift;
 	private String pincode;
+	private MongoKey _id;
+
 	// Save bank to datastore.
-	// TODO this function should return Bank object.	
-	public Branch save(){
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	// TODO this function should return Bank object.
+	public Branch save() {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
 		Entity bank = new Entity(ENTITY_NAME);
 		bank.setProperty("name", this.getName());
 		bank.setProperty("state", this.getState());
@@ -44,10 +49,10 @@ public class Branch {
 		bank.setProperty("micr", this.getMicr());
 		bank.setProperty("swift", this.getSwift());
 		bank.setProperty("pincode", this.getPincode());
-		datastore.put(bank);		
+		datastore.put(bank);
 		return this;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -150,6 +155,14 @@ public class Branch {
 
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
+	}
+
+	public MongoKey get_id() {
+		return _id;
+	}
+
+	public void set_id(MongoKey _id) {
+		this._id = _id;
 	}
 
 }

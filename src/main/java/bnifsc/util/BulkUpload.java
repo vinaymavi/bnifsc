@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import bnifsc.entites.Bank;
+import bnifsc.entites.Branch;
 
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsInputChannel;
@@ -42,7 +43,7 @@ public class BulkUpload {
 			while ((line = reader.readLine()) != null) {
 				jsonData += line;
 			}
-			logger.warning(jsonData);
+			
 			Bank[] bankes = gson.fromJson(jsonData, Bank[].class);
 			List<Bank> insertedBankes=new ArrayList<Bank>();
 			for(Bank bank: bankes){
@@ -66,6 +67,42 @@ public class BulkUpload {
 		return null;
 	}
 
+	public List<Branch> importBranch() {
+		GcsFilename filename = new GcsFilename(this.getBucket(),
+				this.getFileName());
+		GcsInputChannel readChannel = null;
+		BufferedReader reader = null;
+		try {
+			readChannel = gcsService.openReadChannel(filename, 0);
+			reader = new BufferedReader(Channels.newReader(readChannel, "UTF8"));
+			String jsonData = "";
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				jsonData += line;
+			}
+			
+			Branch[] branches = gson.fromJson(jsonData, Branch[].class);
+			List<Branch> insertedBankes=new ArrayList<Branch>();
+			for(Branch branch: branches){
+				insertedBankes.add(branch.save());
+			}			
+			return insertedBankes;
+		} catch (IOException e) {
+			logger.warning(e.getMessage());
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				logger.warning(e.getMessage());
+			}
+
+		}
+
+		return null;
+	}
+	
 	public String getBucket() {
 		return bucket;
 	}

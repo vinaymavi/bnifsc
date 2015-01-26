@@ -1,45 +1,16 @@
 package bnifsc.entites;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 
+
 public class Bank {
-	public static String ENTITY_NAME="Bank";
+	private static final String ENTITY_NAME="BankNames"; 
 	private String name;
-	private String state;
-	private String district;
-	private String branchName;
-	private String custCare;
-	private String email;
-	private String mobile;
-	private String phone;
-	private String address;
-	private String ifsc;
-	private String micr;
-	private String swift;
-	private String pincode;
-	// Save bank to datastore.
-	// TODO this function should return Bank object.	
-	public Bank save(){
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Entity bank = new Entity(ENTITY_NAME);
-		bank.setProperty("name", this.getName());
-		bank.setProperty("state", this.getState());
-		bank.setProperty("district", this.getDistrict());
-		bank.setProperty("branchname", this.getBranchName());
-		bank.setProperty("custCare", this.getCustCare());
-		bank.setProperty("email", this.getEmail());
-		bank.setProperty("mobile", this.getMobile());
-		bank.setProperty("phone", this.getPhone());
-		bank.setProperty("address", this.getAddress());
-		bank.setProperty("ifsc", this.getIfsc());
-		bank.setProperty("micr", this.getMicr());
-		bank.setProperty("swift", this.getSwift());
-		bank.setProperty("pincode", this.getPincode());
-		datastore.put(bank);;
-		return this;
-	}
-	
+	private String url;
+	private MongoKey _id;
+
 	public String getName() {
 		return name;
 	}
@@ -48,100 +19,28 @@ public class Bank {
 		this.name = name;
 	}
 
-	public String getState() {
-		return state;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
-	public String getDistrict() {
-		return district;
+	public MongoKey get_id() {
+		return _id;
 	}
 
-	public void setDistrict(String district) {
-		this.district = district;
+	public void set_id(MongoKey _id) {
+		this._id = _id;
 	}
-
-	public String getBranchName() {
-		return branchName;
+	
+	public Bank save(){
+		DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
+		Entity entity= new Entity(ENTITY_NAME);
+		entity.setProperty("name", this.getName());
+		entity.setProperty("url", this.getUrl());
+		datastoreService.put(entity);
+		return this;
 	}
-
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
-	}
-
-	public String getCustCare() {
-		return custCare;
-	}
-
-	public void setCustCare(String custCare) {
-		this.custCare = custCare;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getIfsc() {
-		return ifsc;
-	}
-
-	public void setIfsc(String ifsc) {
-		this.ifsc = ifsc;
-	}
-
-	public String getMicr() {
-		return micr;
-	}
-
-	public void setMicr(String micr) {
-		this.micr = micr;
-	}
-
-	public String getSwift() {
-		return swift;
-	}
-
-	public void setSwift(String swift) {
-		this.swift = swift;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
-
 }

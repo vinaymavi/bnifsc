@@ -1,6 +1,11 @@
 package bnifsc;
 
+import java.util.List;
+import java.util.logging.Logger;
+
+import bnifsc.entites.Branch;
 import bnifsc.entites.Bank;
+import bnifsc.util.BulkUpload;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -15,15 +20,16 @@ import javax.inject.Named;
      namespace = @ApiNamespace(ownerDomain = "helloworld.example.com",
                                 ownerName = "helloworld.example.com",
                                 packagePath=""))
-public class YourFirstAPI {
-    /** Add Bank details*/
+public class BnifscAPI {
+    /** Add Bank details*/	
+	private final static Logger logger = Logger.getLogger(BnifscAPI.class.getName());
     @ApiMethod(name="addBank")
-    public Bank addBank(@Named("name") String name,@Named("branchName") String branchName,@Named("ifsc") String ifsc,
+    public Branch addBank(@Named("name") String name,@Named("branchName") String branchName,@Named("ifsc") String ifsc,
     					@Named("micr") String micr, @Named("swift") String swift,@Named("email") String email,
     					@Named("mobile") String mobile,@Named("customerCare") String custCare,@Named("phone") String phone,
     					@Named("state") String state,@Named("district") String district,@Named("address") String address,
     					@Named("pin") String pincode){    	
-    	Bank bank = new Bank();
+    	Branch bank = new Branch();
     	bank.setName(name);
     	bank.setBranchName(branchName);
     	bank.setIfsc(ifsc);
@@ -37,7 +43,18 @@ public class YourFirstAPI {
     	bank.setDistrict(district);
     	bank.setAddress(address);
     	bank.setPincode(pincode);
+    	logger.info("info Message from bnifscAPI");    	
     	return  bank.save();
     	
-    }    
+    }
+    @ApiMethod(name="importBankNames")
+   public List<Bank> importBankNames(@Named("bucket")String bucket,@Named("fileName") String fileName){
+    	BulkUpload bulkUpload= new BulkUpload();
+    	bulkUpload.setBucket(bucket);
+    	bulkUpload.setFileName(fileName);
+    	logger.info(bucket);
+    	logger.info(fileName);    	
+    	logger.info("Import Bank Calling");
+    	return bulkUpload.importBankNames();	   
+   }    
 }

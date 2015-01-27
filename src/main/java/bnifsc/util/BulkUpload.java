@@ -28,7 +28,7 @@ public class BulkUpload {
 	GcsService gcsService = GcsServiceFactory.createGcsService();
 	private final Gson gson = new Gson();
 	private String bucket;
-	private String fileName;
+	private String fileName;	
 
 	public List<Bank> importBankNames() {
 		GcsFilename filename = new GcsFilename(this.getBucket(),
@@ -43,13 +43,13 @@ public class BulkUpload {
 			while ((line = reader.readLine()) != null) {
 				jsonData += line;
 			}
-			
+
 			Bank[] bankes = gson.fromJson(jsonData, Bank[].class);
-			List<Bank> insertedBankes=new ArrayList<Bank>();
-			for(Bank bank: bankes){
+			List<Bank> insertedBankes = new ArrayList<Bank>();
+			for (Bank bank : bankes) {
 				insertedBankes.add(bank.save());
 			}
-			
+
 			return insertedBankes;
 		} catch (IOException e) {
 			logger.warning(e.getMessage());
@@ -80,12 +80,12 @@ public class BulkUpload {
 			while ((line = reader.readLine()) != null) {
 				jsonData += line;
 			}
-			
+
 			Branch[] branches = gson.fromJson(jsonData, Branch[].class);
-			List<Branch> insertedBankes=new ArrayList<Branch>();
-			for(Branch branch: branches){
+			List<Branch> insertedBankes = new ArrayList<Branch>();
+			for (Branch branch : branches) {
 				insertedBankes.add(branch.save());
-			}			
+			}
 			return insertedBankes;
 		} catch (IOException e) {
 			logger.warning(e.getMessage());
@@ -102,7 +102,7 @@ public class BulkUpload {
 
 		return null;
 	}
-	
+
 	public String getBucket() {
 		return bucket;
 	}

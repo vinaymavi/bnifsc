@@ -61,7 +61,8 @@ public class BnifscAPI {
 			@Named("fileName") String fileName) {
 		BulkUpload bulkUpload = new BulkUpload();
 		bulkUpload.setBucket(bucket);
-		bulkUpload.setFileName(fileName);			
+		bulkUpload.setFileName(fileName);		
 		return bulkUpload.importBranch();
+		
 	}
 }

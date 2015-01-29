@@ -1,5 +1,7 @@
 package bnifsc.entites;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,14 +10,21 @@ import bnifsc.util.BulkUpload;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PropertyProjection;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
 public class Branch {
 	public static String ENTITY_NAME = "Bank";
+	public static final int DEFAULT_LIMIT = 20;
 	private final static Logger LOGGER = Logger.getLogger(BulkUpload.class
 			.getName());
+	private final static DatastoreService datastore = DatastoreServiceFactory
+			.getDatastoreService();
 	private final static Gson GSON = new Gson();
-	private String name;
+	private String name; // Bank name
 	private String state;
 	private String district;
 	private String branchName;
@@ -33,8 +42,7 @@ public class Branch {
 	// Save bank to datastore.
 	// TODO this function should return Bank object.
 	public Branch save() {
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
+		
 		Entity bank = new Entity(ENTITY_NAME);
 		bank.setProperty("name", this.getName());
 		bank.setProperty("state", this.getState());
@@ -53,6 +61,20 @@ public class Branch {
 		return this;
 	}
 
+	public List<Entity> branches(int limit) {
+		Query query = new Query(ENTITY_NAME);
+		PreparedQuery pq = datastore.prepare(query);
+		return pq.asList(FetchOptions.Builder.withLimit(limit));		
+	}
+	
+	public List<Entity> banks(){
+	Query query = new Query(ENTITY_NAME);
+	query.addProjection(new PropertyProjection("name", String.class));
+	query.setDistinct(true);
+	PreparedQuery pq = datastore.prepare(query);
+	return pq.asList(FetchOptions.Builder.withDefaults());	
+	}
+	
 	public String getName() {
 		return name;
 	}

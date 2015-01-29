@@ -10,6 +10,7 @@ import bnifsc.util.BulkUpload;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.appengine.api.datastore.Entity;
 
 import javax.inject.Named;
 
@@ -65,4 +66,15 @@ public class BnifscAPI {
 		return bulkUpload.importBranch();
 		
 	}
+	@ApiMethod(name="branches")
+	public List<Entity> branches(@Named("limit") int limit){
+		Branch branch = new Branch();
+		return branch.branches(limit);		
+	}
+	
+	@ApiMethod(name="banks")
+	public List<Entity> banks(){
+		Branch branch = new Branch();
+		return branch.banks();
+	}	
 }

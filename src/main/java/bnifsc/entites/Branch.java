@@ -1,7 +1,9 @@
 package bnifsc.entites;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,12 +69,18 @@ public class Branch {
 		return pq.asList(FetchOptions.Builder.withLimit(limit));		
 	}
 	
-	public List<Entity> banks(){
+	public List<Map<String, String>> banks(){
 	Query query = new Query(ENTITY_NAME);
 	query.addProjection(new PropertyProjection("name", String.class));
 	query.setDistinct(true);
 	PreparedQuery pq = datastore.prepare(query);
-	return pq.asList(FetchOptions.Builder.withDefaults());	
+	List<Map<String, String>> bankNames= new ArrayList<Map<String, String>>();
+	for(Entity entity:pq.asIterable()){
+		Map<String, String> bankName= new HashMap<String,String>();
+		bankName.put("name", (String)entity.getProperty("name"));
+		bankNames.add(bankName);
+	}	
+	return bankNames;	
 	}
 	
 	public String getName() {

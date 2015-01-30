@@ -1,6 +1,7 @@
 package bnifsc;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import bnifsc.entites.Branch;
@@ -56,7 +57,6 @@ public class BnifscAPI {
 		bulkUpload.setFileName(fileName);		
 		return bulkUpload.importBankNames();
 	}
-
 	@ApiMethod(name = "importBranches")
 	public List<Branch> importBranches(@Named("bucket") String bucket,
 			@Named("fileName") String fileName) {
@@ -66,6 +66,7 @@ public class BnifscAPI {
 		return bulkUpload.importBranch();
 		
 	}
+	
 	@ApiMethod(name="branches")
 	public List<Entity> branches(@Named("limit") int limit){
 		Branch branch = new Branch();
@@ -73,8 +74,8 @@ public class BnifscAPI {
 	}
 	
 	@ApiMethod(name="banks")
-	public List<Entity> banks(){
+	public List<Map<String, String>> banks(){
 		Branch branch = new Branch();
-		return branch.banks();
+		return branch.banks();		
 	}	
 }

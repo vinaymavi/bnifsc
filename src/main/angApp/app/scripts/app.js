@@ -20,7 +20,7 @@ angular
   ])
   .config(function($routeProvider) {
     $routeProvider
-      .when('/', {
+      .when('/:bank?/:state?/:district?/:branch?', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })

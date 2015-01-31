@@ -8,15 +8,34 @@
  * Controller of the bnifscApp
  */
 angular.module('bnifscApp')
-	.controller('MainCtrl', function($scope, $window, bnifsc) {
+	.controller('MainCtrl', function($scope, $window, bnifsc,$routeParams) {
 		console.log("Controller loaded");
-		$scope.bnifsc = bnifsc;
-		$scope.name="vinay kumar";
-		$scope.arr=[1,2,3,4,5];
+		$scope.bnifsc = bnifsc;		
+		$scope.viewObj={};
+		function init() {
+			if($routeParams.district){
+				console.log("branchBy")
+			}else if($routeParams.state){
+				console.log("districtByStateName");
+			}else if($routeParams.bank){
+				console.log("statesByBankName");
+			}else{
+				bnifsc.banks(function(resp) {	
+				$scope.viewObj.itemsList = resp.items;
+				$scope.$apply($scope.bnifsc);
+				});
+			}			
+		}
+
+		// controller initialization 
+		if (bnifsc.appLoaded()) {			
+			init();
+		}
+
+		// controller initialization when apploaded successfully.
 		$window.init = function() {
 			console.log("window init calling");
-			bnifsc.banks(function(){
-				$scope.$apply($scope.bnifsc);
-			});
+			bnifsc.appLoaded(true);			
+			init();
 		}
 	});

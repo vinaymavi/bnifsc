@@ -6,7 +6,7 @@
   </div>
   </div>  
   <div class="row">
-      <div class="col-lg-6" ng-repeat="(key, bank) in bnifsc.banksArr|filter:search">
+      <div class="col-lg-6" ng-repeat="(key, bank) in viewObj.itemsList|filter:search">
         <a ng-href="#{{bank}}">{{bank}}</a>
       </div>
   </div>

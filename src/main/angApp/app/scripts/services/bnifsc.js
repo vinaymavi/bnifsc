@@ -9,13 +9,24 @@
 angular.module('bnifscApp')
 	.service('bnifsc', function() {
 		var self = this;
-		self.banksArr;		
+		self.banksArr;	
+		var appLoaded=false;	
 		self.banks = function(cb) {
 			gapi.client.bnifsc.banks().execute(function(resp) {
 				console.log(resp);
 				self.banksArr = resp.items;				
-				cb();
+				cb(resp);
 			});
 		};
+
+		// @app = Boolean
+		self.appLoaded  = function(app){
+			if(app){
+				appLoaded = app;
+			}else{
+			  return appLoaded;
+			}
+		}
+
 		return self;
 	});

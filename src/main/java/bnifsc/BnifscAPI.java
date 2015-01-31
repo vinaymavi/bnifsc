@@ -44,7 +44,7 @@ public class BnifscAPI {
 		bank.setState(state);
 		bank.setDistrict(district);
 		bank.setAddress(address);
-		bank.setPincode(pincode);		
+		bank.setPincode(pincode);
 		return bank.save();
 
 	}
@@ -54,28 +54,51 @@ public class BnifscAPI {
 			@Named("fileName") String fileName) {
 		BulkUpload bulkUpload = new BulkUpload();
 		bulkUpload.setBucket(bucket);
-		bulkUpload.setFileName(fileName);		
+		bulkUpload.setFileName(fileName);
 		return bulkUpload.importBankNames();
 	}
+
 	@ApiMethod(name = "importBranches")
 	public List<Branch> importBranches(@Named("bucket") String bucket,
 			@Named("fileName") String fileName) {
 		BulkUpload bulkUpload = new BulkUpload();
 		bulkUpload.setBucket(bucket);
-		bulkUpload.setFileName(fileName);		
+		bulkUpload.setFileName(fileName);
 		return bulkUpload.importBranch();
-		
+
 	}
-	
-	@ApiMethod(name="branches")
-	public List<Entity> branches(@Named("limit") int limit){
+
+	@ApiMethod(name = "branches")
+	public List<Map<String, Object>> branches(
+			@Named("bankName") String bankName,
+			@Named("stateName") String stateName,
+			@Named("districtName") String districtName) {
 		Branch branch = new Branch();
-		return branch.branches(limit);		
+		branch.setName(bankName);
+		branch.setDistrict(districtName);
+		branch.setState(stateName);
+		return branch.branches();
 	}
-	
-	@ApiMethod(name="banks")
-	public List<String> banks(){
+
+	@ApiMethod(name = "banks")
+	public List<String> banks() {
 		Branch branch = new Branch();
-		return branch.banks();		
-	}	
+		return branch.banks();
+	}
+
+	@ApiMethod(name = "states")
+	public List<String> states(@Named("bankName") String bankName) {
+		Branch branch = new Branch();
+		branch.setName(bankName);
+		return branch.states();
+	}
+
+	@ApiMethod(name = "districts")
+	public List<String> districts(@Named("bankName") String bankName,
+			@Named("stateName") String stateName) {
+		Branch branch = new Branch();
+		branch.setName(bankName);
+		branch.setState(stateName);
+		return branch.districts();
+	}
 }

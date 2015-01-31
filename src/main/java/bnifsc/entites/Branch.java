@@ -16,6 +16,9 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.gson.Gson;
 
 public class Branch {
@@ -63,10 +66,26 @@ public class Branch {
 		return this;
 	}
 
-	public List<Entity> branches(int limit) {
+	public List<Map<String, Object>> branches() {
 		Query query = new Query(ENTITY_NAME);
+		Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
+				this.getName());
+		Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
+				this.getState());
+		Filter districtFilter = new FilterPredicate("district",
+				FilterOperator.EQUAL, this.getDistrict());
+		query.setFilter(bankFilter);
+		query.setFilter(stateFilter);
+		query.setFilter(districtFilter);		
 		PreparedQuery pq = datastore.prepare(query);
-		return pq.asList(FetchOptions.Builder.withLimit(limit));
+		List<Map<String, Object>> branches = new ArrayList<Map<String, Object>>();
+		for (Entity e : pq.asIterable()) {			
+			branches.add(e.getProperties());
+		}
+		logger.warning(this.getName() + "," + this.getState() + ","
+				+ this.getDistrict());
+		logger.warning("Branches List size=" + branches.size());
+		return branches;
 	}
 
 	public List<String> banks() {
@@ -78,8 +97,43 @@ public class Branch {
 		for (Entity entity : pq.asIterable()) {
 			bankNames.add((String) entity.getProperty("name"));
 		}
-		logger.warning("Banks list size="+bankNames.size());
+		logger.warning("Banks list size=" + bankNames.size());
 		return bankNames;
+	}
+
+	public List<String> states() {
+		Query query = new Query(ENTITY_NAME);
+		Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
+				this.getName());
+		query.setFilter(bankFilter);
+		query.addProjection(new PropertyProjection("state", String.class));
+		query.setDistinct(true);
+		PreparedQuery pq = datastore.prepare(query);
+		List<String> states = new ArrayList<String>();
+		for (Entity entity : pq.asIterable()) {
+			states.add((String) entity.getProperty("state"));
+		}
+		logger.warning("State List size=" + states.size());
+		return states;
+	}
+
+	public List<String> districts() {
+		Query query = new Query(ENTITY_NAME);
+		Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
+				this.getName());
+		Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
+				this.getState());
+		query.setFilter(bankFilter);
+		query.setFilter(stateFilter);
+		query.addProjection(new PropertyProjection("district", String.class));
+		query.setDistinct(true);
+		PreparedQuery pq = datastore.prepare(query);
+		List<String> districts = new ArrayList<String>();
+		for (Entity e : pq.asIterable()) {
+			districts.add((String) e.getProperty("district"));
+		}
+		logger.warning("District list size=" + districts.size());
+		return districts;
 	}
 
 	public String getName() {

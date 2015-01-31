@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datastore-indexes autoGenerate="true">
+	<datastore-index kind="Bank" ancestor="false" source="manual">
+		<property name="name" direction="asc" />
+		<property name="state" direction="asc" />
+	</datastore-index>
+	<datastore-index kind="Bank" ancestor="false" source="manual">
+		<property name="name" direction="asc" />
+		<property name="state" direction="asc" />
+		<property name="district" direction="asc" />
+	</datastore-index>
+	<datastore-index kind="Bank" ancestor="false" source="manual">
+		<property name="district" direction="asc" />
+		<property name="branchName" direction="asc" />
+	</datastore-index>
+</datastore-indexes>

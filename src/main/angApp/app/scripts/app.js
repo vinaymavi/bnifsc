@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * @ngdoc overview
  * @name bnifscApp
@@ -19,7 +18,7 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
-  .config(function ($routeProvider) {
+  .config(function($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -33,3 +32,10 @@ angular
         redirectTo: '/'
       });
   });
+
+function init() {
+  var ROOT = 'https://bnifsc.appspot.com/_ah/api';
+  gapi.client.load('bnifsc', 'v1', function() {
+    window.init();
+  }, ROOT);
+}

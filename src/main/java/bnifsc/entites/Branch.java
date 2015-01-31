@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 public class Branch {
 	public static String ENTITY_NAME = "Bank";
 	public static final int DEFAULT_LIMIT = 20;
-	private final static Logger LOGGER = Logger.getLogger(BulkUpload.class
+	private final static Logger logger = Logger.getLogger(BulkUpload.class
 			.getName());
 	private final static DatastoreService datastore = DatastoreServiceFactory
 			.getDatastoreService();
@@ -44,7 +44,7 @@ public class Branch {
 	// Save bank to datastore.
 	// TODO this function should return Bank object.
 	public Branch save() {
-		
+
 		Entity bank = new Entity(ENTITY_NAME);
 		bank.setProperty("name", this.getName());
 		bank.setProperty("state", this.getState());
@@ -66,23 +66,22 @@ public class Branch {
 	public List<Entity> branches(int limit) {
 		Query query = new Query(ENTITY_NAME);
 		PreparedQuery pq = datastore.prepare(query);
-		return pq.asList(FetchOptions.Builder.withLimit(limit));		
+		return pq.asList(FetchOptions.Builder.withLimit(limit));
 	}
-	
-	public List<Map<String, String>> banks(){
-	Query query = new Query(ENTITY_NAME);
-	query.addProjection(new PropertyProjection("name", String.class));
-	query.setDistinct(true);
-	PreparedQuery pq = datastore.prepare(query);
-	List<Map<String, String>> bankNames= new ArrayList<Map<String, String>>();
-	for(Entity entity:pq.asIterable()){
-		Map<String, String> bankName= new HashMap<String,String>();
-		bankName.put("name", (String)entity.getProperty("name"));
-		bankNames.add(bankName);
-	}	
-	return bankNames;	
+
+	public List<String> banks() {
+		Query query = new Query(ENTITY_NAME);
+		query.addProjection(new PropertyProjection("name", String.class));
+		query.setDistinct(true);
+		PreparedQuery pq = datastore.prepare(query);
+		List<String> bankNames = new ArrayList<String>();
+		for (Entity entity : pq.asIterable()) {
+			bankNames.add((String) entity.getProperty("name"));
+		}
+		logger.warning("Banks list size="+bankNames.size());
+		return bankNames;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

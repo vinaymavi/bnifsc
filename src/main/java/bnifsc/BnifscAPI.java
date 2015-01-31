@@ -74,7 +74,7 @@ public class BnifscAPI {
 	}
 	
 	@ApiMethod(name="banks")
-	public List<Map<String, String>> banks(){
+	public List<String> banks(){
 		Branch branch = new Branch();
 		return branch.banks();		
 	}	

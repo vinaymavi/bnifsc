@@ -84,6 +84,15 @@ public class BulkUpload {
 			Branch[] branches = gson.fromJson(jsonData, Branch[].class);
 			List<Branch> insertedBankes = new ArrayList<Branch>();
 			for (Branch branch : branches) {
+				branch.setName(branch.getName().trim());
+				branch.setState(branch.getState().trim());
+				branch.setDistrict(branch.getDistrict().trim());
+				branch.setAddress(branch.getAddress());
+				branch.setPhone(branch.getPhone().trim());
+				branch.setPincode(branch.getPincode().trim());
+				branch.setIfsc(branch.getIfsc().trim());
+				branch.setSwift(branch.getSwift().trim());
+				branch.setBranchName(branch.getBranchName().trim());
 				insertedBankes.add(branch.save());
 			}
 			return insertedBankes;

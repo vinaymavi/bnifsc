@@ -69,7 +69,7 @@ public class BnifscAPI {
 	}
 
 	@ApiMethod(name = "branches")
-	public List<Map<String, Object>> branches(
+	public List<Map<String, String>> branches(
 			@Named("bankName") String bankName,
 			@Named("stateName") String stateName,
 			@Named("districtName") String districtName) {
@@ -79,7 +79,12 @@ public class BnifscAPI {
 		branch.setState(stateName);
 		return branch.branches();
 	}
-
+	
+	@ApiMethod(name="getBranchByKey")
+	public Entity getBranchByKey(@Named("keyString")String keyString){
+		return new Branch().getBranchByKey(keyString);
+	}
+	
 	@ApiMethod(name = "banks")
 	public List<String> banks() {
 		Branch branch = new Branch();

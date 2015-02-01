@@ -14,27 +14,36 @@ angular.module('bnifscApp')
 		$scope.viewObj={};
 		$scope.bank=$routeParams.bank;
 		$scope.state=$routeParams.state;
-		$scope.district=$routeParams.district;		
+		$scope.district=$routeParams.district;
+		$scope.branch = $routeParams.branch;
+		$scope.keyString = $routeParams.keyString;		
+		$scope.branchProps;
 		function init() {
-			if($scope.district){
+			if($scope.keyString){
+				bnifsc.getBranchByKey($scope.keyString,function(resp){
+				$scope.branchProps = resp.properties;	
+				$scope.$apply($scope.branchProps);
+				});
+			}
+			else if($scope.district){
 				bnifsc.branches($routeParams.bank,$routeParams.state,$routeParams.district, function(resp) {	
 				$scope.viewObj.itemsList = resp.items;
-				$scope.$apply($scope.bnifsc);
+				$scope.$apply($scope.viewObj.itemsList);
 				});
 			}else if($scope.state){
 				bnifsc.districts($routeParams.bank,$routeParams.state, function(resp) {	
 				$scope.viewObj.itemsList = resp.items;
-				$scope.$apply($scope.bnifsc);
+				$scope.$apply($scope.viewObj.itemsList);
 				});
 			}else if($scope.bank){
 				bnifsc.states($routeParams.bank,function(resp) {	
 				$scope.viewObj.itemsList = resp.items;
-				$scope.$apply($scope.bnifsc);
+				$scope.$apply($scope.viewObj.itemsList);
 				});
 			}else{
 				bnifsc.banks(function(resp) {	
 				$scope.viewObj.itemsList = resp.items;
-				$scope.$apply($scope.bnifsc);
+				$scope.$apply($scope.viewObj.itemsList);
 				});
 			}			
 		}

@@ -11,6 +11,7 @@ angular.module('bnifscApp')
 		var self = this;
 		self.banksArr;
 		var appLoaded = false;
+
 		self.banks = function(cb) {
 			gapi.client.bnifsc.banks()
 				.execute(function(resp) {
@@ -40,6 +41,7 @@ angular.module('bnifscApp')
 					cb(resp);
 				})
 		};
+
 		self.branches = function(bank, state, district, cb) {
 			gapi.client.bnifsc.branches({
 					'bankName': bank,
@@ -51,7 +53,15 @@ angular.module('bnifscApp')
 					cb(resp);
 				})
 		};
-		
+
+		self.getBranchByKey = function(key, cb) {
+			gapi.client.bnifsc.getBranchByKey({
+					'keyString': key
+				})
+				.execute(function(resp) {
+					cb(resp);
+				})
+		};
 		// @app = Boolean
 		self.appLoaded = function(app) {
 			if (app) {

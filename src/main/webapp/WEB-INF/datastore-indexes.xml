@@ -13,4 +13,10 @@
 		<property name="district" direction="asc" />
 		<property name="branchName" direction="asc" />
 	</datastore-index>
+	<datastore-index kind="Bank" ancestor="false" source="manual">
+		<property name="district" direction="asc" />
+		<property name="name" direction="asc" />
+		<property name="state" direction="asc" />
+		<property name="branchname" direction="asc" />
+	</datastore-index>
 </datastore-indexes>

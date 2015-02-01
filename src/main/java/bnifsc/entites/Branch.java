@@ -12,10 +12,13 @@ import bnifsc.util.BulkUpload;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -66,21 +69,33 @@ public class Branch {
 		return this;
 	}
 
-	public List<Map<String, Object>> branches() {
+	public Entity getBranchByKey(String keyString){
+		try{
+			return datastore.get(KeyFactory.stringToKey(keyString));	
+		}catch(EntityNotFoundException e){
+			logger.warning(e.getMessage());
+		}
+		return null;
+	}
+	
+	public List<Map<String, String>> branches() {
 		Query query = new Query(ENTITY_NAME);
 		Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
 				this.getName());
 		Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
 				this.getState());
-		Filter districtFilter = new FilterPredicate("district",
-				FilterOperator.EQUAL, this.getDistrict());
-		query.setFilter(bankFilter);
-		query.setFilter(stateFilter);
-		query.setFilter(districtFilter);		
+		 Filter districtFilter = new FilterPredicate("district",
+		 FilterOperator.EQUAL, this.getDistrict());
+		Filter bankAndStateFilter = CompositeFilterOperator.and(bankFilter,stateFilter,districtFilter);
+		query.setFilter(bankAndStateFilter);
+		query.addProjection(new PropertyProjection("branchname", String.class));
 		PreparedQuery pq = datastore.prepare(query);
-		List<Map<String, Object>> branches = new ArrayList<Map<String, Object>>();
-		for (Entity e : pq.asIterable()) {			
-			branches.add(e.getProperties());
+		List<Map<String, String>> branches = new ArrayList<Map<String, String>>();
+		for (Entity e : pq.asIterable()) {
+			Map<String,String> b = new HashMap<String,String>();
+			b.put("branchName", (String)e.getProperty("branchname"));
+			b.put("id", KeyFactory.keyToString(e.getKey()));
+			branches.add(b);
 		}
 		logger.warning(this.getName() + "," + this.getState() + ","
 				+ this.getDistrict());
@@ -123,8 +138,9 @@ public class Branch {
 				this.getName());
 		Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
 				this.getState());
-		query.setFilter(bankFilter);
-		query.setFilter(stateFilter);
+		Filter bankAndStateFilter = CompositeFilterOperator.and(bankFilter,
+				stateFilter);
+		query.setFilter(bankAndStateFilter);
 		query.addProjection(new PropertyProjection("district", String.class));
 		query.setDistinct(true);
 		PreparedQuery pq = datastore.prepare(query);

@@ -6,8 +6,11 @@
   </div>
   </div>  
   <div class="row">
-      <div class="col-lg-6" ng-repeat="(key, bank) in viewObj.itemsList|filter:search">
-        <a ng-href="#{{bank}}">{{bank}}</a>
+      <div class="col-lg-6" ng-repeat="(key, value) in viewObj.itemsList|filter:search">
+        <a ng-if="!bank" ng-href="#{{value}}/">{{value}}</a>
+        <a ng-if="bank && !state" ng-href="#{{bank}}/{{value}}/">{{value}}</a>
+        <a ng-if="state && !district" ng-href="#{{bank}}/{{state}}/{{value}}/">{{value}}</a>
+        <a ng-if="district" ng-href="#{{bank}}/{{state}}/{{district}}/{{value}}/">{{value}}</a>        
       </div>
   </div>
 </div>

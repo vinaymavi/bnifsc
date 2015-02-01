@@ -12,13 +12,25 @@ angular.module('bnifscApp')
 		console.log("Controller loaded");
 		$scope.bnifsc = bnifsc;		
 		$scope.viewObj={};
+		$scope.bank=$routeParams.bank;
+		$scope.state=$routeParams.state;
+		$scope.district=$routeParams.district;		
 		function init() {
-			if($routeParams.district){
-				console.log("branchBy")
-			}else if($routeParams.state){
-				console.log("districtByStateName");
-			}else if($routeParams.bank){
-				console.log("statesByBankName");
+			if($scope.district){
+				bnifsc.branches($routeParams.bank,$routeParams.state,$routeParams.district, function(resp) {	
+				$scope.viewObj.itemsList = resp.items;
+				$scope.$apply($scope.bnifsc);
+				});
+			}else if($scope.state){
+				bnifsc.districts($routeParams.bank,$routeParams.state, function(resp) {	
+				$scope.viewObj.itemsList = resp.items;
+				$scope.$apply($scope.bnifsc);
+				});
+			}else if($scope.bank){
+				bnifsc.states($routeParams.bank,function(resp) {	
+				$scope.viewObj.itemsList = resp.items;
+				$scope.$apply($scope.bnifsc);
+				});
 			}else{
 				bnifsc.banks(function(resp) {	
 				$scope.viewObj.itemsList = resp.items;

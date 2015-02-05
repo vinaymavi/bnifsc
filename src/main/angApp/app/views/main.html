@@ -1,27 +1,29 @@
-<div class="row">
-  <div class="input-group">
-    <input type="text" class="form-control" ng-model='search' placeholder="Type Bank Name......." aria-describedby="">
-    <span class="input-group-addon glyphicon glyphicon-search"></span>
-  </div>
+<md-whiteframe class="md-whiteframe-z1" layout >
+<div flex="20">
+  <img src="images/bnifsc_s.png" style="margin:22px;" >
 </div>
-<div class="row">
-  <div class="col-lg-6" ng-repeat="(key, value) in viewObj.itemsList|filter:search">
+<div flex="75">  
+  <input type="text"  class='search-box' placeholder='Enter Bank Name' autofocus ng-model="search" >  
+</div>
+</md-whiteframe>
+<br/>
+<div class="row" style="margin:0px;padding:0px">
+  <div class="col-lg-4 anchor" ng-repeat="(key, value) in viewObj.itemsList|filter:search">
     <a ng-if="!bank" ng-href="#{{value}}/">{{value}}</a>
     <a ng-if="bank && !state" ng-href="#{{bank}}/{{value}}/">{{value}}</a>
     <a ng-if="state && !district" ng-href="#{{bank}}/{{state}}/{{value}}/">{{value}}</a>
     <a ng-if="district && !keyString" ng-href="#{{bank}}/{{state}}/{{district}}/{{value.branchName}}/{{value.id}}">{{value.branchName}}</a>
   </div>
   <div ng-if="keyString">
-    <div class="panel panel-primary ">
-      <div class="panel-heading">
+    <div class="panel panel-primary " >
+      <div class="panel-heading" style="background-color:#B448D2 !important;">
         <h3>{{branchProps.name}}, {{branchProps.branchname}} ({{branchProps.address}})</h3>
       </div>
       <div class="panel-body">
         <table class="table .table-hover">
           <tr>
-          <td><h2>IFSC :</h2></td><td><h2>{{branchProps.ifsc}}</td>
+            <td style="min-width: 120px;"><h2>IFSC :</h2></td><td><h2>{{branchProps.ifsc}}</td>
           </tr>
-
           <tr>
             <td>MICR :</td><td>{{branchProps.micr}}</td>
           </tr>
@@ -38,19 +40,19 @@
             <td>Pin Code :</td><td>{{branchProps.pincode}}</td>
           </tr>
           <tr>
-          <td>District :</td><td>{{branchProps.district}}</td>
+            <td>District :</td><td>{{branchProps.district}}</td>
           </tr>
           <tr>
-          <td>State :</td><td>{{branchProps.state}}</td>
+            <td>State :</td><td>{{branchProps.state}}</td>
           </tr>
           <tr>
-          <td>Phone :</td><td>{{branchProps.phone}}</td>
+            <td>Phone :</td><td>{{branchProps.phone}}</td>
           </tr>
           <tr>
-          <td>Email :</td><td>{{branchProps.email}}</td>
+            <td>Email :</td><td>{{branchProps.email}}</td>
           </tr>
           <tr>
-          <td>Customer Care :</td><td>{{branchProps.custCare}}</td>
+            <td>Customer Care :</td><td>{{branchProps.custCare}}</td>
           </tr>
         </table>
       </div>

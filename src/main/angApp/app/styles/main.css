@@ -1,8 +1,14 @@
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
+.search-box{
+	font-size: 20px;
+	border:none;
+	border-bottom: 2px solid gray;
+	width: 100%;
+	margin: 14px;
 }
-
-
-
+.search-box:focus{
+	border-bottom: 2px solid rgb(51, 123, 218);
+}
+.anchor{
+	font-size: 15px;
+	margin: 5px 0px;
+}

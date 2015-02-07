@@ -19,7 +19,12 @@
 	</prerequisites>
 
 	<dependencies>
-		<!-- Compile/runtime dependencies -->		
+		<!-- Compile/runtime dependencies -->
+		<dependency>
+			<groupId>com.google.appengine.tools</groupId>
+			<artifactId>appengine-mapreduce</artifactId>
+			<version>RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

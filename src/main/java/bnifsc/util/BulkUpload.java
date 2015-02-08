@@ -72,18 +72,22 @@ public class BulkUpload {
 				this.getFileName());
 		GcsInputChannel readChannel = null;
 		BufferedReader reader = null;
+		StringBuilder stringBuilder = new StringBuilder();
+		String bankName="";
 		try {
 			readChannel = gcsService.openReadChannel(filename, 0);
 			reader = new BufferedReader(Channels.newReader(readChannel, "UTF8"));
 			String jsonData = "";
 			String line = "";
 			while ((line = reader.readLine()) != null) {
-				jsonData += line;
+				stringBuilder.append(line);
 			}
-
+			
+			jsonData = stringBuilder.toString();					
 			Branch[] branches = gson.fromJson(jsonData, Branch[].class);
 			List<Branch> insertedBankes = new ArrayList<Branch>();
 			for (Branch branch : branches) {
+				bankName=branch.getName();
 				branch.setName(branch.getName().trim());
 				branch.setState(branch.getState().trim());
 				branch.setDistrict(branch.getDistrict().trim());
@@ -95,6 +99,7 @@ public class BulkUpload {
 				branch.setBranchName(branch.getBranchName().trim());
 				insertedBankes.add(branch.save());
 			}
+			logger.warning(bankName+" count ="+insertedBankes.size());
 			return insertedBankes;
 		} catch (IOException e) {
 			logger.warning(e.getMessage());

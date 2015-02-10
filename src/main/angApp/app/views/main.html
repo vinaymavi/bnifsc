@@ -3,29 +3,53 @@
   <img src="images/bnifsc_s.png" style="margin:22px;" >
 </div>
 <div flex="75">
+  <h1>All Indian Banks IFSC codes.</h1>
+</div>
+</md-whiteframe>
+<br/>
+<div class='row'>
+<div class="col-lg-8 col-lg-offset-1">
+  <div class="input-group">
   <ui-select ng-model="search"
   theme="bootstrap"
   reset-search-input="false"
   style="width: 100%;"
-  title="Search bank name........">
-    <ui-select-match placeholder="Search bank name............">{{$select.selected}}</ui-select-match>
+  title="Search bank by name........">
+    <ui-select-match placeholder="Search bank by name............">{{$select.selected}}</ui-select-match>
     <ui-select-choices repeat="value in viewObj.itemsList | filter:$select.search">
       <div ng-bind-html="value | highlight: $select.search"></div>
     </ui-select-choices>
   </ui-select>
+  <span class="input-group-addon btn btn-default" id="basic-addon2">
+    Search
+  </span>
 </div>
-</md-whiteframe>
+</div>
+</div>
+
 <br/>
 <div class="row" style="margin:0px;padding:0px">
-  <div class="col-lg-4 anchor" ng-repeat="(key, value) in viewObj.itemsList|filter:search">
-    <a ng-if="!bank" ng-href="#{{value}}/">{{value}}</a>
-    <a ng-if="bank && !state" ng-href="#{{bank}}/{{value}}/">{{value}}</a>
-    <a ng-if="state && !district" ng-href="#{{bank}}/{{state}}/{{value}}/">{{value}}</a>
-    <a ng-if="district && !keyString" ng-href="#{{bank}}/{{state}}/{{district}}/{{value.branchName}}/{{value.id}}">{{value.branchName}}</a>
+  <div ng-if="!keyString" class="panel panel-default " >
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-lg-12">
+            <h2>IFSC Banks List</h2>
+          </div>          
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="col-lg-4 anchor margin-10" ng-repeat="(key, value) in viewObj.itemsList|filter:search">
+        <a ng-if="!bank" ng-href="#{{value}}/">{{value}}</a>
+        <a ng-if="bank && !state" ng-href="#{{bank}}/{{value}}/">{{value}}</a>
+        <a ng-if="state && !district" ng-href="#{{bank}}/{{state}}/{{value}}/">{{value}}</a>
+        <a ng-if="district && !keyString" ng-href="#{{bank}}/{{state}}/{{district}}/{{value.branchName}}/{{value.id}}">{{value.branchName}}</a>
+      </div>      
+      </div>  
   </div>
+  
   <div ng-if="keyString">
     <div class="panel panel-primary " >
-      <div class="panel-heading" style="background-color:#B448D2 !important;">
+      <div class="panel-heading">
         <h3>{{branchProps.name}}, {{branchProps.branchname}} ({{branchProps.address}})</h3>
       </div>
       <div class="panel-body">

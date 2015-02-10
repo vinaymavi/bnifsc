@@ -2,8 +2,17 @@
 <div flex="20">
   <img src="images/bnifsc_s.png" style="margin:22px;" >
 </div>
-<div flex="75">  
-  <input type="text"  class='search-box' placeholder='Enter Bank Name' autofocus ng-model="search" >  
+<div flex="75">
+  <ui-select ng-model="search"
+  theme="bootstrap"
+  reset-search-input="false"
+  style="width: 100%;"
+  title="Search bank name........">
+    <ui-select-match placeholder="Search bank name............">{{$select.selected}}</ui-select-match>
+    <ui-select-choices repeat="value in viewObj.itemsList | filter:$select.search">
+      <div ng-bind-html="value | highlight: $select.search"></div>
+    </ui-select-choices>
+  </ui-select>
 </div>
 </md-whiteframe>
 <br/>

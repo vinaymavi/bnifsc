@@ -17,7 +17,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngMaterial'
+    'ngMaterial',
+    'ui.select'
   ])
   .config(function($routeProvider) {
     $routeProvider
@@ -33,6 +34,8 @@ angular
         redirectTo: '/'
       });
   });
+
+
 
 function init() {
   var ROOT = 'https://bnifsc.appspot.com/_ah/api';

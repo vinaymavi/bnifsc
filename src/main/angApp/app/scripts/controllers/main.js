@@ -8,7 +8,7 @@
  * Controller of the bnifscApp
  */
 angular.module('bnifscApp')
-	.controller('MainCtrl', function($scope, $window, bnifsc,$routeParams) {
+	.controller('MainCtrl', function($scope, $window, bnifsc,$routeParams,$location) {
 		console.log("Controller loaded");
 		$scope.bnifsc = bnifsc;		
 		$scope.viewObj={};
@@ -18,6 +18,7 @@ angular.module('bnifscApp')
 		$scope.branch = $routeParams.branch;
 		$scope.keyString = $routeParams.keyString;		
 		$scope.branchProps;
+		$scope.data={};
 		function init() {
 			if($scope.keyString){
 				bnifsc.getBranchByKey($scope.keyString,function(resp){
@@ -48,6 +49,11 @@ angular.module('bnifscApp')
 			}			
 		}
 
+		$scope.onSelect = function(){
+			console.log($location.path())
+			$location.path($location.path()+'/'+$scope.data.search)
+			console.log($scope.data.search)
+		}
 		// controller initialization 
 		if (bnifsc.appLoaded()) {			
 			init();

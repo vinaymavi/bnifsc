@@ -20,7 +20,7 @@ angular
     'ngMaterial',
     'ui.select'
   ])
-  .config(function($routeProvider) {
+  .config(function($routeProvider,$locationProvider) {
     $routeProvider
       .when('/:bank?/:state?/:district?/:branch?/:keyString?', {
         templateUrl: 'views/main.html',
@@ -33,6 +33,9 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+
+      // Set hijax mode.
+      $locationProvider.hashPrefix('!');
   });
 
 

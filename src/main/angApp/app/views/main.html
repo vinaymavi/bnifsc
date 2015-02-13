@@ -41,10 +41,10 @@
       </div>
       <div class="panel-body">
         <div class="col-lg-4 anchor margin-10" ng-repeat="(key, value) in viewObj.itemsList|filter:search">
-        <a ng-if="!bank" ng-href="#{{value}}/">{{value}}</a>
-        <a ng-if="bank && !state" ng-href="#{{bank}}/{{value}}/">{{value}}</a>
-        <a ng-if="state && !district" ng-href="#{{bank}}/{{state}}/{{value}}/">{{value}}</a>
-        <a ng-if="district && !keyString" ng-href="#{{bank}}/{{state}}/{{district}}/{{value.branchName}}/{{value.id}}">{{value.branchName}}</a>
+        <a ng-if="!bank" ng-href="#!{{value}}/">{{value}}</a>
+        <a ng-if="bank && !state" ng-href="#!{{bank}}/{{value}}/">{{value}}</a>
+        <a ng-if="state && !district" ng-href="#!{{bank}}/{{state}}/{{value}}/">{{value}}</a>
+        <a ng-if="district && !keyString" ng-href="#!{{bank}}/{{state}}/{{district}}/{{value.branchName}}/{{value.id}}">{{value.branchName}}</a>
       </div>      
       </div>  
   </div>

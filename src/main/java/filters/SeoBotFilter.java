@@ -32,18 +32,23 @@ public class SeoBotFilter implements  Filter {
 		    if (req instanceof HttpServletRequest) {
 		    	 String url = ((HttpServletRequest)req).getRequestURL().toString();
 		    	 String uri = ((HttpServletRequest)req).getRequestURI().toString();
+		    	 String remoteAddress = ((HttpServletRequest)req).getRemoteAddr().toString();
+		    	 String remoteHost = ((HttpServletRequest)req).getRemoteHost().toString();
+		    	 int remotePort = ((HttpServletRequest)req).getRemotePort();
 		    	 String queryString = ((HttpServletRequest)req).getQueryString();
+		    	 logger.warning("remoteaddress="+remoteAddress);
+		    	 logger.warning("remoteHost="+remoteHost);
+		    	 logger.warning("remoteport="+remotePort);
 		    	 logger.warning(url);
 		    	 logger.warning(uri);
 		    	 logger.warning(queryString);
 		    }
 		    
 		    if(_escaped_fragment_ != null ){		    				   
-			    resp.getWriter().write("SEO Site");
+			    req.getRequestDispatcher("/app/seo").forward(req, resp);			    
 		    }else{
 		    	logger.warning("Else Part");
 		    	req.getRequestDispatcher("index.html").forward(req, resp);
-//		    	chain.doFilter(req, resp);
 		    }
 	}
 

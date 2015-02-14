@@ -8,7 +8,15 @@
 	<filter-name>seobot</filter-name>
 	<url-pattern>/</url-pattern>
 </filter-mapping>
-
+<!-- Seo Servlet -->
+<servlet> 
+	<servlet-name>seo</servlet-name>
+	<servlet-class>seo.Seo</servlet-class>
+</servlet>
+<servlet-mapping>
+	<servlet-name>seo</servlet-name>
+	<url-pattern>/app/seo</url-pattern>
+</servlet-mapping>
 <!-- Map reduce configuration  -->
 <servlet>
   <servlet-name>mapreduce</servlet-name>
@@ -29,9 +37,8 @@
 </servlet>
 <servlet-mapping>
   <servlet-name>pipeline</servlet-name>
-  <url-pattern>/_ah/pipeline/*</url-pattern>
+  <url-pattern>/_ah/pipeline/*</url-pattern> 
   <!-- Web Application Configuration  -->
-  
 </servlet-mapping>
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>

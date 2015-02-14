@@ -34,7 +34,7 @@ angular
         redirectTo: '/'
       });
 
-      // Set hijax mode.
+      // Set hashbang mode mode.
       $locationProvider.hashPrefix('!');
   });
 

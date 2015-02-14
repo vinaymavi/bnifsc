@@ -28,10 +28,10 @@
     </div>
     <div class='col-lg-10 col-md-12 col-sm-12 col-xs-12'>
       <div class="panel panel-primary margin-top " >
-        <div class="panel-heading">
-          <h3>${branch.name} Bank  ,${branch.district}, ${branch.branchName} (${branch.address})</h3>
+        <div class="panel-heading" itemprop="mainContentOfPage" itemscope itemtype="http://schema.org/WebPageElement">
+          <h3><span itemprop="about" itemscope itemtype="http://schema.org/Thing"><span itemprop="name">${branch.name} Bank</span></span>,<span itemprop="alternativeHeadline">${branch.district}, ${branch.branchName} (${branch.address})</span></h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" itemprop="contentLocation">
           <table class="table .table-hover ">
             <tr>
               <td style="min-width: 120px;"  class='text-right'><h2>IFSC :</h2></td><td><h2>${branch.ifsc}</td>
@@ -43,25 +43,25 @@
               <td class='text-right'>Bank Name :</td><td>${branch.name}</td>
             </tr>
             <tr>
-              <td class='text-right'>Branch Name :</td><td>${branch.branchName}</td>
+              <td class='text-right' >Branch Name :</td><td itemprop="name">${branch.branchName}</td>
             </tr>
             <tr>
-              <td class='text-right'>Address :</td><td>${branch.address}</td>
+              <td class='text-right'>Address :</td><td id="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">${branch.address}</td>
             </tr>
             <tr>
-              <td class='text-right'>Pin Code :</td><td>${branch.pincode}</td>
+              <td class='text-right'>Pin Code :</td><td itemref="address" itemprop="postalCode">${branch.pincode}</td>
             </tr>
             <tr>
-              <td class='text-right'>District :</td><td>${branch.district}</td>
+              <td class='text-right'>District :</td><td itemref="address" itemprop="addressLocality">${branch.district}</td>
             </tr>
             <tr>
-              <td class='text-right'>State :</td><td>${branch.state}</td>
+              <td class='text-right'>State :</td><td itemprop="address" itemprop="addressRegion">${branch.state}</td>
             </tr>
             <tr>
-              <td class='text-right'>Phone :</td><td>${branch.phone}</td>
+              <td class='text-right'>Phone :</td><td itemref="address" itemprop="telephone">${branch.phone}</td>
             </tr>
             <tr>
-              <td class='text-right'>Email :</td><td>${branch.email}</td>
+              <td class='text-right'>Email :</td><td itemref="address" itemprop="email" >${branch.email}</td>
             </tr>
             <tr>
               <td class='text-right'>Customer Care :</td><td>${branch.custCare}</td>

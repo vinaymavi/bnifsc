@@ -69,10 +69,25 @@ public class Branch {
 		return this;
 	}
 
-	public Entity getBranchByKey(String keyString){
+	public Branch getBranchByKey(String keyString){
 		try{
-			return datastore.get(KeyFactory.stringToKey(keyString));	
-		}catch(EntityNotFoundException e){
+				Entity entity = datastore.get(KeyFactory.stringToKey(keyString));
+				Branch branch = new Branch();
+				branch.setName((String)entity.getProperty("name"));
+				branch.setState((String)entity.getProperty("state"));
+				branch.setDistrict((String)entity.getProperty("district"));
+				branch.setBranchName((String)entity.getProperty("branchname"));
+				branch.setCustCare((String)entity.getProperty("custCare"));
+				branch.setEmail((String)entity.getProperty("email"));
+				branch.setMobile((String)entity.getProperty("mobile"));
+				branch.setPhone((String)entity.getProperty("phone"));
+				branch.setAddress((String)entity.getProperty("address"));
+				branch.setIfsc((String)entity.getProperty("ifsc"));
+				branch.setMicr((String)entity.getProperty("micr"));
+				branch.setSwift((String)entity.getProperty("swift"));
+				branch.setPincode((String)entity.getProperty("pincode"));
+				return branch;
+			}catch(EntityNotFoundException e){
 			logger.warning(e.getMessage());
 		}
 		return null;

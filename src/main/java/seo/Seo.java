@@ -31,10 +31,57 @@ public class Seo extends HttpServlet  {
 						
 			break;
 		case 2:
+				branch.setName(queryParams[1]);
+				req.setAttribute("bank", queryParams[1]);
+				req.setAttribute("states", branch.states());
+				try {
+					req.getRequestDispatcher("/seo/states.jsp").forward(req, resp);
+				} catch (Exception e) {
+					logger.warning(e.getMessage());
+				}				
 			break;
 		case 3:
+			branch.setName(queryParams[1]);
+			branch.setState(queryParams[2]);
+			req.setAttribute("bank", queryParams[1]);
+			req.setAttribute("state", queryParams[2]);
+			req.setAttribute("districts", branch.districts());
+			try {
+				req.getRequestDispatcher("/seo/districts.jsp").forward(req, resp);
+			} catch (Exception e) {
+				logger.warning(e.getMessage());
+			}
 			break;
-			
+		case 4:
+			branch.setName(queryParams[1]);
+			branch.setState(queryParams[2]);
+			branch.setDistrict(queryParams[3]);
+			req.setAttribute("bank", queryParams[1]);
+			req.setAttribute("state", queryParams[2]);
+			req.setAttribute("district", queryParams[3]);
+			req.setAttribute("branches", branch.branches());
+			try {
+				req.getRequestDispatcher("/seo/branches.jsp").forward(req, resp);	
+			} catch (Exception e) {
+				logger.warning(e.getMessage());
+			}			
+			break;
+		case 6:
+			branch.setName(queryParams[1]);
+			branch.setState(queryParams[2]);
+			branch.setDistrict(queryParams[3]);
+			req.setAttribute("bank", queryParams[1]);
+			req.setAttribute("state", queryParams[2]);
+			req.setAttribute("district", queryParams[3]);
+			req.setAttribute("branchName",queryParams[4]);
+			logger.warning("key="+queryParams[5]);
+			req.setAttribute("branch", branch.getBranchByKey(queryParams[5]));
+			try {
+				req.getRequestDispatcher("/seo/branch.jsp").forward(req, resp);
+			} catch (Exception e) {
+				logger.warning(e.getMessage());
+			}			
+			break;
 		default:
 			break;
 		}

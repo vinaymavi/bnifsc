@@ -81,7 +81,7 @@ public class BnifscAPI {
 	}
 	
 	@ApiMethod(name="getBranchByKey")
-	public Entity getBranchByKey(@Named("keyString")String keyString){
+	public Branch getBranchByKey(@Named("keyString")String keyString){
 		return new Branch().getBranchByKey(keyString);
 	}
 	

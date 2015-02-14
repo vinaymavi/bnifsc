@@ -139,7 +139,8 @@ module.exports = function (grunt) {
             '.tmp',
             '<%= yeoman.dist %>/{,*/}*',
             '!<%= yeoman.dist %>/.git{,*/}*',
-            '!<%= yeoman.dist %>/WEB-INF{,*/}*'
+            '!<%= yeoman.dist %>/WEB-INF{,*/}*',
+            '!<%= yeoman.dist %>/seo{,*/}*'
           ]
         }]
       },

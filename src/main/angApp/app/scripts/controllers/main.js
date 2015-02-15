@@ -23,7 +23,7 @@ angular.module('bnifscApp')
 		function init() {
 			if($scope.keyString){			
 				bnifsc.getBranchByKey($scope.keyString,function(resp){
-				$scope.branchProps = resp.properties;	
+				$scope.branchProps = resp;	
 				$scope.$apply($scope.branchProps);
 				});
 			}

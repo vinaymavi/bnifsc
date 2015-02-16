@@ -52,42 +52,42 @@
   <div ng-if="keyString">
     <div class="panel panel-primary " >
       <div class="panel-heading">
-        <h3>{{branchProps.name}}, {{branchProps.branchname}} ({{branchProps.address}})</h3>
+        <h3>{{branchProps.name}}, {{branchProps.branchName}} ({{branchProps.address.trim()}})</h3>
       </div>
       <div class="panel-body">
         <table class="table .table-hover ">
           <tr>
-            <td style="min-width: 120px;"  class='text-right'><h2>IFSC :</h2></td><td><h2>{{branchProps.ifsc}}</td>
+            <td style="min-width: 120px;"  class='text-right'><h2>IFSC :</h2></td><td><h2>{{branchProps.ifsc.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>MICR :</td><td>{{branchProps.micr}}</td>
+            <td class='text-right'>MICR :</td><td>{{branchProps.micr.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>Bank Name :</td><td>{{branchProps.name}}</td>
+            <td class='text-right'>Bank Name :</td><td>{{branchProps.name.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>Branch Name :</td><td>{{branchProps.branchname}}</td>
+            <td class='text-right'>Branch Name :</td><td>{{branchProps.branchname.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>Address :</td><td>{{branchProps.address}}</td>
+            <td class='text-right'>Address :</td><td>{{branchProps.address.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>Pin Code :</td><td>{{branchProps.pincode}}</td>
+            <td class='text-right'>Pin Code :</td><td>{{branchProps.pincode.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>District :</td><td>{{branchProps.district}}</td>
+            <td class='text-right'>District :</td><td>{{branchProps.district.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>State :</td><td>{{branchProps.state}}</td>
+            <td class='text-right'>State :</td><td>{{branchProps.state.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>Phone :</td><td>{{branchProps.phone}}</td>
+            <td class='text-right'>Phone :</td><td>{{branchProps.phone.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>Email :</td><td>{{branchProps.email}}</td>
+            <td class='text-right'>Email :</td><td>{{branchProps.email.trim()}}</td>
           </tr>
           <tr>
-            <td class='text-right'>Customer Care :</td><td>{{branchProps.custCare}}</td>
+            <td class='text-right'>Customer Care :</td><td>{{branchProps.custCare.trim()}}</td>
           </tr>
         </table>
       </div>

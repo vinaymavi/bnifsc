@@ -19,7 +19,7 @@
     <body >
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container" >
-                <h1 class='white'  itemprop="headline" itemscope  itemtype="http://schema.org/Text">All Indian  Banks Ifsc Codes.</h1>
+                <h1 class='white'  itemprop="headline" >All Indian  Banks Ifsc Codes.</h1>
             </div>
         </nav>
         <div class='col-lg-1 hidden-md hidden-sm hidden-xs'>
@@ -27,7 +27,7 @@
         <div class='col-lg-10 col-md-12 col-sm-12 col-xs-12'>
             <div class="panel panel-default margin-top">
                 <div class="panel-heading">
-                    <h2 itemprop='breadcrumb' itemscope itemtype="http://schema.org/Text">IFSC Banks List</h2>
+                    <h2 itemprop='breadcrumb' >IFSC Banks List</h2>
                 </div>
                 <div class="panel-body">
                     <c:forEach items="${banksList}" var="bank">

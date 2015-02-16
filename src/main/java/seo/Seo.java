@@ -19,6 +19,8 @@ public class Seo extends HttpServlet {
 		String queryString = req.getParameter("_escaped_fragment_");
 		if (queryString.indexOf('/') != 0 && queryString.length() > 0) {
 			queryString = "/" + queryString;
+		}else if(queryString.indexOf('/') == 0 && queryString.length() == 1){
+			queryString = "";
 		}
 		Branch branch = new Branch();
 		String[] queryParams = URLDecoder.decode(queryString).split("/");

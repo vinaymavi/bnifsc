@@ -17,7 +17,7 @@ public class Seo extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		String queryString = req.getParameter("_escaped_fragment_");
-		if (queryString.indexOf('/') != 0) {
+		if (queryString.indexOf('/') != 0 && queryString.length() > 0) {
 			queryString = "/" + queryString;
 		}
 		Branch branch = new Branch();

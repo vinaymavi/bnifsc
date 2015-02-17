@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import bnifsc.entites.Branch;
 import bnifsc.entites.Bank;
 import bnifsc.util.BulkUpload;
+import bnifsc.util.SiteMap;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -105,5 +106,21 @@ public class BnifscAPI {
 		branch.setName(bankName);
 		branch.setState(stateName);
 		return branch.districts();
+	}
+	
+	@ApiMethod(name="createGcsFile")
+	public List<String> createGcsFile(@Named("fileName") String fileName,@Named("content") String content){
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append(content);
+			return new SiteMap().createFile(fileName,strBuilder);		
+	}
+	@ApiMethod(name="createSiteMap")
+	public List<String> createSiteMap(){
+		return new SiteMap().createSiteMap();
+	}
+	
+	@ApiMethod(name="createSiteMapIndex")
+	public List<String> createSiteMapIndex(){
+		return new SiteMap().createSiteMapIndex();
 	}
 }

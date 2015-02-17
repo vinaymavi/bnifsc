@@ -1,5 +1,6 @@
 package bnifsc.entites;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -172,7 +173,7 @@ public class Branch {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = URLDecoder.decode(name);
 	}
 
 	public String getState() {
@@ -180,7 +181,7 @@ public class Branch {
 	}
 
 	public void setState(String state) {
-		this.state = state;
+		this.state = URLDecoder.decode(state);
 	}
 
 	public String getDistrict() {
@@ -188,7 +189,7 @@ public class Branch {
 	}
 
 	public void setDistrict(String district) {
-		this.district = district;
+		this.district = URLDecoder.decode(district);
 	}
 
 	public String getBranchName() {
@@ -196,7 +197,7 @@ public class Branch {
 	}
 
 	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+		this.branchName = URLDecoder.decode(branchName);
 	}
 
 	public String getCustCare() {
@@ -204,7 +205,7 @@ public class Branch {
 	}
 
 	public void setCustCare(String custCare) {
-		this.custCare = custCare;
+		this.custCare = URLDecoder.decode(custCare);
 	}
 
 	public String getEmail() {
@@ -212,7 +213,7 @@ public class Branch {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = URLDecoder.decode(email);
 	}
 
 	public String getMobile() {
@@ -236,7 +237,7 @@ public class Branch {
 	}
 
 	public void setAddress(String address) {
-		this.address = address;
+		this.address = URLDecoder.decode(address);
 	}
 
 	public String getIfsc() {
@@ -244,7 +245,7 @@ public class Branch {
 	}
 
 	public void setIfsc(String ifsc) {
-		this.ifsc = ifsc;
+		this.ifsc = URLDecoder.decode(ifsc);
 	}
 
 	public String getMicr() {

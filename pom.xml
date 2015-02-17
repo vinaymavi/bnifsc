@@ -21,6 +21,16 @@
 	<dependencies>
 		<!-- Compile/runtime dependencies -->
 		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.19.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-storage</artifactId>
+			<version>v1-rev26-1.19.1</version>
+		</dependency>
+		<dependency>
 			<groupId>com.google.appengine.tools</groupId>
 			<artifactId>appengine-mapreduce</artifactId>
 			<version>RELEASE</version>

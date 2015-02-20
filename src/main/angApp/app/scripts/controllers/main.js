@@ -20,41 +20,50 @@ angular.module('bnifscApp')
 		$scope.branchProps;
 		$scope.data = {};
 		$scope.panelTitle;
-
+		$scope.autocompleteData;
+		$scope.ajaxrequest=true;
 		function init() {
 			if ($scope.keyString) {
+				$scope.ajaxrequest =true;
 				bnifsc.getBranchByKey($scope.keyString, function(resp) {
 					$scope.branchProps = resp;
-					$scope.$apply($scope.branchProps);
+					$scope.ajaxrequest =false;
+					$scope.$apply($scope.branchProps);				
 				});
 			} else if ($scope.district) {
+				$scope.ajaxrequest =true;
 				$scope.panelTitle = $routeParams.bank + ' > ' + $routeParams.state + ' > ' + $routeParams.district + ' Branches List'
 				bnifsc.branches($routeParams.bank, $routeParams.state, $routeParams.district, function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabaticalObj(resp.items);
-					$scope.$apply($scope.viewObj.itemsList);
+					$scope.$apply($scope);
 				});
 			} else if ($scope.state) {
+				$scope.ajaxrequest =true;
 				$scope.panelTitle = $routeParams.bank + ' > ' + $routeParams.state + ' Districts List'
 				bnifsc.districts($routeParams.bank, $routeParams.state, function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabatical(resp.items);
-					$scope.$apply($scope.viewObj.itemsList);
+					$scope.$apply($scope);
 				});
 			} else if ($scope.bank) {
+				$scope.ajaxrequest =true;
 				$scope.panelTitle = $routeParams.bank + ' States List'
 				bnifsc.states($routeParams.bank, function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabatical(resp.items);
-					$scope.$apply($scope.viewObj.itemsList);
+					$scope.$apply($scope);
 				});
 			} else {
+				$scope.ajaxrequest =true;
 				$scope.panelTitle = 'IFSC Banks List'
 				bnifsc.banks(function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabatical(resp.items);
-					$scope.$apply($scope.viewObj.itemsList);
+					$scope.$apply($scope);
 				});
 			}
 		}
 
 		function groupByAlfabatical(items) {
+			$scope.ajaxrequest =false;
+			$scope.autocompleteData = items;
 			var data = {},
 				key = "";
 			items.forEach(function(value, index, arr){
@@ -69,6 +78,7 @@ angular.module('bnifscApp')
 		}
 		
 		function groupByAlfabaticalObj(items) {
+			$scope.ajaxrequest =false;
 			var data = {},
 				key = "";
 			items.forEach(function(value, index, arr){

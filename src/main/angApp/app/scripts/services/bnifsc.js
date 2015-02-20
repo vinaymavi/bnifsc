@@ -70,6 +70,6 @@ angular.module('bnifscApp')
 				return appLoaded;
 			}
 		}
-
+		
 		return self;
 	});

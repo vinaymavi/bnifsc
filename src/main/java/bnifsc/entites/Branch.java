@@ -65,7 +65,7 @@ public class Branch {
 		bank.setProperty("ifsc", this.getIfsc());
 		bank.setProperty("micr", this.getMicr());
 		bank.setProperty("swift", this.getSwift());
-		bank.setProperty("pincode", this.getPincode());
+		bank.setProperty("pincode", this.getPincode());		
 		datastore.put(bank);
 		return this;
 	}

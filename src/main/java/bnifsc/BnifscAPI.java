@@ -17,7 +17,8 @@ import com.google.appengine.api.datastore.Entity;
 import javax.inject.Named;
 
 /** An endpoint class we are exposing */
-@Api(name = "bnifsc", version = "v1", scopes = { Constants.EMAIL_SCOPE }, clientIds = { Constants.WEB_CLIENT_ID }, namespace = @ApiNamespace(ownerDomain = "helloworld.example.com", ownerName = "helloworld.example.com", packagePath = ""))
+@Api(name = "bnifsc", version = "v1", scopes = { Constants.EMAIL_SCOPE },
+clientIds = { Constants.WEB_CLIENT_ID }, namespace = @ApiNamespace(ownerDomain = "helloworld.example.com", ownerName = "helloworld.example.com", packagePath = ""))
 public class BnifscAPI {
 	/** Add Bank details */
 	private final static Logger logger = Logger.getLogger(BnifscAPI.class

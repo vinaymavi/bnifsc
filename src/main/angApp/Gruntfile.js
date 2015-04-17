@@ -140,7 +140,8 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/{,*/}*',
             '!<%= yeoman.dist %>/.git{,*/}*',
             '!<%= yeoman.dist %>/WEB-INF{,*/}*',
-            '!<%= yeoman.dist %>/seo{,*/}*'
+            '!<%= yeoman.dist %>/seo{,*/}*',
+            '!<%= yeoman.dist %>/sitemap{,*/}*'
           ]
         }]
       },

@@ -11,7 +11,7 @@ angular.module('bnifscApp')
 		var self = this;
 		self.banksArr;
 		var appLoaded = false;
-
+        //TODO add comments.
 		self.banks = function(cb) {
 			gapi.client.bnifsc.banks()
 				.execute(function(resp) {
@@ -20,6 +20,8 @@ angular.module('bnifscApp')
 					cb(resp);
 				});
 		};
+		//feedback flag.
+		self.feedback = true;
 
 		self.states = function(bank, cb) {
 			gapi.client.bnifsc.states({
@@ -62,6 +64,20 @@ angular.module('bnifscApp')
 					cb(resp);
 				})
 		};
+        /*@ngdoc method
+        * @description
+        * #feedback
+        * Add feedback
+        * @params{String} feedback
+        * @params{Function} cb*/
+        self.addFeedback = function(feedback,cb){
+            gapi.client.bnifsc.feedback({
+                'feedback': feedback
+            })
+                .execute(function(resp) {
+                    cb(resp);
+                })
+        }
 		// @app = Boolean
 		self.appLoaded = function(app) {
 			if (app) {

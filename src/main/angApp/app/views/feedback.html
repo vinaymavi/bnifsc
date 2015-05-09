@@ -1,0 +1,18 @@
+<md-dialog aria-label="Feedback" flex="50">
+    <md-dialog-content class="sticky-container">
+        <md-toolbar class="md-theme-light">
+            <h2 class="md-toolbar-tools">
+                <span>Feedback</span>
+            </h2>
+        </md-toolbar>
+        <md-content layout="column" layout-wrap>
+            <textarea ng-model="feedback" autofocus flex="100"></textarea>
+            <br/>
+            <section layout="row" layout-align="end">
+                <md-button ng-click="cancel()" class="md-raised">Cancel</md-button>
+                &nbsp;&nbsp;
+                <md-button ng-click="submit()" class="md-raised md-primary">Submit</md-button>
+            </section>
+        </md-content>
+    </md-dialog-content>
+</md-dialog>

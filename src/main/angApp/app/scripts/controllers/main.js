@@ -24,41 +24,62 @@ angular.module('bnifscApp')
 		$scope.ajaxrequest=true;
 		function init() {
 			if ($scope.keyString) {
+			/*Branch page.*/
 				$scope.ajaxrequest =true;
+				$scope.panelTitle = $routeParams.bank + ' > ' + $routeParams.state + ' > ' + $routeParams.district + ' Branche'
 				bnifsc.getBranchByKey($scope.keyString, function(resp) {
 					$scope.branchProps = resp;
 					$scope.ajaxrequest =false;
 					$scope.$apply($scope.branchProps);				
 				});
+
+				/*Google analytics code*/
+				ga('set',{page:$location.path(),title:$scope.panelTitle});
+
 			} else if ($scope.district) {
+			/*Bank district page*/
 				$scope.ajaxrequest =true;
 				$scope.panelTitle = $routeParams.bank + ' > ' + $routeParams.state + ' > ' + $routeParams.district + ' Branches List'
 				bnifsc.branches($routeParams.bank, $routeParams.state, $routeParams.district, function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabaticalObj(resp.items);
 					$scope.$apply($scope);
 				});
+
+				/*Google analytics code*/
+				ga('set',{page:$location.path(),title:$scope.panelTitle});
 			} else if ($scope.state) {
+			/*Bank State page*/
 				$scope.ajaxrequest =true;
 				$scope.panelTitle = $routeParams.bank + ' > ' + $routeParams.state + ' Districts List'
 				bnifsc.districts($routeParams.bank, $routeParams.state, function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabatical(resp.items);
 					$scope.$apply($scope);
 				});
+				/*Google analytics code*/
+				ga('set',{page:$location.path(),title:$scope.panelTitle});
 			} else if ($scope.bank) {
+				/*Bank page*/
 				$scope.ajaxrequest =true;
 				$scope.panelTitle = $routeParams.bank + ' States List'
 				bnifsc.states($routeParams.bank, function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabatical(resp.items);
 					$scope.$apply($scope);
 				});
+				/*Google analytics code*/
+				ga('set',{page:$location.path(),title:$scope.panelTitle});
 			} else {
+				/*Main page*/
 				$scope.ajaxrequest =true;
 				$scope.panelTitle = 'IFSC Banks List'
 				bnifsc.banks(function(resp) {
 					$scope.viewObj.itemsList = groupByAlfabatical(resp.items);
 					$scope.$apply($scope);
 				});
+			/*Google analytics code*/
+			ga('set',{page:$location.path(),title:$scope.panelTitle});
 			}
+		/*Google analytics code*/
+		ga('send','pageview');
 		}
 
 		function groupByAlfabatical(items) {

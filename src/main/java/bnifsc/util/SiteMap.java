@@ -38,7 +38,6 @@ public class SiteMap {
 		} catch (IOException e) {
 			logger.warning(e.getMessage());
 		}
-
 		return list;
 	}
 

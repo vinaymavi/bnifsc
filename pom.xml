@@ -21,16 +21,6 @@
 	<dependencies>
 		<!-- Compile/runtime dependencies -->
 		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client</artifactId>
-			<version>1.19.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-storage</artifactId>
-			<version>v1-rev26-1.19.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.appengine.tools</groupId>
 			<artifactId>appengine-mapreduce</artifactId>
 			<version>RELEASE</version>
@@ -151,12 +141,12 @@
 				<version>1.9.17</version>
 				<configuration>
 					<enableJarClasses>false</enableJarClasses>
-					<!-- Comment in the below snippet to bind to all IPs instead of just 
+					<!-- Comment in the below snippet to bind to all IPs instead of just
 						localhost -->
 					<!-- address>0.0.0.0</address> <port>8080</port -->
-					<!-- Comment in the below snippet to enable local debugging with a remove 
+					<!-- Comment in the below snippet to enable local debugging with a remove
 						debugger like those included with Eclipse or IntelliJ -->
-					<!-- jvmFlags> <jvmFlag>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n</jvmFlag> 
+					<!-- jvmFlags> <jvmFlag>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n</jvmFlag>
 						</jvmFlags -->
 				</configuration>
 				<executions>

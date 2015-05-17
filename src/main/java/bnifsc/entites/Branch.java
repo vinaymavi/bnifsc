@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import bnifsc.util.BulkUpload;
@@ -26,258 +25,285 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.gson.Gson;
 
 public class Branch {
-	public static String ENTITY_NAME = "Bank";
-	public static final int DEFAULT_LIMIT = 20;
-	private final static Logger logger = Logger.getLogger(BulkUpload.class
-			.getName());
-	private final static DatastoreService datastore = DatastoreServiceFactory
-			.getDatastoreService();
-	private final static Gson GSON = new Gson();
-	private String name; // Bank name
-	private String state;
-	private String district;
-	private String branchName;
-	private String custCare;
-	private String email;
-	private String mobile;
-	private String phone;
-	private String address;
-	private String ifsc;
-	private String micr;
-	private String swift;
-	private String pincode;
-	private MongoKey _id;
+    public static String ENTITY_NAME = "Bank";
+    public static final int DEFAULT_LIMIT = 20;
+    private final static Logger logger = Logger.getLogger(BulkUpload.class
+            .getName());
+    private final static DatastoreService datastore = DatastoreServiceFactory
+            .getDatastoreService();
+    private final static Gson GSON = new Gson();
+    private String name; // Bank name
+    private String state;
+    private String district;
+    private String branchName;
+    private String custCare;
+    private String email;
+    private String mobile;
+    private String phone;
+    private String address;
+    private String ifsc;
+    private String micr;
+    private String swift;
+    private String pincode;
+    private MongoKey _id;
 
-	// Save bank to datastore.
-	// TODO this function should return Bank object.
-	public Branch save() {
+    // Save bank to datastore.
+    // TODO this function should return Bank object.
+    public Branch save() {
 
-		Entity bank = new Entity(ENTITY_NAME);
-		bank.setProperty("name", this.getName());
-		bank.setProperty("state", this.getState());
-		bank.setProperty("district", this.getDistrict());
-		bank.setProperty("branchname", this.getBranchName());
-		bank.setProperty("custCare", this.getCustCare());
-		bank.setProperty("email", this.getEmail());
-		bank.setProperty("mobile", this.getMobile());
-		bank.setProperty("phone", this.getPhone());
-		bank.setProperty("address", this.getAddress());
-		bank.setProperty("ifsc", this.getIfsc());
-		bank.setProperty("micr", this.getMicr());
-		bank.setProperty("swift", this.getSwift());
-		bank.setProperty("pincode", this.getPincode());		
-		datastore.put(bank);
-		return this;
-	}
+        Entity bank = new Entity(ENTITY_NAME);
+        bank.setProperty("name", this.getName());
+        bank.setProperty("state", this.getState());
+        bank.setProperty("district", this.getDistrict());
+        bank.setProperty("branchname", this.getBranchName());
+        bank.setProperty("custCare", this.getCustCare());
+        bank.setProperty("email", this.getEmail());
+        bank.setProperty("mobile", this.getMobile());
+        bank.setProperty("phone", this.getPhone());
+        bank.setProperty("address", this.getAddress());
+        bank.setProperty("ifsc", this.getIfsc());
+        bank.setProperty("micr", this.getMicr());
+        bank.setProperty("swift", this.getSwift());
+        bank.setProperty("pincode", this.getPincode());
+        datastore.put(bank);
+        return this;
+    }
 
-	public Branch getBranchByKey(String keyString){
-		try{
-				Entity entity = datastore.get(KeyFactory.stringToKey(keyString));
-				Branch branch = new Branch();
-				branch.setName((String)entity.getProperty("name"));
-				branch.setState((String)entity.getProperty("state"));
-				branch.setDistrict((String)entity.getProperty("district"));
-				branch.setBranchName((String)entity.getProperty("branchname"));
-				branch.setCustCare((String)entity.getProperty("custCare"));
-				branch.setEmail((String)entity.getProperty("email"));
-				branch.setMobile((String)entity.getProperty("mobile"));
-				branch.setPhone((String)entity.getProperty("phone"));
-				branch.setAddress((String)entity.getProperty("address"));
-				branch.setIfsc((String)entity.getProperty("ifsc"));
-				branch.setMicr((String)entity.getProperty("micr"));
-				branch.setSwift((String)entity.getProperty("swift"));
-				branch.setPincode((String)entity.getProperty("pincode"));
-				return branch;
-			}catch(EntityNotFoundException e){
-			logger.warning(e.getMessage());
-		}
-		return null;
-	}
-	
-	public List<Map<String, String>> branches() {
-		Query query = new Query(ENTITY_NAME);
-		Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
-				this.getName());
-		Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
-				this.getState());
-		 Filter districtFilter = new FilterPredicate("district",
-		 FilterOperator.EQUAL, this.getDistrict());
-		Filter bankAndStateFilter = CompositeFilterOperator.and(bankFilter,stateFilter,districtFilter);
-		query.setFilter(bankAndStateFilter);
-		query.addProjection(new PropertyProjection("branchname", String.class));
-		PreparedQuery pq = datastore.prepare(query);
-		List<Map<String, String>> branches = new ArrayList<Map<String, String>>();
-		for (Entity e : pq.asIterable()) {
-			Map<String,String> b = new HashMap<String,String>();
-			b.put("branchName", (String)e.getProperty("branchname"));
-			b.put("id", KeyFactory.keyToString(e.getKey()));
-			branches.add(b);
-		}
-		logger.warning(this.getName() + "," + this.getState() + ","
-				+ this.getDistrict());
-		logger.warning("Branches List size=" + branches.size());
-		return branches;
-	}
+    public Branch getBranchByKey(String keyString) {
+        try {
+            Entity entity = datastore.get(KeyFactory.stringToKey(keyString));
+            return this.createBranch(entity);
+        } catch (EntityNotFoundException e) {
+            logger.warning(e.getMessage());
+        }
+        return null;
+    }
 
-	public List<String> banks() {
-		Query query = new Query(ENTITY_NAME);
-		query.addProjection(new PropertyProjection("name", String.class));
-		query.setDistinct(true);
-		PreparedQuery pq = datastore.prepare(query);
-		List<String> bankNames = new ArrayList<String>();
-		for (Entity entity : pq.asIterable()) {
-			bankNames.add((String) entity.getProperty("name"));
-		}
-		logger.warning("Banks list size=" + bankNames.size());
-		return bankNames;
-	}
+    /*
+    * @description return branch by ifsc code
+    * @params {String} ifsc
+    * @returns Branch*/
+    public static Branch branchByIfsc(String ifsc) {
+        Query query = new Query(ENTITY_NAME);
+        Branch branch = null;
+        Filter ifscFilter = new FilterPredicate("ifsc", FilterOperator.EQUAL, ifsc.trim());
+        query.setFilter(ifscFilter);
+        PreparedQuery pq = datastore.prepare(query);
+        logger.warning(pq.countEntities(FetchOptions.Builder.withDefaults()) + " with ifsc " + ifsc);
+        for (Entity entity : pq.asIterable()) {
+            branch = Branch.createBranch(entity);
+        }
 
-	public List<String> states() {
-		Query query = new Query(ENTITY_NAME);
-		Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
-				this.getName());
-		query.setFilter(bankFilter);
-		query.addProjection(new PropertyProjection("state", String.class));
-		query.setDistinct(true);
-		PreparedQuery pq = datastore.prepare(query);
-		List<String> states = new ArrayList<String>();
-		for (Entity entity : pq.asIterable()) {
-			states.add((String) entity.getProperty("state"));
-		}
-		logger.warning("State List size=" + states.size());
-		return states;
-	}
+        return branch;
+    }
 
-	public List<String> districts() {
-		Query query = new Query(ENTITY_NAME);
-		Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
-				this.getName());
-		Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
-				this.getState());
-		Filter bankAndStateFilter = CompositeFilterOperator.and(bankFilter,
-				stateFilter);
-		query.setFilter(bankAndStateFilter);
-		query.addProjection(new PropertyProjection("district", String.class));
-		query.setDistinct(true);
-		PreparedQuery pq = datastore.prepare(query);
-		List<String> districts = new ArrayList<String>();
-		for (Entity e : pq.asIterable()) {
-			districts.add((String) e.getProperty("district"));
-		}
-		logger.warning("District list size=" + districts.size());
-		return districts;
-	}
+    public List<Map<String, String>> branches() {
+        Query query = new Query(ENTITY_NAME);
+        Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
+                this.getName());
+        Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
+                this.getState());
+        Filter districtFilter = new FilterPredicate("district",
+                FilterOperator.EQUAL, this.getDistrict());
+        Filter bankAndStateFilter = CompositeFilterOperator.and(bankFilter, stateFilter, districtFilter);
+        query.setFilter(bankAndStateFilter);
+        query.addProjection(new PropertyProjection("branchname", String.class));
+        PreparedQuery pq = datastore.prepare(query);
+        List<Map<String, String>> branches = new ArrayList<Map<String, String>>();
+        for (Entity e : pq.asIterable()) {
+            Map<String, String> b = new HashMap<String, String>();
+            b.put("branchName", (String) e.getProperty("branchname"));
+            b.put("id", KeyFactory.keyToString(e.getKey()));
+            branches.add(b);
+        }
+        logger.warning(this.getName() + "," + this.getState() + ","
+                + this.getDistrict());
+        logger.warning("Branches List size=" + branches.size());
+        return branches;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public List<String> banks() {
+        Query query = new Query(ENTITY_NAME);
+        query.addProjection(new PropertyProjection("name", String.class));
+        query.setDistinct(true);
+        PreparedQuery pq = datastore.prepare(query);
+        List<String> bankNames = new ArrayList<String>();
+        for (Entity entity : pq.asIterable()) {
+            bankNames.add((String) entity.getProperty("name"));
+        }
+        logger.warning("Banks list size=" + bankNames.size());
+        return bankNames;
+    }
 
-	public void setName(String name) {
-		this.name = URLDecoder.decode(name);
-	}
+    public List<String> states() {
+        Query query = new Query(ENTITY_NAME);
+        Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
+                this.getName());
+        query.setFilter(bankFilter);
+        query.addProjection(new PropertyProjection("state", String.class));
+        query.setDistinct(true);
+        PreparedQuery pq = datastore.prepare(query);
+        List<String> states = new ArrayList<String>();
+        for (Entity entity : pq.asIterable()) {
+            states.add((String) entity.getProperty("state"));
+        }
+        logger.warning("State List size=" + states.size());
+        return states;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public List<String> districts() {
+        Query query = new Query(ENTITY_NAME);
+        Filter bankFilter = new FilterPredicate("name", FilterOperator.EQUAL,
+                this.getName());
+        Filter stateFilter = new FilterPredicate("state", FilterOperator.EQUAL,
+                this.getState());
+        Filter bankAndStateFilter = CompositeFilterOperator.and(bankFilter,
+                stateFilter);
+        query.setFilter(bankAndStateFilter);
+        query.addProjection(new PropertyProjection("district", String.class));
+        query.setDistinct(true);
+        PreparedQuery pq = datastore.prepare(query);
+        List<String> districts = new ArrayList<String>();
+        for (Entity e : pq.asIterable()) {
+            districts.add((String) e.getProperty("district"));
+        }
+        logger.warning("District list size=" + districts.size());
+        return districts;
+    }
 
-	public void setState(String state) {
-		this.state = URLDecoder.decode(state);
-	}
+    /**
+     * @param {Entity} entity
+     * @return Branch
+     * @description create Branch from Entity
+     */
+    private static Branch createBranch(Entity entity) {
+        Branch branch = new Branch();
+        branch.setName((String) entity.getProperty("name"));
+        branch.setState((String) entity.getProperty("state"));
+        branch.setDistrict((String) entity.getProperty("district"));
+        branch.setBranchName((String) entity.getProperty("branchname"));
+        branch.setCustCare((String) entity.getProperty("custCare"));
+        branch.setEmail((String) entity.getProperty("email"));
+        branch.setMobile((String) entity.getProperty("mobile"));
+        branch.setPhone((String) entity.getProperty("phone"));
+        branch.setAddress((String) entity.getProperty("address"));
+        branch.setIfsc((String) entity.getProperty("ifsc"));
+        branch.setMicr((String) entity.getProperty("micr"));
+        branch.setSwift((String) entity.getProperty("swift"));
+        branch.setPincode((String) entity.getProperty("pincode"));
+        return branch;
+    }
 
-	public String getDistrict() {
-		return district;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDistrict(String district) {
-		this.district = URLDecoder.decode(district);
-	}
+    public void setName(String name) {
+        this.name = URLDecoder.decode(name);
+    }
 
-	public String getBranchName() {
-		return branchName;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public void setBranchName(String branchName) {
-		this.branchName = URLDecoder.decode(branchName);
-	}
+    public void setState(String state) {
+        this.state = URLDecoder.decode(state);
+    }
 
-	public String getCustCare() {
-		return custCare;
-	}
+    public String getDistrict() {
+        return district;
+    }
 
-	public void setCustCare(String custCare) {
-		this.custCare = URLDecoder.decode(custCare);
-	}
+    public void setDistrict(String district) {
+        this.district = URLDecoder.decode(district);
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getBranchName() {
+        return branchName;
+    }
 
-	public void setEmail(String email) {
-		this.email = URLDecoder.decode(email);
-	}
+    public void setBranchName(String branchName) {
+        this.branchName = URLDecoder.decode(branchName);
+    }
 
-	public String getMobile() {
-		return mobile;
-	}
+    public String getCustCare() {
+        return custCare;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    public void setCustCare(String custCare) {
+        this.custCare = URLDecoder.decode(custCare);
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setEmail(String email) {
+        this.email = URLDecoder.decode(email);
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public void setAddress(String address) {
-		this.address = URLDecoder.decode(address);
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public String getIfsc() {
-		return ifsc;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setIfsc(String ifsc) {
-		this.ifsc = URLDecoder.decode(ifsc);
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public String getMicr() {
-		return micr;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setMicr(String micr) {
-		this.micr = micr;
-	}
+    public void setAddress(String address) {
+        this.address = URLDecoder.decode(address);
+    }
 
-	public String getSwift() {
-		return swift;
-	}
+    public String getIfsc() {
+        return ifsc;
+    }
 
-	public void setSwift(String swift) {
-		this.swift = swift;
-	}
+    public void setIfsc(String ifsc) {
+        this.ifsc = URLDecoder.decode(ifsc);
+    }
 
-	public String getPincode() {
-		return pincode;
-	}
+    public String getMicr() {
+        return micr;
+    }
 
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
+    public void setMicr(String micr) {
+        this.micr = micr;
+    }
 
-	public MongoKey get_id() {
-		return _id;
-	}
+    public String getSwift() {
+        return swift;
+    }
 
-	public void set_id(MongoKey _id) {
-		this._id = _id;
-	}
+    public void setSwift(String swift) {
+        this.swift = swift;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public MongoKey get_id() {
+        return _id;
+    }
+
+    public void set_id(MongoKey _id) {
+        this._id = _id;
+    }
 
 }

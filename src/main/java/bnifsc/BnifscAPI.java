@@ -101,11 +101,6 @@ public class BnifscAPI {
         return branch.branches();
     }
 
-    @ApiMethod(name = "public.branchByKey")
-    public Branch getBranchByKey(@Named("keyString") String keyString) {
-        return new Branch().getBranchByKey(keyString);
-    }
-
     @ApiMethod(name = "public.banks")
     public List<String> banks() {
         Branch branch = new Branch();
@@ -158,7 +153,7 @@ public class BnifscAPI {
     }
 
     @ApiMethod(name = "public.branchByIFSC")
-    public Branch branchIfsc(@Named("IFSC code") String ifsc) {
+    public Branch branchIfsc(@Named("ifsc") String ifsc) {
         return Branch.branchByIfsc(ifsc);
     }
 }

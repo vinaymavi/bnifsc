@@ -17,18 +17,18 @@ angular.module('bnifscApp')
         $scope.state = $routeParams.state;
         $scope.district = $routeParams.district;
         $scope.branch = $routeParams.branch;
-        $scope.keyString = $routeParams.keyString;
+        $scope.ifsc = $routeParams.ifsc;
         $scope.branchProps;
         $scope.data = {};
         $scope.panelTitle;
         $scope.autocompleteData;
         $scope.ajaxrequest = true;
         function init() {
-            if ($scope.keyString) {
+            if ($scope.ifsc) {
                 /*Branch page.*/
                 $scope.ajaxrequest = true;
                 $scope.panelTitle = $routeParams.bank + ' > ' + $routeParams.state + ' > ' + $routeParams.district + ' Branche'
-                bnifsc.getBranchByKey($scope.keyString, function (resp) {
+                bnifsc.branchByIFSC($scope.ifsc, function (resp) {
                     $scope.branchProps = resp;
                     $scope.ajaxrequest = false;
                     $scope.$apply($scope.branchProps);

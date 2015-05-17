@@ -21,7 +21,7 @@ angular
   ])
   .config(function($routeProvider,$locationProvider) {
     $routeProvider
-      .when('/:bank?/:state?/:district?/:branch?/:keyString?', {
+      .when('/:bank?/:state?/:district?/:branch?/:ifsc?', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
@@ -40,8 +40,8 @@ angular
 
 
 function init() {
-  var ROOT = 'https://bnifsc.appspot.com/_ah/api';
-  gapi.client.load('bnifsc', 'v1', function() {
+  var ROOT = 'https://bnifsc-beta.appspot.com/_ah/api';
+  gapi.client.load('bnifsc', 'v2', function() {
     window.init();
   }, ROOT);
 }

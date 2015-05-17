@@ -25,7 +25,7 @@
 </div>
 <br/>
 <div class="row" style="margin:0px;padding:0px">
-  <div ng-if="!keyString" class="panel panel-default " >
+  <div ng-if="!ifsc" class="panel panel-default " >
     <div class="panel-heading">
       <div class="row">
         <div class="col-lg-12">
@@ -45,7 +45,7 @@
             <a ng-if="!bank" ng-href="#!{{item}}/">{{item}}</a>
             <a ng-if="bank && !state" ng-href="#!{{bank}}/{{item}}/">{{item}}</a>
             <a ng-if="state && !district" ng-href="#!{{bank}}/{{state}}/{{item}}/">{{item}}</a>
-            <a ng-if="district && !keyString" ng-href="#!{{bank}}/{{state}}/{{district}}/{{item.branchName}}/{{item.id}}">{{item.branchName}}</a>
+            <a ng-if="district && !ifsc" ng-href="#!{{bank}}/{{state}}/{{district}}/{{item.branchName}}/{{item.ifsc}}">{{item.branchName}}</a>
           </div>
         </div>
         <hr/>
@@ -53,7 +53,7 @@
     </div>
   </div>
   
-  <div ng-if="keyString">
+  <div ng-if="ifsc">
     <div class="panel panel-primary " >
       <div class="panel-heading">
         <h3>{{branchProps.name}}, {{branchProps.branchName}} ({{branchProps.address.trim()}})</h3>

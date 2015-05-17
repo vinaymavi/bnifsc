@@ -18,5 +18,6 @@
 		<property name="name" direction="asc" />
 		<property name="state" direction="asc" />
 		<property name="branchname" direction="asc" />
+		<property name="ifsc" direction="asc" />
 	</datastore-index>
 </datastore-indexes>

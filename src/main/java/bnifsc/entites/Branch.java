@@ -107,13 +107,15 @@ public class Branch {
                 FilterOperator.EQUAL, this.getDistrict());
         Filter bankAndStateFilter = CompositeFilterOperator.and(bankFilter, stateFilter, districtFilter);
         query.setFilter(bankAndStateFilter);
+//        add projection to query.
         query.addProjection(new PropertyProjection("branchname", String.class));
+        query.addProjection(new PropertyProjection("ifsc", String.class));
         PreparedQuery pq = datastore.prepare(query);
         List<Map<String, String>> branches = new ArrayList<Map<String, String>>();
-        for (Entity e : pq.asIterable()) {
+        for (Entity entity : pq.asIterable()) {
             Map<String, String> b = new HashMap<String, String>();
-            b.put("branchName", (String) e.getProperty("branchname"));
-            b.put("id", KeyFactory.keyToString(e.getKey()));
+            b.put("branchName", (String) entity.getProperty("branchname"));
+            b.put("ifsc", (String) entity.getProperty("ifsc"));
             branches.add(b);
         }
         logger.warning(this.getName() + "," + this.getState() + ","

@@ -22,7 +22,7 @@ import javax.inject.Named;
  * An endpoint class we are exposing
  */
 @Api(name = "bnifsc",
-        version = "v1",
+        version = "v2",
         scopes = {Constants.EMAIL_SCOPE},
         clientIds = {Constants.WEB_CLIENT_ID, com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE})
@@ -36,7 +36,7 @@ public class BnifscAPI {
             .getName());
 
     //TODO rename ApiMethod name with admin,user.public namespace.
-    @ApiMethod(name = "addBank")
+    @ApiMethod(name = "admin.addBank")
     public Branch addBank(@Named("name") String name,
                           @Named("branchName") String branchName, @Named("ifsc") String ifsc,
                           @Named("micr") String micr, @Named("swift") String swift,
@@ -65,7 +65,7 @@ public class BnifscAPI {
         return null;
     }
 
-    @ApiMethod(name = "importBankNames")
+    @ApiMethod(name = "admin.importBankNames")
     public List<Bank> importBankNames(@Named("bucket") String bucket,
                                       @Named("fileName") String fileName, User user) {
         if (Auth.validate(user)) {
@@ -77,7 +77,7 @@ public class BnifscAPI {
         return null;
     }
 
-    @ApiMethod(name = "importBranches")
+    @ApiMethod(name = "admin.importBranches")
     public List<Branch> importBranches(@Named("bucket") String bucket,
                                        @Named("fileName") String fileName, User user) {
         if (Auth.validate(user)) {
@@ -89,7 +89,7 @@ public class BnifscAPI {
         return null;
     }
 
-    @ApiMethod(name = "branches")
+    @ApiMethod(name = "public.branches")
     public List<Map<String, String>> branches(
             @Named("bankName") String bankName,
             @Named("stateName") String stateName,
@@ -101,25 +101,25 @@ public class BnifscAPI {
         return branch.branches();
     }
 
-    @ApiMethod(name = "getBranchByKey")
+    @ApiMethod(name = "public.branchByKey")
     public Branch getBranchByKey(@Named("keyString") String keyString) {
         return new Branch().getBranchByKey(keyString);
     }
 
-    @ApiMethod(name = "banks")
+    @ApiMethod(name = "public.banks")
     public List<String> banks() {
         Branch branch = new Branch();
         return branch.banks();
     }
 
-    @ApiMethod(name = "states")
+    @ApiMethod(name = "public.states")
     public List<String> states(@Named("bankName") String bankName) {
         Branch branch = new Branch();
         branch.setName(bankName);
         return branch.states();
     }
 
-    @ApiMethod(name = "districts")
+    @ApiMethod(name = "public.districts")
     public List<String> districts(@Named("bankName") String bankName,
                                   @Named("stateName") String stateName) {
         Branch branch = new Branch();
@@ -128,14 +128,14 @@ public class BnifscAPI {
         return branch.districts();
     }
 
-    @ApiMethod(name = "createGcsFile")
+    @ApiMethod(name = "admin.createGcsFile")
     public List<String> createGcsFile(@Named("fileName") String fileName, @Named("content") String content, User user) {
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append(content);
         return new SiteMap().createFile(fileName, strBuilder);
     }
 
-    @ApiMethod(name = "createSiteMap")
+    @ApiMethod(name = "admin.createSiteMap")
     public List<String> createSiteMap(User user) {
         if (Auth.validate(user)) {
             return new SiteMap().createSiteMap();
@@ -144,7 +144,7 @@ public class BnifscAPI {
 
     }
 
-    @ApiMethod(name = "createSiteMapIndex")
+    @ApiMethod(name = "admin.createSiteMapIndex")
     public List<String> createSiteMapIndex(User user) {
         if (Auth.validate(user)) {
             return new SiteMap().createSiteMapIndex();
@@ -152,12 +152,12 @@ public class BnifscAPI {
         return null;
     }
 
-    @ApiMethod(name = "feedback")
+    @ApiMethod(name = "public.feedback")
     public Feedback feedback(@Named("feedback") String feedback) {
         return new Feedback(feedback).save();
     }
 
-    @ApiMethod(name = "branchByIFSC")
+    @ApiMethod(name = "public.branchByIFSC")
     public Branch branchIfsc(@Named("IFSC code") String ifsc) {
         return Branch.branchByIfsc(ifsc);
     }

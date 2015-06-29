@@ -1,8 +1,11 @@
 package bnifsc;
 
-import bnifsc.entites.BnifscUser;
+import bnifsc.entites.Admin;
+import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.users.User;
+import persist.AdminOfy;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -21,8 +24,9 @@ public class Auth {
      */
     public static boolean validate(User user) {
         String email = user.getEmail();
-        BnifscUser bnifscUser = BnifscUser.userByEmail(email);
-        if (bnifscUser == null) {
+        AdminOfy af = new AdminOfy();
+        List<Admin> admins = af.loadByEmail(email);
+        if (admins == null) {
             logger.warning("Invailid User=" + email);
 //            TODO an exception throw required.
             return false;

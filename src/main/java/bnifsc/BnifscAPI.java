@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import bnifsc.entites.Admin;
 import bnifsc.entites.Branch;
 import bnifsc.entites.Bank;
 import bnifsc.entites.Feedback;
@@ -12,10 +13,13 @@ import bnifsc.util.SiteMap;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
-import com.google.api.server.spi.config.ApiNamespace;
-import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.users.User;
+import persist.AdminOfy;
+import persist.BranchOfy;
+import persist.FeedbackOfy;
 
+import javax.annotation.Nullable;
 import javax.inject.Named;
 
 /**
@@ -37,7 +41,7 @@ public class BnifscAPI {
 
     //TODO rename ApiMethod name with admin,user.public namespace.
     @ApiMethod(name = "admin.addBank")
-    public Branch addBank(@Named("name") String name,
+    public Branch addBank(@Named("name") String bankName,
                           @Named("branchName") String branchName, @Named("ifsc") String ifsc,
                           @Named("micr") String micr, @Named("swift") String swift,
                           @Named("email") String email, @Named("mobile") String mobile,
@@ -46,21 +50,22 @@ public class BnifscAPI {
                           @Named("district") String district,
                           @Named("address") String address, @Named("pin") String pincode, User user) {
         if (Auth.validate(user)) {
-            Branch bank = new Branch();
-            bank.setName(name);
-            bank.setBranchName(branchName);
-            bank.setIfsc(ifsc);
-            bank.setMicr(micr);
-            bank.setSwift(swift);
-            bank.setEmail(email);
-            bank.setMobile(mobile);
-            bank.setCustCare(custCare);
-            bank.setPhone(phone);
-            bank.setState(state);
-            bank.setDistrict(district);
-            bank.setAddress(address);
-            bank.setPincode(pincode);
-            return bank.save();
+            Branch branch = new Branch();
+            BranchOfy branchOfy = new BranchOfy();
+            branch.setBankName(bankName);
+            branch.setBranchName(branchName);
+            branch.setIfsc(ifsc);
+            branch.setMicr(micr);
+            branch.setSwift(swift);
+            branch.setEmail(email);
+            branch.setMobile(mobile);
+            branch.setCustCare(custCare);
+            branch.setPhone(phone);
+            branch.setState(state);
+            branch.setDistrict(district);
+            branch.setAddress(address);
+            branch.setPinCode(pincode);
+            return branchOfy.loadByKey(branchOfy.save(branch));
         }
         return null;
     }
@@ -90,37 +95,44 @@ public class BnifscAPI {
     }
 
     @ApiMethod(name = "public.branches")
-    public List<Map<String, String>> branches(
+    public List<Branch> branches(
             @Named("bankName") String bankName,
             @Named("stateName") String stateName,
             @Named("districtName") String districtName) {
-        Branch branch = new Branch();
-        branch.setName(bankName);
-        branch.setDistrict(districtName);
-        branch.setState(stateName);
-        return branch.branches();
+        BranchOfy branchOfy = new BranchOfy();
+        return branchOfy.branches(bankName, stateName, districtName);
     }
 
-    @ApiMethod(name = "public.banks")
-    public List<String> banks() {
-        Branch branch = new Branch();
-        return branch.banks();
+    @ApiMethod(name = "public.bankNamesList")
+    public List<Branch> banks() {
+        BranchOfy branchOfy = new BranchOfy();
+        return branchOfy.banksList();
     }
 
+    /**
+     * List of states by bank name.
+     *
+     * @param bankName
+     * @return List<String>
+     */
     @ApiMethod(name = "public.states")
-    public List<String> states(@Named("bankName") String bankName) {
-        Branch branch = new Branch();
-        branch.setName(bankName);
-        return branch.states();
+    public List<Branch> states(@Named("bankName") String bankName) {
+        BranchOfy branchOfy = new BranchOfy();
+        return branchOfy.statesList(bankName);
     }
 
+    /**
+     * List of districts by bank and state name.
+     *
+     * @param bankName
+     * @param stateName
+     * @return List<String>
+     */
     @ApiMethod(name = "public.districts")
-    public List<String> districts(@Named("bankName") String bankName,
+    public List<Branch> districts(@Named("bankName") String bankName,
                                   @Named("stateName") String stateName) {
-        Branch branch = new Branch();
-        branch.setName(bankName);
-        branch.setState(stateName);
-        return branch.districts();
+        BranchOfy branchOfy = new BranchOfy();
+        return branchOfy.districtsList(bankName, stateName);
     }
 
     @ApiMethod(name = "admin.createGcsFile")
@@ -148,12 +160,35 @@ public class BnifscAPI {
     }
 
     @ApiMethod(name = "public.feedback")
-    public Feedback feedback(@Named("feedback") String feedback) {
-        return new Feedback(feedback).save();
+    public Feedback feedback(@Named("feedback") String feedback, @Nullable @Named("email") String email) {
+        FeedbackOfy ff = new FeedbackOfy();
+        Feedback f = new Feedback();
+        f.setFeedback(feedback);
+        if (email != null) {
+            f.setEmail(new Email(email));
+        }
+        return ff.loadByKey(ff.save(f));
     }
 
     @ApiMethod(name = "public.branchByIFSC")
-    public Branch branchIfsc(@Named("ifsc") String ifsc) {
-        return Branch.branchByIfsc(ifsc);
+    public List<Branch> branchIfsc(@Named("ifsc") String ifsc) {
+        BranchOfy branchOfy = new BranchOfy();
+        return branchOfy.loadByIFSC(ifsc);
+    }
+
+    //  TODO remove both api after addition first admin.
+    @ApiMethod(name = "admin.addAdmin")
+    public Admin addAdmin(@Named("name") String name, @Named("email") String email) {
+        Admin admin = new Admin();
+        AdminOfy adminOfy = new AdminOfy();
+        admin.setName(name);
+        admin.setEmail(email);
+        return adminOfy.loadByKey(adminOfy.save(admin));
+    }
+
+    @ApiMethod(name = "admin.adminByEmail")
+    public List<Admin> adminByEmail(@Named("email") String email) {
+        AdminOfy adminOfy = new AdminOfy();
+        return adminOfy.loadByEmail(email);
     }
 }

@@ -1,21 +1,50 @@
 package bnifsc.entites;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 
-import java.util.Calendar;
+import com.google.appengine.api.datastore.Email;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
+
+import java.util.Date;
+
 
 /**
- * Created by vinaymavi on 09/05/15.
+ * This is simple POJO class of Objectify entity.
  */
+@Entity(name = "Feedback")
 public class Feedback {
-    private static final String ENTITY_NAME="Feedback";
-    private static final DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
+    @Id
+    private Long id;
     private String feedback;
+    @Index
+    private Email email;
+    private Date date;
 
-    public Feedback(String feedback) {
+    public Feedback() {
+
+    }
+
+    public Feedback(String feedback, Email email) {
         this.feedback = feedback;
+        this.email = email;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
     }
 
     public String getFeedback() {
@@ -26,11 +55,9 @@ public class Feedback {
         this.feedback = feedback;
     }
 
-    public Feedback save(){
-        Entity entity = new Entity(ENTITY_NAME);
-        entity.setProperty("feedback",this.getFeedback());
-        entity.setProperty("timestamp", Calendar.getInstance().getTimeInMillis());
-        datastoreService.put(entity);
-        return this;
+    @OnSave
+     void addDefaultDate() {
+        this.date = new Date();
     }
+
 }

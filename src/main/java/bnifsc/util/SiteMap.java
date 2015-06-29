@@ -19,8 +19,10 @@ import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.ListItem;
 import com.google.appengine.tools.cloudstorage.ListOptions;
 import com.google.appengine.tools.cloudstorage.ListResult;
+import persist.BranchOfy;
 
 public class SiteMap {
+	public static final BranchOfy branchOfy = new BranchOfy();
 	public final static Logger logger = Logger.getLogger(SiteMap.class
 			.getName());
 	public static GcsService gcsService = GcsServiceFactory.createGcsService();
@@ -72,42 +74,42 @@ public class SiteMap {
 	public List<String> createSiteMap() {
 		Branch branch = new Branch();
 		List<String> response = new ArrayList<String>();
-		List<String> banks = branch.banks();
-		Iterator<String> itr = banks.iterator();
+		List<Branch> banksName = branchOfy.banksList();
+		Iterator<Branch> itr = banksName.iterator();
 		int count = 1;
 		while (itr.hasNext()) {
 			StringBuilder siteMapXml = new StringBuilder();
 			siteMapXml.append("<?xml version='1.0' encoding='UTF-8'?>");
 			siteMapXml
 					.append("<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>");
-			String bankName = itr.next();
+			String bankName = itr.next().getBankName();
 			siteMapXml.append("<url>  <loc>" + SiteMap.WEBSITE_URL
 					+ URLEncoder.encode(bankName) + "</loc></url>");
-			branch.setName(bankName);
-			List<String> states = branch.states();
-			Iterator<String> stateItr = states.iterator();
+			branch.setBankName(bankName);
+			List<Branch> states = branchOfy.statesList(bankName);
+			Iterator<Branch> stateItr = states.iterator();
 			while (stateItr.hasNext()) {
-				String state = stateItr.next();
+				String state = stateItr.next().getState();
 				siteMapXml.append("<url>  <loc>" + SiteMap.WEBSITE_URL
 						+ URLEncoder.encode(bankName + "/" + state)
 						+ "</loc></url>");
 				branch.setState(state);
-				List<String> districts = branch.districts();
-				Iterator<String> districtItr = districts.iterator();
+				List<Branch> districts = branchOfy.districtsList(bankName,state);
+				Iterator<Branch> districtItr = districts.iterator();
 				while (districtItr.hasNext()) {
-					String district = districtItr.next();
+					String district = districtItr.next().getDistrict();
 					siteMapXml.append("<url>  <loc>"
 							+ SiteMap.WEBSITE_URL
 							+ URLEncoder.encode(bankName + "/" + state + "/"
 									+ district) + "</loc></url>");
 					branch.setDistrict(district);
-					List<Map<String, String>> branches = branch.branches();
-					Iterator<Map<String, String>> branchItr = branches
+					List<Branch> branches = branchOfy.branches(bankName,state,district);
+					Iterator<Branch> branchItr = branches
 							.iterator();
 					while (branchItr.hasNext()) {
-						Map<String, String> b = branchItr.next();
-						String branchString = b.get("branchName") + "/"
-								+ b.get("id");
+						Branch b = branchItr.next();
+						String branchString = b.getBranchName() + "/"
+								+ b.getIfsc();
 						siteMapXml.append("<url>  <loc>"
 								+ SiteMap.WEBSITE_URL
 								+ URLEncoder.encode(bankName + "/" + state

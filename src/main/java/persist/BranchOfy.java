@@ -58,7 +58,7 @@ public class BranchOfy {
      * @return List<String>
      */
     public List<Branch> statesList(String bankName) {
-        return ofy().load().type(Branch.class).filter("bankName", bankName).project("state").list();
+        return ofy().load().type(Branch.class).filter("bankName", bankName).project("state").distinct(true).list();
     }
 
     /**
@@ -69,7 +69,7 @@ public class BranchOfy {
      * @return List<String>
      */
     public List<Branch> districtsList(String bankName, String stateName) {
-        return ofy().load().type(Branch.class).filter("bankName", bankName).filter("state", stateName).project("district").list();
+        return ofy().load().type(Branch.class).filter("bankName", bankName).filter("state", stateName).project("district").distinct(true).list();
     }
 
     /**

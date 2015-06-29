@@ -26,7 +26,7 @@ public class Auth {
         String email = user.getEmail();
         AdminOfy af = new AdminOfy();
         List<Admin> admins = af.loadByEmail(email);
-        if (admins == null) {
+        if (admins.size() <= 0) {
             logger.warning("Invailid User=" + email);
 //            TODO an exception throw required.
             return false;

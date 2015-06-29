@@ -176,14 +176,17 @@ public class BnifscAPI {
         return branchOfy.loadByIFSC(ifsc);
     }
 
-    //  TODO remove both api after addition first admin.
     @ApiMethod(name = "admin.addAdmin")
-    public Admin addAdmin(@Named("name") String name, @Named("email") String email) {
-        Admin admin = new Admin();
-        AdminOfy adminOfy = new AdminOfy();
-        admin.setName(name);
-        admin.setEmail(email);
-        return adminOfy.loadByKey(adminOfy.save(admin));
+    public Admin addAdmin(@Named("name") String name, @Named("email") String email, User user) {
+        if (Auth.validate(user)) {
+            Admin admin = new Admin();
+            AdminOfy adminOfy = new AdminOfy();
+            admin.setName(name);
+            admin.setEmail(email);
+            return adminOfy.loadByKey(adminOfy.save(admin));
+        }
+        return null;
+
     }
 
     @ApiMethod(name = "admin.adminByEmail")

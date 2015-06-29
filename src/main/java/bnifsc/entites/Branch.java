@@ -29,6 +29,7 @@ public class Branch {
     private String swift;
     private String pinCode;
     private Date addDate;
+    private Date updateDate;
 
     public Branch() {
     }
@@ -151,6 +152,14 @@ public class Branch {
 
     public void setAddDate(Date addDate) {
         this.addDate = addDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     @OnSave

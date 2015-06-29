@@ -4,18 +4,18 @@
 		<property name="bankName" direction="asc" />
 		<property name="state" direction="asc" />
 	</datastore-index>
-	<datastore-index kind="Branch" ancestor="false" source="manual">
-		<property name="name" direction="asc" />
-		<property name="state" direction="asc" />
-		<property name="district" direction="asc" />
-	</datastore-index>
+    <datastore-index kind="Branch" ancestor="false" source="manual">
+        <property name="bankName" direction="asc"/>
+        <property name="state" direction="asc"/>
+        <property name="district" direction="asc"/>
+    </datastore-index>
 	<datastore-index kind="Branch" ancestor="false" source="manual">
 		<property name="district" direction="asc" />
 		<property name="branchName" direction="asc" />
 	</datastore-index>
 	<datastore-index kind="Branch" ancestor="false" source="manual">
 		<property name="district" direction="asc" />
-		<property name="name" direction="asc" />
+		<property name="bankName" direction="asc" />
 		<property name="state" direction="asc" />
 		<property name="branchName" direction="asc" />
 		<property name="ifsc" direction="asc" />

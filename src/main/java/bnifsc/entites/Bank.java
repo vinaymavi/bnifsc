@@ -9,7 +9,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-
+/*@vinaymavi
+* I am not found this file useful.*/
 public class Bank {
 	private static final String ENTITY_NAME="BankNames";
 	private static final DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();

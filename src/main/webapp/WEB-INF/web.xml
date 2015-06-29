@@ -2,6 +2,17 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <!-- Objectify Filter start-->
+    <filter>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- Objectify filter end-->
+
     <!-- Seo bot filter -->
     <filter>
         <filter-name>seobot</filter-name>
@@ -11,6 +22,7 @@
         <filter-name>seobot</filter-name>
         <url-pattern>/</url-pattern>
     </filter-mapping>
+
     <!-- Seo Servlet -->
     <servlet>
         <servlet-name>seo</servlet-name>
@@ -20,6 +32,7 @@
         <servlet-name>seo</servlet-name>
         <url-pattern>/app/seo</url-pattern>
     </servlet-mapping>
+
     <!-- Entity Count -->
     <servlet>
         <servlet-name>entitycount</servlet-name>
@@ -31,6 +44,7 @@
         <servlet-name>entitycount</servlet-name>
         <url-pattern>/entitycount</url-pattern>
     </servlet-mapping>
+
     <!-- Map reduce configuration  -->
     <servlet>
         <servlet-name>mapreduce</servlet-name>
@@ -59,7 +73,7 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>bnifsc.YourFirstAPI</param-value>
+            <param-value>bnifsc.BnifscAPI</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

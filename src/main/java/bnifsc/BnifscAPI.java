@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 
 import bnifsc.entites.Admin;
 import bnifsc.entites.Branch;
-import bnifsc.entites.Bank;
 import bnifsc.entites.Feedback;
 import bnifsc.util.BulkUpload;
 import bnifsc.util.SiteMap;
@@ -32,15 +31,13 @@ import javax.inject.Named;
         audiences = {Constants.ANDROID_AUDIENCE})
 
 public class BnifscAPI {
-//    TODO make multi file api to avoid writing public function 2 times.
     /**
-     * Add Bank details
+     * Add Branch details
      */
     private final static Logger logger = Logger.getLogger(BnifscAPI.class
             .getName());
 
-    //TODO rename ApiMethod name with admin,user.public namespace.
-    @ApiMethod(name = "admin.addBank")
+    @ApiMethod(name = "admin.addBranch")
     public Branch addBank(@Named("name") String bankName,
                           @Named("branchName") String branchName, @Named("ifsc") String ifsc,
                           @Named("micr") String micr, @Named("swift") String swift,
@@ -70,17 +67,6 @@ public class BnifscAPI {
         return null;
     }
 
-    @ApiMethod(name = "admin.importBankNames")
-    public List<Bank> importBankNames(@Named("bucket") String bucket,
-                                      @Named("fileName") String fileName, User user) {
-        if (Auth.validate(user)) {
-            BulkUpload bulkUpload = new BulkUpload();
-            bulkUpload.setBucket(bucket);
-            bulkUpload.setFileName(fileName);
-            return bulkUpload.importBankNames();
-        }
-        return null;
-    }
 
     @ApiMethod(name = "admin.importBranches")
     public List<Branch> importBranches(@Named("bucket") String bucket,

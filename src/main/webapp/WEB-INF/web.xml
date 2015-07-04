@@ -44,7 +44,15 @@
         <servlet-name>entitycount</servlet-name>
         <url-pattern>/entitycount</url-pattern>
     </servlet-mapping>
-
+    <!--Branch Bulk Upload -->
+    <servlet>
+        <servlet-name>branch</servlet-name>
+        <servlet-class>bnifsc.util.BranchUploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>branch</servlet-name>
+        <url-pattern>/branch</url-pattern>
+    </servlet-mapping>
     <!-- Map reduce configuration  -->
     <servlet>
         <servlet-name>mapreduce</servlet-name>

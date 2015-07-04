@@ -5,7 +5,7 @@
     <module>default</module>
     <!--<instance-class>B8</instance-class>-->
     <!--<manual-scaling>-->
-        <!--<instances>5</instances>-->
+    <!--<instances>5</instances>-->
     <!--</manual-scaling>-->
     <threadsafe>false</threadsafe>
     <!--Other settings here... -->

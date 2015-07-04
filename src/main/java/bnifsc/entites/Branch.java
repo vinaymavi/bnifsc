@@ -17,7 +17,9 @@ public class Branch {
     private String state;
     @Index
     private String district;
+    private String city;
     private String branchName;
+    private String branchCode;
     private String custCare;
     private String email;
     private String mobile;
@@ -32,6 +34,22 @@ public class Branch {
     private Date updateDate;
 
     public Branch() {
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(String branchCode) {
+        this.branchCode = branchCode;
     }
 
     public Long getId() {

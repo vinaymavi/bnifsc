@@ -2,16 +2,20 @@
 
 package bnifsc.util;
 
+import bnifsc.entites.Branch;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.MapOnlyMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import persist.BranchOfy;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -34,7 +38,7 @@ class EntityCreator extends MapOnlyMapper<byte[], Entity> {
     @Override
     public void map(byte[] value) {
         logger.warning(new String(value));
-
+        BranchOfy bf = new BranchOfy();
         String branch = new String(value);
         String[] branchPros = branch.split("\",\"");
 //        Getting props from branch.
@@ -56,15 +60,26 @@ class EntityCreator extends MapOnlyMapper<byte[], Entity> {
         Pattern pinCodePattern = Pattern.compile("([0-9]{6})");
         Matcher matcher = pinCodePattern.matcher(address);
         String pinCode = "";
-
         if (matcher.find()) {
             pinCode = matcher.group();
         }
 
-        Date addDate = new Date();
+//        Add and update date.
         Date updateDate;
+        Date addDate;
+        List<Branch> branchList = bf.loadByIFSC(ifsc);
+        if (branchList.size() > 0) {
+            Branch b = branchList.get(0);
+            updateDate = new Date();
+            addDate = b.getAddDate();
+        } else {
+            updateDate = null;
+            addDate = new Date();
+        }
+
+
 //        Entity Creator
-        Entity entity = new Entity(kind,ifsc);
+        Entity entity = new Entity(kind, ifsc);
         entity.setProperty("bankName", bankName);
         entity.setProperty("state", state);
         entity.setProperty("district", district);
@@ -77,6 +92,7 @@ class EntityCreator extends MapOnlyMapper<byte[], Entity> {
         entity.setProperty("micr", micr);
         entity.setProperty("pinCode", pinCode);
         entity.setProperty("addDate", addDate);
+        entity.setProperty("updateDate", updateDate);
         emit(entity);
     }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity(name = "Branch")
 public class Branch {
     @Id
-    private Long id;
+    private String id;
     @Index
     private String bankName;
     @Index
@@ -52,11 +52,11 @@ public class Branch {
         this.branchCode = branchCode;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

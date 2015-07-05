@@ -4,9 +4,9 @@ package persist;
  * Created by vinaymavi on 24/06/15.
  */
 
-import bnifsc.entites.Admin;
-import bnifsc.entites.Branch;
-import bnifsc.entites.Feedback;
+import bnifsc.entities.Admin;
+import bnifsc.entities.Branch;
+import bnifsc.entities.Feedback;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;

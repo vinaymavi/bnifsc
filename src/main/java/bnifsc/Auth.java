@@ -1,7 +1,6 @@
 package bnifsc;
 
-import bnifsc.entites.Admin;
-import com.google.appengine.api.datastore.Email;
+import bnifsc.entities.Admin;
 import com.google.appengine.api.users.User;
 import persist.AdminOfy;
 

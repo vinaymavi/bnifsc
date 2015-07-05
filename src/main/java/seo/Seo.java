@@ -1,6 +1,5 @@
 package seo;
 
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.logging.Logger;
 
@@ -8,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bnifsc.entites.Branch;
+import bnifsc.entities.Branch;
 import persist.BranchOfy;
 
 public class Seo extends HttpServlet {

@@ -69,7 +69,7 @@ public class BranchUpload {
         // [START mapSpec]
         MapSpecification<byte[], Entity, Void> spec = new MapSpecification.Builder<>(
                 new GoogleCloudStorageLineInput(filename, separator, SHART_COUNT),
-                new EntityCreator(kind),
+                new EntityMapper(kind),
                 new DatastoreOutput())
                 .setJobName("Create MapReduce entities")
                 .build();

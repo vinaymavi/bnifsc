@@ -1,11 +1,17 @@
-package bnifsc.entites;
+package bnifsc.entities;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
+import persist.BranchOfy;
 
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity(name = "Branch")
 public class Branch {
@@ -183,5 +189,70 @@ public class Branch {
     @OnSave
     void addDefaultDate() {
         this.addDate = new Date();
+    }
+
+    /**
+     * Create Branch from csvLine.
+     *
+     * @param branchCsv
+     * @return @code{{Branch}}
+     */
+    public static Branch fromCSVLine(String branchCsv) {
+        Branch branch = new Branch();
+        BranchOfy bf = new BranchOfy();
+
+        String[] branchPros = branchCsv.split("\",\"");
+        //Getting props from branch.
+        String bankName = StringUtils.substringAfter(WordUtils.capitalizeFully(branchPros[0]).trim(), "\"");
+        String state = StringUtils.substringBefore(WordUtils.capitalizeFully(branchPros[8]).trim(), "\"");
+        String district = WordUtils.capitalizeFully(branchPros[7]).trim();
+        String city = WordUtils.capitalizeFully(branchPros[6]).trim();
+        String branchName = WordUtils.capitalizeFully(branchPros[3]).trim();
+        String custCare;
+        String email;
+        String mobile;
+        String phone = branchPros[5].split("\\.")[0].trim();
+        String address = WordUtils.capitalizeFully(branchPros[4]).trim();
+
+        String ifsc = branchPros[1].trim();
+        String branchCode = ifsc.substring(ifsc.length() - 6);
+        String micr = branchPros[2].split("\\.")[0].trim();
+        String swift;
+        Pattern pinCodePattern = Pattern.compile("([0-9]{6})");
+        Matcher matcher = pinCodePattern.matcher(address);
+        String pinCode = "";
+        if (matcher.find()) {
+            pinCode = matcher.group();
+        }
+
+        //Add and update date.
+        Date updateDate;
+        Date addDate;
+        List<Branch> branchList = bf.loadByIFSC(ifsc);
+        if (branchList.size() > 0) {
+            Branch b = branchList.get(0);
+            updateDate = new Date();
+            addDate = b.getAddDate();
+        } else {
+            updateDate = null;
+            addDate = new Date();
+        }
+
+        //Start Bind to Branch.
+        branch.setBankName(bankName);
+        branch.setState(state);
+        branch.setDistrict(district);
+        branch.setCity(city);
+        branch.setBranchName(branchName);
+        branch.setPhone(phone);
+        branch.setAddress(address);
+        branch.setIfsc(ifsc);
+        branch.setBranchCode(branchCode);
+        branch.setMicr(micr);
+        branch.setPinCode(pinCode);
+        branch.setAddDate(addDate);
+        branch.setUpdateDate(updateDate);
+
+        return branch;
     }
 }

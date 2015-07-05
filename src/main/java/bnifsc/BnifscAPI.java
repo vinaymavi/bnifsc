@@ -1,12 +1,11 @@
 package bnifsc;
 
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
-import bnifsc.entites.Admin;
-import bnifsc.entites.Branch;
-import bnifsc.entites.Feedback;
+import bnifsc.entities.Admin;
+import bnifsc.entities.Branch;
+import bnifsc.entities.Feedback;
 import bnifsc.util.BulkUpload;
 import bnifsc.util.SiteMap;
 

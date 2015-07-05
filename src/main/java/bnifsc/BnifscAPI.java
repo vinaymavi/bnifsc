@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import bnifsc.entities.Admin;
 import bnifsc.entities.Branch;
 import bnifsc.entities.Feedback;
+import bnifsc.search.BranchSearch;
 import bnifsc.util.BulkUpload;
 import bnifsc.util.SiteMap;
 
@@ -30,12 +31,14 @@ import javax.inject.Named;
         audiences = {Constants.ANDROID_AUDIENCE})
 
 public class BnifscAPI {
-    /**
-     * Add Branch details
-     */
+
     private final static Logger logger = Logger.getLogger(BnifscAPI.class
             .getName());
 
+    /**
+     * Add branch to datastore.
+     */
+//    TODO add branch to search index.
     @ApiMethod(name = "admin.addBranch")
     public Branch addBank(@Named("name") String bankName,
                           @Named("branchName") String branchName, @Named("ifsc") String ifsc,
@@ -178,5 +181,10 @@ public class BnifscAPI {
     public List<Admin> adminByEmail(@Named("email") String email) {
         AdminOfy adminOfy = new AdminOfy();
         return adminOfy.loadByEmail(email);
+    }
+
+    @ApiMethod(name = "public.search")
+    public List<Branch> search(@Nullable @Named("bankName") String bankName, @Named("query") String query) {
+        return BranchSearch.search(bankName, query);
     }
 }

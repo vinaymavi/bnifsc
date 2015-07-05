@@ -5,15 +5,9 @@ package bnifsc.util;
 import bnifsc.entities.Branch;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.MapOnlyMapper;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import persist.BranchOfy;
 
@@ -40,8 +34,8 @@ class EntityMapper extends MapOnlyMapper<byte[], Entity> {
         String branchCsv = new String(csvLine);
         Branch branch = Branch.fromCSVLine(branchCsv);
         //Search index.
-        BranchSearchIndex bsi = new BranchSearchIndex();
-        BranchSearchIndex.put(bsi.createDoc(branch));
+        BranchIndexer bsi = new BranchIndexer();
+        BranchIndexer.put(bsi.createDoc(branch));
         //Entity Creator
         Entity entity = new Entity(kind, branch.getIfsc());
         entity.setProperty("bankName", branch.getBankName());

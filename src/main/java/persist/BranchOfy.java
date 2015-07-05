@@ -12,6 +12,8 @@ import static persist.OfyService.ofy;
  * This is Objectify class to get and set values in datastore.
  */
 public class BranchOfy {
+//    TODO all function should be static.
+
     /**
      * Save Branch to Datastore.
      *
@@ -82,5 +84,15 @@ public class BranchOfy {
      */
     public List<Branch> branches(String bankName, String stateName, String districtName) {
         return ofy().load().type(Branch.class).filter("bankName", bankName).filter("state", stateName).filter("district", districtName).list();
+    }
+
+    /**
+     * Return Branch by id.
+     *
+     * @param id
+     * @return Branch.
+     */
+    public static Branch loadById(String id) {
+        return ofy().load().type(Branch.class).id(id).safe();
     }
 }

@@ -10,9 +10,9 @@ import java.util.logging.Logger;
  * This class is responsible for.
  * 1. Add document to search index.
  */
-public class BranchSearchIndex {
+public class BranchIndexer {
     public static final String INDEX_NAME = "Branch";
-    public static final Logger logger = Logger.getLogger(BranchSearchIndex.class.getName());
+    public static final Logger logger = Logger.getLogger(BranchIndexer.class.getName());
 
     /**
      * Create search index document from @code{{entities.Branch}}
@@ -21,6 +21,7 @@ public class BranchSearchIndex {
      * @return {{Document}}
      */
     public Document createDoc(Branch branch) {
+//        TODO inclue State,district,city in address for more efficient search.
         Document doc = Document.newBuilder()
                 .setId(branch.getIfsc())
                 .addField(Field.newBuilder().setName("ifsc").setText(branch.getIfsc()))

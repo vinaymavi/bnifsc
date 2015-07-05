@@ -38,6 +38,7 @@ public class Branch {
     private String pinCode;
     private Date addDate;
     private Date updateDate;
+    private String cursor;
 
     public Branch() {
     }
@@ -186,6 +187,14 @@ public class Branch {
         this.updateDate = updateDate;
     }
 
+    public String getCursor() {
+        return cursor;
+    }
+
+    public void setCursor(String cursor) {
+        this.cursor = cursor;
+    }
+
     @OnSave
     void addDefaultDate() {
         this.addDate = new Date();
@@ -215,7 +224,10 @@ public class Branch {
         String address = WordUtils.capitalizeFully(branchPros[4]).trim();
 
         String ifsc = branchPros[1].trim();
-        String branchCode = ifsc.substring(ifsc.length() - 6);
+        String branchCode = "";
+        if (ifsc.length() > 6) {
+            branchCode = ifsc.substring(ifsc.length() - 6);
+        }
         String micr = branchPros[2].split("\\.")[0].trim();
         String swift;
         Pattern pinCodePattern = Pattern.compile("([0-9]{6})");

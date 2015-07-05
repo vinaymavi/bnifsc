@@ -1,6 +1,7 @@
 package bnifsc;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import bnifsc.entities.Admin;
@@ -13,6 +14,7 @@ import bnifsc.util.SiteMap;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.appengine.api.datastore.Email;
+import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.users.User;
 import persist.AdminOfy;
 import persist.BranchOfy;
@@ -184,7 +186,10 @@ public class BnifscAPI {
     }
 
     @ApiMethod(name = "public.search")
-    public List<Branch> search(@Nullable @Named("bankName") String bankName, @Named("query") String query) {
-        return BranchSearch.search(bankName, query);
+    public Map search(@Nullable @Named("bankName") String bankName,
+                      @Named("query") String query,
+                      @Nullable @Named("cursor") String cursor) {
+
+        return BranchSearch.search(bankName, query, cursor);
     }
 }

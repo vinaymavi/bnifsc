@@ -52,7 +52,7 @@ public class BranchSearch {
 //        TODO can call index from BranchIndexer
         IndexSpec indexSpec = IndexSpec.newBuilder().setName(BranchIndexer.INDEX_NAME).build();
         Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
-        Results<ScoredDocument> result = index.search(query);
+        Results<ScoredDocument> result = index.search(searchQuery);
         cursor = result.getCursor();
         logger.warning("Result found in query #" + queryString + "=" + result.getNumberFound());
         logger.warning("Result returned in query #" + queryString + "=" + result.getNumberReturned());

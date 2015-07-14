@@ -23,7 +23,7 @@ public class BranchSearch {
      * @param query
      */
     public static Map search(String bankName, String query, String lastCursor) {
-        Cursor cursor;
+        Cursor cursor = null;
 
         /**
          * Query Generation.
@@ -40,10 +40,12 @@ public class BranchSearch {
             logger.warning("crate new cursor");
             options = QueryOptions.newBuilder()
                     .setCursor(Cursor.newBuilder().build())
+                    .setLimit(20)
                     .build();
         } else {
             options = QueryOptions.newBuilder()
                     .setCursor(Cursor.newBuilder().build(lastCursor))
+                    .setLimit(20)
                     .build();
         }
 
@@ -53,7 +55,6 @@ public class BranchSearch {
         IndexSpec indexSpec = IndexSpec.newBuilder().setName(BranchIndexer.INDEX_NAME).build();
         Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
         Results<ScoredDocument> result = index.search(searchQuery);
-        cursor = result.getCursor();
         logger.warning("Result found in query #" + queryString + "=" + result.getNumberFound());
         logger.warning("Result returned in query #" + queryString + "=" + result.getNumberReturned());
 
@@ -63,6 +64,7 @@ public class BranchSearch {
             List<Branch> branches = new ArrayList<Branch>();
             for (ScoredDocument doc : listOfDocs) {
                 branches.add(BranchOfy.loadById(doc.getId()));
+                cursor = result.getCursor();
             }
             resultMap.put("branches", branches);
             logger.warning("cursor" + cursor);

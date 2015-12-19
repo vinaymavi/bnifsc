@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>RELEASE</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -85,7 +85,6 @@
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-stubs</artifactId>
 			<version>1.9.17</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.objectify</groupId>
@@ -98,7 +97,6 @@
 			<version>3.4</version>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<!-- for hot reload of the web application -->
 		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>

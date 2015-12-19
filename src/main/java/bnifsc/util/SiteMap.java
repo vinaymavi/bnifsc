@@ -107,13 +107,14 @@ public class SiteMap {
 							.iterator();
 					while (branchItr.hasNext()) {
 						Branch b = branchItr.next();
-						String branchString = b.getBranchName() + "/"
-								+ b.getIfsc();
-						siteMapXml.append("<url>  <loc>"
-								+ SiteMap.WEBSITE_URL
-								+ URLEncoder.encode(bankName + "/" + state
-										+ "/" + district + "/" + branchString)
-								+ "</loc></url>");
+//						TODO bank name required.
+//						String branchString = b.getBranchName() + "/"
+//								+ b.getIfsc();
+//						siteMapXml.append("<url>  <loc>"
+//								+ SiteMap.WEBSITE_URL
+//								+ URLEncoder.encode(bankName + "/" + state
+//										+ "/" + district + "/" + branchString)
+//								+ "</loc></url>");
 					}
 				}
 			}

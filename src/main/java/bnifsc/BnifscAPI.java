@@ -1,22 +1,28 @@
 package bnifsc;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import bnifsc.entities.Admin;
+import bnifsc.entities.Bank;
 import bnifsc.entities.Branch;
 import bnifsc.entities.Feedback;
 import bnifsc.search.BranchSearch;
 import bnifsc.util.BulkUpload;
 import bnifsc.util.SiteMap;
 
+import bnifsc.util.Word;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.users.User;
+import org.apache.commons.lang3.text.WordUtils;
 import persist.AdminOfy;
+import persist.BankOfy;
 import persist.BranchOfy;
 import persist.FeedbackOfy;
 
@@ -36,25 +42,41 @@ public class BnifscAPI {
 
     private final static Logger logger = Logger.getLogger(BnifscAPI.class
             .getName());
+    private final static BankOfy bankOfy = new BankOfy();
+    private final static BranchOfy branchOfy = new BranchOfy();
 
     /**
      * Add branch to datastore.
      */
 //    TODO add branch to search index.
     @ApiMethod(name = "admin.addBranch")
-    public Branch addBank(@Named("name") String bankName,
-                          @Named("branchName") String branchName, @Named("ifsc") String ifsc,
-                          @Named("micr") String micr, @Named("swift") String swift,
-                          @Named("email") String email, @Named("mobile") String mobile,
-                          @Named("customerCare") String custCare,
-                          @Named("phone") String phone, @Named("state") String state,
-                          @Named("district") String district,
-                          @Named("address") String address, @Named("pin") String pincode, User user) {
+    public Branch addBranch(@Named("bankName") String bankName,
+                            @Named("branchName") String name,
+                            @Named("ifsc") String ifsc,
+                            @Named("micr") String micr, @Named("swift") String swift,
+                            @Named("email") String email, @Named("mobile") String mobile,
+                            @Named("customerCare") String custCare,
+                            @Named("phone") String phone, @Named("state") String state,
+                            @Named("district") String district,
+                            @Named("city") String city,
+                            @Named("branchCode") String branchCode,
+                            @Named("address") String address,
+                            @Named("pin") String pinCode,
+                            User user) throws Exception {
         if (Auth.validate(user)) {
             Branch branch = new Branch();
-            BranchOfy branchOfy = new BranchOfy();
+            List<Bank> bankList = bankOfy.loadByName(Word.capitalize(bankName));
+            Bank bank = null;
+            /*TODO avoid 2 if conditions.*/
+            if (bankList.isEmpty()) {
+                throw new Exception("bank not exists name=" + bankName);
+            }
+            if (bankList.size() > 1) {
+                throw new Exception("More then one bank with same name name=" + bankName);
+            }
+            bank = bankList.get(0);
+            branch.setBank(bank);
             branch.setBankName(bankName);
-            branch.setBranchName(branchName);
             branch.setIfsc(ifsc);
             branch.setMicr(micr);
             branch.setSwift(swift);
@@ -65,7 +87,11 @@ public class BnifscAPI {
             branch.setState(state);
             branch.setDistrict(district);
             branch.setAddress(address);
-            branch.setPinCode(pincode);
+            branch.setPinCode(pinCode);
+            branch.setName(name);
+            branch.setId(ifsc);
+            branch.setCity(city);
+            branch.setBranchCode(branchCode);
             return branchOfy.loadByKey(branchOfy.save(branch));
         }
         return null;
@@ -89,14 +115,12 @@ public class BnifscAPI {
             @Named("bankName") String bankName,
             @Named("stateName") String stateName,
             @Named("districtName") String districtName) {
-        BranchOfy branchOfy = new BranchOfy();
-        return branchOfy.branches(bankName, stateName, districtName);
+        return branchOfy.branches(Word.capitalize(bankName), stateName, districtName);
     }
 
-    @ApiMethod(name = "public.bankNamesList")
-    public List<Branch> banks() {
-        BranchOfy branchOfy = new BranchOfy();
-        return branchOfy.banksList();
+    @ApiMethod(name = "public.banks")
+    public List<Bank> banks() {
+        return bankOfy.listAll();
     }
 
     /**
@@ -107,8 +131,7 @@ public class BnifscAPI {
      */
     @ApiMethod(name = "public.states")
     public List<Branch> states(@Named("bankName") String bankName) {
-        BranchOfy branchOfy = new BranchOfy();
-        return branchOfy.statesList(bankName);
+        return branchOfy.statesList(Word.capitalize(bankName));
     }
 
     /**
@@ -121,8 +144,7 @@ public class BnifscAPI {
     @ApiMethod(name = "public.districts")
     public List<Branch> districts(@Named("bankName") String bankName,
                                   @Named("stateName") String stateName) {
-        BranchOfy branchOfy = new BranchOfy();
-        return branchOfy.districtsList(bankName, stateName);
+        return branchOfy.districtsList(Word.capitalize(bankName), stateName);
     }
 
     @ApiMethod(name = "admin.createGcsFile")
@@ -162,8 +184,7 @@ public class BnifscAPI {
 
     @ApiMethod(name = "public.branchByIFSC")
     public List<Branch> branchIfsc(@Named("ifsc") String ifsc) {
-        BranchOfy branchOfy = new BranchOfy();
-        return branchOfy.loadByIFSC(ifsc);
+        return branchOfy.loadByIFSC(ifsc.trim());
     }
 
     @ApiMethod(name = "admin.addAdmin")
@@ -175,6 +196,7 @@ public class BnifscAPI {
             admin.setEmail(email);
             return adminOfy.loadByKey(adminOfy.save(admin));
         }
+        logger.warning("Invalid User = user"+user);
         return null;
 
     }
@@ -191,5 +213,40 @@ public class BnifscAPI {
                       @Nullable @Named("cursor") String cursor) {
 
         return BranchSearch.search(bankName, query, cursor);
+    }
+
+    @ApiMethod(name = "admin.addBank")
+    public Bank addBank(@Named("name") String name,
+                        @Named("image") String image,
+                        @Named("state") String state,
+                        @Named("district") String district,
+                        @Named("city") String city,
+                        @Named("address") String address,
+                        @Named("email") String email,
+                        @Named("phone") String phone,
+                        @Named("mobile") String mobile,
+                        @Named("pinCode") String pinCode,
+                        User user
+    ) throws MalformedURLException {
+        if(Auth.validate(user)){
+            Bank bank = new Bank();
+            bank.setName(name);
+            bank.setImage(new URL(image));
+            bank.setState(state);
+            bank.setDistrict(district);
+            bank.setCity(city);
+            bank.setAddress(address);
+            if (email != null && !email.isEmpty()) {
+                bank.setEmail(new Email(email));
+            }
+            bank.setMobile(mobile);
+            bank.setPhone(phone);
+            bank.setPinCode(pinCode);
+            bankOfy.loadByKey(bankOfy.save(bank));
+            return bankOfy.loadByKey(bankOfy.save(bank));
+
+        }
+        return null;
+
     }
 }

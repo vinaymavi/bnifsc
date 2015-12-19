@@ -5,6 +5,7 @@ package persist;
  */
 
 import bnifsc.entities.Admin;
+import bnifsc.entities.Bank;
 import bnifsc.entities.Branch;
 import bnifsc.entities.Feedback;
 import com.googlecode.objectify.Objectify;
@@ -25,6 +26,7 @@ public class OfyService {
         factory().register(Feedback.class);
         factory().register(Admin.class);
         factory().register(Branch.class);
+        factory().register(Bank.class);
         logger.warning("Classes registered for Objectify service.");
     }
 

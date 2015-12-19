@@ -25,11 +25,12 @@ public class BulkUpload {
     private String bucket;
     private String fileName;
     public static BranchOfy branchOfy = new BranchOfy();
+    private GcsInputChannel readChannel;
 
     public List<Branch> importBranch() {
         GcsFilename filename = new GcsFilename(this.getBucket(),
                 this.getFileName());
-        GcsInputChannel readChannel = null;
+        readChannel = null;
         BufferedReader reader = null;
         StringBuilder stringBuilder = new StringBuilder();
         String bankName = "";
@@ -55,7 +56,6 @@ public class BulkUpload {
                 branch.setPinCode(branch.getPinCode().trim());
                 branch.setIfsc(branch.getIfsc().trim());
                 branch.setSwift(branch.getSwift().trim());
-                branch.setBranchName(branch.getBranchName().trim());
                 insertedBankes.add(branchOfy.loadByKey(branchOfy.save(branch)));
             }
             logger.warning(bankName + " count =" + insertedBankes.size());

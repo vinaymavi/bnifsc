@@ -42,7 +42,6 @@ class EntityMapper extends MapOnlyMapper<byte[], Entity> {
         entity.setProperty("state", branch.getState());
         entity.setProperty("district", branch.getDistrict());
         entity.setProperty("city", branch.getCity());
-        entity.setProperty("branchName", branch.getBranchName());
         entity.setProperty("branchCode", branch.getBranchCode());
         entity.setProperty("phone", branch.getPhone());
         entity.setProperty("address", branch.getAddress());

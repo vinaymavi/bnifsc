@@ -1,9 +1,8 @@
 package bnifsc.entities;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.OnSave;
+import bnifsc.util.Word;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import persist.BranchOfy;
@@ -18,13 +17,26 @@ public class Branch {
     @Id
     private String id;
     @Index
+    @Deprecated
     private String bankName;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = Word.capitalize(name);
+    }
+
     @Index
     private String state;
     @Index
     private String district;
+    @Index
     private String city;
-    private String branchName;
+    @Load
+    Ref<Bank> bank;
     private String branchCode;
     private String custCare;
     private String email;
@@ -33,8 +45,11 @@ public class Branch {
     private String address;
     @Index
     private String ifsc;
+    @Index
     private String micr;
+    @Index
     private String swift;
+    @Index
     private String pinCode;
     private Date addDate;
     private Date updateDate;
@@ -43,12 +58,20 @@ public class Branch {
     public Branch() {
     }
 
+    public Bank getBank() {
+        return bank.get();
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = Ref.create(bank);
+    }
+
     public String getCity() {
         return city;
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.city = Word.capitalize(city);
     }
 
     public String getBranchCode() {
@@ -56,7 +79,7 @@ public class Branch {
     }
 
     public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
+        this.branchCode = branchCode.trim();
     }
 
     public String getId() {
@@ -64,7 +87,7 @@ public class Branch {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id.trim();
     }
 
     public String getBankName() {
@@ -72,7 +95,7 @@ public class Branch {
     }
 
     public void setBankName(String bankName) {
-        this.bankName = bankName;
+        this.bankName = Word.capitalize(bankName);
     }
 
     public String getState() {
@@ -80,7 +103,7 @@ public class Branch {
     }
 
     public void setState(String state) {
-        this.state = state;
+        this.state = Word.capitalize(state);
     }
 
     public String getDistrict() {
@@ -88,15 +111,7 @@ public class Branch {
     }
 
     public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getBranchName() {
-        return branchName;
-    }
-
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+        this.district = Word.capitalize(district);
     }
 
     public String getCustCare() {
@@ -104,7 +119,7 @@ public class Branch {
     }
 
     public void setCustCare(String custCare) {
-        this.custCare = custCare;
+        this.custCare = custCare.trim();
     }
 
     public String getEmail() {
@@ -112,7 +127,7 @@ public class Branch {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = Word.capitalize(email);
     }
 
     public String getMobile() {
@@ -120,7 +135,7 @@ public class Branch {
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile;
+        this.mobile = mobile.trim();
     }
 
     public String getPhone() {
@@ -128,7 +143,7 @@ public class Branch {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = phone.trim();
     }
 
     public String getAddress() {
@@ -136,7 +151,7 @@ public class Branch {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = Word.capitalize(address);
     }
 
     public String getIfsc() {
@@ -144,7 +159,7 @@ public class Branch {
     }
 
     public void setIfsc(String ifsc) {
-        this.ifsc = ifsc;
+        this.ifsc = ifsc.trim();
     }
 
     public String getMicr() {
@@ -152,7 +167,7 @@ public class Branch {
     }
 
     public void setMicr(String micr) {
-        this.micr = micr;
+        this.micr = micr.trim();
     }
 
     public String getSwift() {
@@ -160,7 +175,7 @@ public class Branch {
     }
 
     public void setSwift(String swift) {
-        this.swift = swift;
+        this.swift = swift.trim();
     }
 
     public String getPinCode() {
@@ -168,7 +183,7 @@ public class Branch {
     }
 
     public void setPinCode(String pinCode) {
-        this.pinCode = pinCode;
+        this.pinCode = pinCode.trim();
     }
 
     public Date getAddDate() {
@@ -192,7 +207,7 @@ public class Branch {
     }
 
     public void setCursor(String cursor) {
-        this.cursor = cursor;
+        this.cursor = cursor.trim();
     }
 
     @OnSave
@@ -206,14 +221,16 @@ public class Branch {
      * @param branchCsv
      * @return @code{{Branch}}
      */
+    /*TODO need to be updated by new Entity Mapping.*/
+    @Deprecated
     public static Branch fromCSVLine(String branchCsv) {
         Branch branch = new Branch();
         BranchOfy bf = new BranchOfy();
 
         String[] branchPros = branchCsv.split("\",\"");
         //Getting props from branch.
-        String bankName = StringUtils.substringAfter(WordUtils.capitalizeFully(branchPros[0]).trim(), "\"");
-        String state = StringUtils.substringBefore(WordUtils.capitalizeFully(branchPros[8]).trim(), "\"");
+        String bankName = StringUtils.substringAfter(WordUtils.capitalizeFully(branchPros[0]), null);
+        String state = StringUtils.substringBefore(WordUtils.capitalizeFully(branchPros[8]), null);
         String district = WordUtils.capitalizeFully(branchPros[7]).trim();
         String city = WordUtils.capitalizeFully(branchPros[6]).trim();
         String branchName = WordUtils.capitalizeFully(branchPros[3]).trim();
@@ -251,11 +268,10 @@ public class Branch {
         }
 
         //Start Bind to Branch.
-        branch.setBankName(bankName);
+//        branch.setBankName(bankName);
         branch.setState(state);
         branch.setDistrict(district);
         branch.setCity(city);
-        branch.setBranchName(branchName);
         branch.setPhone(phone);
         branch.setAddress(address);
         branch.setIfsc(ifsc);

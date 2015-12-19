@@ -33,17 +33,6 @@
         <url-pattern>/app/seo</url-pattern>
     </servlet-mapping>
 
-    <!-- Entity Count -->
-    <servlet>
-        <servlet-name>entitycount</servlet-name>
-        <servlet-class>
-            entitycount.ExampleServlet
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>entitycount</servlet-name>
-        <url-pattern>/entitycount</url-pattern>
-    </servlet-mapping>
     <!--Branch Bulk Upload -->
     <servlet>
         <servlet-name>branch</servlet-name>
@@ -53,6 +42,7 @@
         <servlet-name>branch</servlet-name>
         <url-pattern>/branch</url-pattern>
     </servlet-mapping>
+
     <!-- Map reduce configuration  -->
     <servlet>
         <servlet-name>mapreduce</servlet-name>
@@ -74,8 +64,8 @@
     <servlet-mapping>
         <servlet-name>pipeline</servlet-name>
         <url-pattern>/_ah/pipeline/*</url-pattern>
-        <!-- Web Application Configuration  -->
     </servlet-mapping>
+    <!-- Web Application Configuration  -->
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>

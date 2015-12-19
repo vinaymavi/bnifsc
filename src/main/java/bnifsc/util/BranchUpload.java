@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class BranchUpload {
     public static final Logger log = Logger.getLogger(BranchUpload.class.getName());
-    public static final int SHART_COUNT = 10;
+    public static final int SHARD_COUNT = 10;
     public static final String KIND = "Branch";
 
     /**
@@ -68,7 +68,7 @@ public class BranchUpload {
         byte separator = (byte) '\n';
         // [START mapSpec]
         MapSpecification<byte[], Entity, Void> spec = new MapSpecification.Builder<>(
-                new GoogleCloudStorageLineInput(filename, separator, SHART_COUNT),
+                new GoogleCloudStorageLineInput(filename, separator, SHARD_COUNT),
                 new EntityMapper(kind),
                 new DatastoreOutput())
                 .setJobName("Create MapReduce entities")

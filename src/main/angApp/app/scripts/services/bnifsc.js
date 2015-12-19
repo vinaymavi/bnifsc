@@ -91,6 +91,16 @@ angular.module('bnifscApp')
                 return appLoaded;
             }
         }
-
+        /**
+         * Search Result with query.
+         * @param query {String}
+         * @param cb {Function}
+         */
+        self.search = function (query,cb) {
+            gapi.client.bnifsc.public.search({'query':query}).execute(function(resp){
+                    console.info(resp);
+                    cb(resp);
+            });
+        }
         return self;
     });

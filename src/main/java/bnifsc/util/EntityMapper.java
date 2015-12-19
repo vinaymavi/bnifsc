@@ -50,7 +50,6 @@ class EntityMapper extends MapOnlyMapper<byte[], Entity> {
         entity.setProperty("pinCode", branch.getPinCode());
         entity.setProperty("addDate", branch.getAddDate());
         entity.setProperty("updateDate", branch.getUpdateDate());
-
         emit(entity);
     }
 

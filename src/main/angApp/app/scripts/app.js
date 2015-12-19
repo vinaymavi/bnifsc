@@ -23,7 +23,7 @@ angular
     $routeProvider
       .when('/:bank?/:state?/:district?/:branch?/:ifsc?', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl as ctrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html',

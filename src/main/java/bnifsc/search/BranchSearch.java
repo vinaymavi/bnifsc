@@ -28,11 +28,8 @@ public class BranchSearch {
         /**
          * Query Generation.
          */
-        String queryString = "";
-        if (bankName != null) {
-            queryString = "bankName:(" + bankName + ") AND ";
-        }
-        queryString += "(" + query + ")";
+        String searchString = new BranchSearch().createQuery(bankName, query);
+
 
         // Build the QueryOptions
         QueryOptions options;
@@ -50,13 +47,13 @@ public class BranchSearch {
         }
 
         //  Build the Query and run the search
-        Query searchQuery = Query.newBuilder().setOptions(options).build(queryString);
-//        TODO can call index from BranchIndexer
+        Query searchQuery = Query.newBuilder().setOptions(options).build(searchString);
+//        TODO call index from BranchIndexer
         IndexSpec indexSpec = IndexSpec.newBuilder().setName(BranchIndexer.INDEX_NAME).build();
         Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
         Results<ScoredDocument> result = index.search(searchQuery);
-        logger.warning("Result found in query #" + queryString + "=" + result.getNumberFound());
-        logger.warning("Result returned in query #" + queryString + "=" + result.getNumberReturned());
+        logger.warning("Result found in query #" + searchString + "=" + result.getNumberFound());
+        logger.warning("Result returned in query #" + searchString + "=" + result.getNumberReturned());
 
         if (result != null && result.getNumberFound() > 0) {
             Map resultMap = new HashMap();
@@ -80,5 +77,32 @@ public class BranchSearch {
         return Collections.EMPTY_MAP;
 
 
+    }
+
+    /**
+     * Create query
+     *
+     * @param bankName
+     * @param query
+     * @return {String} Google Cloud query
+     */
+    private String createQuery(String bankName, String query) {
+        String searchString = "";
+        if (bankName != null) {
+            searchString = "bankName:(" + bankName + ") AND ";
+        }
+
+//        queryString += "(" + query.split(" ") + ")";
+        String queryString = "";
+        StringTokenizer tokens = new StringTokenizer(query, " ");
+        if (tokens.hasMoreTokens()) {
+            queryString += tokens.nextToken();
+        }
+
+        while (tokens.hasMoreTokens()) {
+            queryString += " OR " + tokens.nextToken();
+        }
+        searchString += "( " + queryString + " )";
+        return searchString;
     }
 }

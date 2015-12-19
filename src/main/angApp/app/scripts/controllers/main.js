@@ -8,7 +8,8 @@
  * Controller of the bnifscApp
  */
 angular.module('bnifscApp')
-    .controller('MainCtrl', function ($scope, $window, bnifsc, $routeParams, $location, $mdDialog, $timeout) {
+    .controller('MainCtrl', function ($scope, $q, $window, bnifsc, $routeParams, $location, $mdDialog, $timeout, $log) {
+        var self = this;
         var FEEDBACK_DELAY = 10 * 1000;
         //TODO add comments.
         $scope.bnifsc = bnifsc;
@@ -23,6 +24,73 @@ angular.module('bnifscApp')
         $scope.panelTitle;
         $scope.autocompleteData;
         $scope.ajaxrequest = true;
+
+        self.simulateQuery = true;
+        self.isDisabled = false;
+        // list of `state` value/display objects
+        self.statesAuto = loadAll();
+        self.querySearch = querySearch;
+        self.selectedItemChange = selectedItemChange;
+        self.searchTextChange = searchTextChange;
+        // ******************************
+        // Internal methods
+        // ******************************
+        /**
+         * Search for states... use $timeout to simulate
+         * remote dataservice call.
+         */
+        function querySearch(query) {
+
+            var results = query ? self.statesAuto.filter(createFilterFor(query)) : self.statesAuto,
+                deferred;
+            deferred = $q.defer();
+            if (query.indexOf(' ') > -1) {
+                $log.info("space found");
+                bnifsc.search(query.substring(0, query.indexOf(' ')), function (resp) {
+                    console.log(resp.branches);
+                    deferred.resolve(resp.branches);
+                });
+                return deferred.promise;
+            }else{
+                return results;
+            }
+
+
+        }
+
+        function searchTextChange(text) {
+            $log.info('Text changed to ' + text);
+            $log.info(text.indexOf(' '));
+        }
+
+        function selectedItemChange(item) {
+            $log.info('Item changed to ' + JSON.stringify(item));
+        }
+
+        /**
+         * Build `states` list of key/value pairs
+         */
+        function loadAll() {
+            var allStates = '';
+            return allStates.split(/, +/g).map(function (state) {
+                return {
+                    value: state.toLowerCase(),
+                    display: state
+                };
+            });
+        }
+
+        /**
+         * Create filter function for a query string
+         */
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+            return function filterFn(state) {
+                return (state.value.indexOf(lowercaseQuery) === 0);
+            };
+        }
+
+        /*This function has to much logic split logic to different controllers*/
         function init() {
             if ($scope.ifsc) {
                 /*Branch page.*/
@@ -83,14 +151,14 @@ angular.module('bnifscApp')
             ga('send', 'pageview');
 
             /*Feedback form*/
-            if (bnifsc.feedback) {
-                $timeout(function () {
-                    $mdDialog.show({
-                        controller: "FeedbackCtrl",
-                        templateUrl: 'views/feedback.html'
-                    })
-                }, FEEDBACK_DELAY)
-            }
+            //if (bnifsc.feedback) {
+            //    $timeout(function () {
+            //        $mdDialog.show({
+            //            controller: "FeedbackCtrl",
+            //            templateUrl: 'views/feedback.html'
+            //        })
+            //    }, FEEDBACK_DELAY)
+            //}
 
         }
 
@@ -101,8 +169,8 @@ angular.module('bnifscApp')
             var data = {},
                 key = "";
             items.forEach(function (value, index, arr) {
-                if (key !== value[0]) {
-                    key = value[0];
+                if (key !== value.bankName[0]) {
+                    key = value.bankName[0];
                     data[key] = [];
                 }
                 data[key].push(value);
@@ -131,6 +199,7 @@ angular.module('bnifscApp')
             $location.path($location.path() + '/' + $scope.data.search)
             console.log($scope.data.search)
         }
+
         // controller initialization
         if (bnifsc.appLoaded()) {
             init();

@@ -160,7 +160,6 @@ public class BnifscAPI {
             return new SiteMap().createSiteMap();
         }
         return null;
-
     }
 
     @ApiMethod(name = "admin.createSiteMapIndex")

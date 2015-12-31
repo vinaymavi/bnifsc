@@ -1,4 +1,4 @@
-package bnifsc.util;
+package seo;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import bnifsc.entities.Branch;
+import entities.Branch;
 
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;

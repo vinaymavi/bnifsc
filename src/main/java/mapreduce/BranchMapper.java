@@ -1,8 +1,9 @@
 // Copyright 2012 Google Inc. All Rights Reserved.
 
-package bnifsc.util;
+package mapreduce;
 
-import bnifsc.entities.Branch;
+import entities.Branch;
+import util.BranchIndexer;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.MapOnlyMapper;
 
@@ -16,14 +17,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Create Entities and push document to search index.
  */
-class EntityMapper extends MapOnlyMapper<byte[], Entity> {
+public class BranchMapper extends MapOnlyMapper<byte[], Entity> {
 
     private static final long serialVersionUID = 409204195454478863L;
-    public static Logger logger = Logger.getLogger(EntityMapper.class.getName());
+    public static Logger logger = Logger.getLogger(BranchMapper.class.getName());
     private final String kind;
     private final Random random = new Random();
 
-    public EntityMapper(String kind) {
+    public BranchMapper(String kind) {
         this.kind = checkNotNull(kind, "Null kind");
     }
 

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bnifsc.entities.Branch;
+import entities.Branch;
 import persist.BranchOfy;
 
 public class Seo extends HttpServlet {

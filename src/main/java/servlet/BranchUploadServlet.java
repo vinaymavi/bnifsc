@@ -1,7 +1,8 @@
-package bnifsc.util;
+package servlet;
 
+import mapreduce.MapReduceSettings;
+import mapreduce.MapReduceSpec;
 import com.google.appengine.tools.mapreduce.MapJob;
-import com.google.appengine.tools.mapreduce.MapSettings;
 import com.google.appengine.tools.pipeline.PipelineService;
 import com.google.appengine.tools.pipeline.PipelineServiceFactory;
 
@@ -50,7 +51,10 @@ public class BranchUploadServlet extends HttpServlet {
         logger.warning("Branch Uploader Email address=" + email);
         if (email.equals("vinaymavi@gmail.com")) {
             try {
-                resp.sendRedirect(BranchUpload.upload(bucket, csvFile));
+                String KIND = "Branch";
+                PipelineService service = PipelineServiceFactory.newPipelineService();
+                String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBranchSpec(KIND, bucket, csvFile), MapReduceSettings.getSettings()));
+                resp.sendRedirect("/_ah/pipeline/status.html?root=" + pipelineId);
             } catch (IOException ioe) {
                 logger.warning(ioe.getMessage());
             }

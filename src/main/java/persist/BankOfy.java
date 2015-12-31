@@ -1,9 +1,8 @@
 package persist;
 
-import bnifsc.entities.Bank;
+import entities.Bank;
 import com.googlecode.objectify.Key;
 
-import javax.inject.Named;
 import java.util.List;
 import java.util.logging.Logger;
 

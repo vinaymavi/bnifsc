@@ -1,6 +1,6 @@
-package bnifsc.entities;
+package entities;
 
-import bnifsc.util.Word;
+import util.Word;
 import com.google.appengine.api.datastore.Email;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;

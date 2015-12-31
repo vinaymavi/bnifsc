@@ -1,6 +1,6 @@
-package bnifsc.util;
+package util;
 
-import bnifsc.entities.Branch;
+import entities.Branch;
 import com.google.appengine.api.search.*;
 
 import java.util.logging.Logger;

@@ -1,4 +1,4 @@
-package bnifsc.entities;
+package entities;
 
 
 import com.google.appengine.api.datastore.Email;

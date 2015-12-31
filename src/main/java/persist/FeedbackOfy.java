@@ -1,6 +1,6 @@
 package persist;
 
-import bnifsc.entities.Feedback;
+import entities.Feedback;
 import com.googlecode.objectify.Key;
 
 import static persist.OfyService.ofy;

@@ -1,7 +1,7 @@
-package bnifsc.search;
+package search;
 
-import bnifsc.entities.Branch;
-import bnifsc.util.BranchIndexer;
+import entities.Branch;
+import util.BranchIndexer;
 import com.google.appengine.api.search.*;
 import persist.BranchOfy;
 

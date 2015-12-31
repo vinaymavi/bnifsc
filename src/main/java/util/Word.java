@@ -1,4 +1,4 @@
-package bnifsc.util;
+package util;
 
 import org.apache.commons.lang3.text.WordUtils;
 

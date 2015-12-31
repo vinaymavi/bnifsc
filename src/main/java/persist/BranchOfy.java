@@ -1,6 +1,6 @@
 package persist;
 
-import bnifsc.entities.Branch;
+import entities.Branch;
 import com.googlecode.objectify.Key;
 
 import java.util.List;

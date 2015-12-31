@@ -36,7 +36,7 @@
     <!--Branch Bulk Upload -->
     <servlet>
         <servlet-name>branch</servlet-name>
-        <servlet-class>bnifsc.util.BranchUploadServlet</servlet-class>
+        <servlet-class>servlet.BranchUploadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>branch</servlet-name>
@@ -71,7 +71,7 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>bnifsc.BnifscAPI</param-value>
+            <param-value>BnifscAPI</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

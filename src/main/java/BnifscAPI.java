@@ -1,26 +1,22 @@
-package bnifsc;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import bnifsc.entities.Admin;
-import bnifsc.entities.Bank;
-import bnifsc.entities.Branch;
-import bnifsc.entities.Feedback;
-import bnifsc.search.BranchSearch;
-import bnifsc.util.BulkUpload;
-import bnifsc.util.SiteMap;
+import entities.Admin;
+import entities.Bank;
+import entities.Branch;
+import entities.Feedback;
+import search.BranchSearch;
+import util.BulkUpload;
+import seo.SiteMap;
 
-import bnifsc.util.Word;
+import util.Word;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.appengine.api.datastore.Email;
-import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.users.User;
-import org.apache.commons.lang3.text.WordUtils;
 import persist.AdminOfy;
 import persist.BankOfy;
 import persist.BranchOfy;

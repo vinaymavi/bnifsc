@@ -1,6 +1,6 @@
-package bnifsc.entities;
+package entities;
 
-import bnifsc.util.Word;
+import util.Word;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
 import org.apache.commons.lang3.StringUtils;

@@ -1,6 +1,4 @@
-package bnifsc;
-
-import bnifsc.entities.Admin;
+import entities.Admin;
 import com.google.appengine.api.users.User;
 import persist.AdminOfy;
 

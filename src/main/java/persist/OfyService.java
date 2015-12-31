@@ -4,10 +4,10 @@ package persist;
  * Created by vinaymavi on 24/06/15.
  */
 
-import bnifsc.entities.Admin;
-import bnifsc.entities.Bank;
-import bnifsc.entities.Branch;
-import bnifsc.entities.Feedback;
+import entities.Admin;
+import entities.Bank;
+import entities.Branch;
+import entities.Feedback;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;

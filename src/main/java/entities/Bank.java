@@ -1,6 +1,8 @@
 package entities;
 
 import com.google.appengine.api.datastore.EmbeddedEntity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import persist.BankOfy;
 import util.Word;
 import com.google.appengine.api.datastore.Email;
@@ -19,7 +21,7 @@ import java.util.Date;
 @Entity(name = "Bank")
 public class Bank {
     @Id
-    Long id;
+    String id;
     @Index
     String name;
     URL image;
@@ -49,6 +51,14 @@ public class Bank {
         this.name = WordUtils.capitalizeFully(name).trim();
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Boolean getPopular() {
         return popular;
     }
@@ -63,14 +73,6 @@ public class Bank {
 
     public void setPinCode(String pinCode) {
         this.pinCode = pinCode.trim();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -161,10 +163,6 @@ public class Bank {
         this.mobile = mobile.trim();
     }
 
-    @OnSave
-    void addDefaultDate() {
-        this.addDate = new Date();
-    }
 
     /**
      * @param line String
@@ -176,26 +174,12 @@ public class Bank {
             bank.setUpdateDate(new Date());
         } else {
             bank = new Bank(line);
-            bank.setAddDate(new Date());
         }
         return bank;
     }
 
-    public EmbeddedEntity createEmbeddedEntity() {
-        EmbeddedEntity embeddedEntity = new EmbeddedEntity();
-        embeddedEntity.setProperty("name", this.getName());
-        embeddedEntity.setProperty("image", this.getImage().toString());
-        embeddedEntity.setProperty("state", this.getState());
-        embeddedEntity.setProperty("district", this.getDistrict());
-        embeddedEntity.setProperty("city", this.getCity());
-        embeddedEntity.setProperty("address", this.getAddress());
-        embeddedEntity.setProperty("email", this.getEmail());
-        embeddedEntity.setProperty("phone", this.getPhone());
-        embeddedEntity.setProperty("mobile", this.getMobile());
-        embeddedEntity.setProperty("pinCode", this.getPinCode());
-        embeddedEntity.setProperty("popular", this.getPopular());
-        embeddedEntity.setProperty("updateDate", this.getUpdateDate());
-        embeddedEntity.setProperty("addDate", this.getAddDate());
-        return embeddedEntity;
+    public Key createKey() {
+        Key key = KeyFactory.createKey("Bank", this.getId());
+        return key;
     }
 }

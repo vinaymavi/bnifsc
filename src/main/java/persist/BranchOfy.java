@@ -40,7 +40,7 @@ public class BranchOfy {
      * @param ifsc
      * @return List<Branch>
      */
-    public List<Branch> loadByIFSC(String ifsc) {
+    public static List<Branch> loadByIFSC(String ifsc) {
         return ofy().load().type(Branch.class).filter("ifsc", ifsc).list();
     }
 

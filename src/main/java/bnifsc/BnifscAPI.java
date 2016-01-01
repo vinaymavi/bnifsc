@@ -2,6 +2,7 @@ package bnifsc;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -10,6 +11,7 @@ import entities.Admin;
 import entities.Bank;
 import entities.Branch;
 import entities.Feedback;
+import org.apache.commons.lang3.text.WordUtils;
 import search.BranchSearch;
 import util.BulkUpload;
 import seo.SiteMap;
@@ -62,7 +64,15 @@ public class BnifscAPI {
                             @Named("pin") String pinCode,
                             User user) throws Exception {
         if (Auth.validate(user)) {
-            Branch branch = new Branch();
+            Branch branch = null;
+            List<Branch> branchList = BranchOfy.loadByIFSC(ifsc.trim());
+            if (branchList.size() > 0) {
+                branch = branchList.get(0);
+                branch.setUpdateDate(new Date());
+            } else {
+                branch = new Branch();
+                branch.setAddDate(new Date());
+            }
             Bank bank = bankOfy.loadByName(Word.capitalize(bankName));
             if (bank == null) {
                 throw new Exception("bank not exists name=" + bankName);
@@ -188,7 +198,7 @@ public class BnifscAPI {
             admin.setEmail(email);
             return adminOfy.loadByKey(adminOfy.save(admin));
         }
-        logger.warning("Invalid User = user"+user);
+        logger.warning("Invalid User = user" + user);
         return null;
 
     }
@@ -220,8 +230,15 @@ public class BnifscAPI {
                         @Named("pinCode") String pinCode,
                         User user
     ) throws MalformedURLException {
-        if(Auth.validate(user)){
-            Bank bank = new Bank();
+        if (Auth.validate(user)) {
+            Bank bank = BankOfy.loadByName(WordUtils.capitalizeFully(name).trim());
+            if (bank != null) {
+                bank.setUpdateDate(new Date());
+            } else {
+                bank = new Bank();
+                bank.setAddDate(new Date());
+            }
+            bank.setId(name);
             bank.setName(name);
             bank.setImage(new URL(image));
             bank.setState(state);

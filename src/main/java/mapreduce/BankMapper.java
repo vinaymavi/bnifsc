@@ -6,6 +6,7 @@ import entities.Bank;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.MapOnlyMapper;
 
+import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -28,11 +29,17 @@ public class BankMapper extends MapOnlyMapper<byte[], Entity> {
     @Override
     public void map(byte[] csvLine) {
         String bankCSV = new String(csvLine);
-        logger.warning(bankCSV);
+        logger.warning("******************** Bank insertion start ********************");
+        logger.warning("Bank name from csv = " + bankCSV);
         Bank bank = Bank.createFromCSV(bankCSV);
-        Entity entity = new Entity(kind);
+        Entity entity = new Entity(kind, bank.getName());
         entity.setProperty("name", bank.getName());
-        entity.setProperty("addDate", bank.getAddDate());
+        if (bank.getAddDate() == null) {
+            entity.setProperty("addDate", new Date());
+        } else {
+            entity.setProperty("updateDate", new Date());
+            entity.setProperty("addDate", bank.getAddDate());
+        }
         emit(entity);
     }
 }

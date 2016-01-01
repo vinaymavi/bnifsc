@@ -212,11 +212,6 @@ public class Branch {
         this.cursor = cursor.trim();
     }
 
-    @OnSave
-    void addDefaultDate() {
-        this.addDate = new Date();
-    }
-
     /**
      * Create Branch from csvLine.
      *
@@ -228,8 +223,9 @@ public class Branch {
         Branch branch;
         BranchOfy bf = new BranchOfy();
         Logger logger = Logger.getLogger(Branch.class.getName());
+        logger.warning("str=" + branchCsv);
         String[] branchPros = branchCsv.split("\";\"");
-        logger.warning("" + branchPros.length);
+        logger.warning("Array Length" + branchPros.length);
         for (String str : branchPros) {
             logger.warning(str);
         }
@@ -263,7 +259,7 @@ public class Branch {
         String pinCode = "";
         if (matcher.find()) {
             pinCode = matcher.group();
-            if(pinCode.contains("-")){
+            if (pinCode.contains("-")) {
                 pinCode = StringUtils.substringAfter(pinCode, "-");
             }
         }

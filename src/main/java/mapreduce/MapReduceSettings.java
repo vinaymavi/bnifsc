@@ -16,7 +16,7 @@ public class MapReduceSettings {
      */
     public static MapSettings getSettings() {
         MapSettings settings = new MapSettings.Builder()
-                .setWorkerQueueName("bulk_uploader")
+                .setWorkerQueueName("mapreduce-workers")
                 .setModule("default")
                 .build();
         return settings;

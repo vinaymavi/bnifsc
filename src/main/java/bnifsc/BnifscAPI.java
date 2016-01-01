@@ -1,3 +1,5 @@
+package bnifsc;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -61,16 +63,11 @@ public class BnifscAPI {
                             User user) throws Exception {
         if (Auth.validate(user)) {
             Branch branch = new Branch();
-            List<Bank> bankList = bankOfy.loadByName(Word.capitalize(bankName));
-            Bank bank = null;
-            /*TODO avoid 2 if conditions.*/
-            if (bankList.isEmpty()) {
+            Bank bank = bankOfy.loadByName(Word.capitalize(bankName));
+            if (bank == null) {
                 throw new Exception("bank not exists name=" + bankName);
             }
-            if (bankList.size() > 1) {
-                throw new Exception("More then one bank with same name name=" + bankName);
-            }
-            bank = bankList.get(0);
+
             branch.setBank(bank);
             branch.setBankName(bankName);
             branch.setIfsc(ifsc);

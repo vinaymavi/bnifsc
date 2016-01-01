@@ -20,7 +20,7 @@ A skeleton application for Google Cloud Endpoints in Java.
 1. Optional step: These sub steps are not required but you need this
    if you want to have auth protected methods.
 
-    1. Update the values in `src/main/java/bnifsc/Constants.java`
+    1. Update the values in `src/main/java/bnifsc/bnifsc.Constants.java`
        to reflect the respective client IDs you have registered in the
        [APIs Console][6]. 
 

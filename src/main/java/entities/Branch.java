@@ -1,5 +1,6 @@
 package entities;
 
+import persist.BankOfy;
 import util.Word;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.*;
@@ -9,6 +10,7 @@ import persist.BranchOfy;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -221,24 +223,31 @@ public class Branch {
      * @param branchCsv
      * @return @code{{Branch}}
      */
-    /*TODO need to be updated by new Entity Mapping.*/
-    @Deprecated
-    public static Branch fromCSVLine(String branchCsv) {
-        Branch branch = new Branch();
-        BranchOfy bf = new BranchOfy();
 
-        String[] branchPros = branchCsv.split("\",\"");
-        //Getting props from branch.
-        String bankName = StringUtils.substringAfter(WordUtils.capitalizeFully(branchPros[0]), null);
-        String state = StringUtils.substringBefore(WordUtils.capitalizeFully(branchPros[8]), null);
+    public static Branch fromCSVLine(String branchCsv) {
+        Branch branch;
+        BranchOfy bf = new BranchOfy();
+        Logger logger = Logger.getLogger(Branch.class.getName());
+        String[] branchPros = branchCsv.split("\";\"");
+        logger.warning("" + branchPros.length);
+        for (String str : branchPros) {
+            logger.warning(str);
+        }
+        //Getting props from branch str.
+        String bankName = WordUtils.capitalizeFully(StringUtils.substringAfter(branchPros[0], "\""));
+        logger.warning(bankName);
+        Bank bank = BankOfy.loadByName(bankName);
+//        Bank bank = null;
+        String state = WordUtils.capitalizeFully(StringUtils.substringBefore(branchPros[8], "\""));
+        logger.warning(state);
         String district = WordUtils.capitalizeFully(branchPros[7]).trim();
         String city = WordUtils.capitalizeFully(branchPros[6]).trim();
         String branchName = WordUtils.capitalizeFully(branchPros[3]).trim();
         String custCare;
         String email;
         String mobile;
-        String phone = branchPros[5].split("\\.")[0].trim();
-        String address = WordUtils.capitalizeFully(branchPros[4]).trim();
+        String phone = branchPros[4].split("\\.")[0].trim();
+        String address = WordUtils.capitalizeFully(branchPros[5]).trim();
 
         String ifsc = branchPros[1].trim();
         String branchCode = "";
@@ -247,28 +256,34 @@ public class Branch {
         }
         String micr = branchPros[2].split("\\.")[0].trim();
         String swift;
-        Pattern pinCodePattern = Pattern.compile("([0-9]{6})");
+
+        // Pin code extraction from address.
+        Pattern pinCodePattern = Pattern.compile("([- 0-9]{6,10})");
         Matcher matcher = pinCodePattern.matcher(address);
         String pinCode = "";
         if (matcher.find()) {
             pinCode = matcher.group();
+            if(pinCode.contains("-")){
+                pinCode = StringUtils.substringAfter(pinCode, "-");
+            }
         }
-
+        logger.warning("PinCode=" + pinCode);
         //Add and update date.
         Date updateDate;
         Date addDate;
         List<Branch> branchList = bf.loadByIFSC(ifsc);
         if (branchList.size() > 0) {
-            Branch b = branchList.get(0);
+            branch = branchList.get(0);
             updateDate = new Date();
-            addDate = b.getAddDate();
+            addDate = branch.getAddDate();
         } else {
             updateDate = null;
             addDate = new Date();
+            branch = new Branch();
         }
 
-        //Start Bind to Branch.
-//        branch.setBankName(bankName);
+        //Start Binding to Branch.
+        branch.setName(branchName);
         branch.setState(state);
         branch.setDistrict(district);
         branch.setCity(city);
@@ -280,6 +295,7 @@ public class Branch {
         branch.setPinCode(pinCode);
         branch.setAddDate(addDate);
         branch.setUpdateDate(updateDate);
+        branch.setBank(bank);
 
         return branch;
     }

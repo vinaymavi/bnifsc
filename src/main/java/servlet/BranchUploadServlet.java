@@ -1,5 +1,7 @@
 package servlet;
 
+import com.google.appengine.tools.cloudstorage.GcsFilename;
+import gcs.GoogleCloudStorage;
 import mapreduce.MapReduceSettings;
 import mapreduce.MapReduceSpec;
 import com.google.appengine.tools.mapreduce.MapJob;
@@ -53,7 +55,9 @@ public class BranchUploadServlet extends HttpServlet {
             try {
                 String KIND = "Branch";
                 PipelineService service = PipelineServiceFactory.newPipelineService();
-                String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBranchSpec(KIND, bucket, csvFile), MapReduceSettings.getSettings()));
+                GcsFilename gcsfile = GoogleCloudStorage.createFile(bucket, "csv/" + csvFile);
+                String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBranchSpec(KIND, bucket, gcsfile), MapReduceSettings.getSettings()));
+                logger.warning("tracking URL @/_ah/pipeline/status.html?root=" + pipelineId);
                 resp.sendRedirect("/_ah/pipeline/status.html?root=" + pipelineId);
             } catch (IOException ioe) {
                 logger.warning(ioe.getMessage());

@@ -30,16 +30,17 @@ public class BranchMapper extends MapOnlyMapper<byte[], Entity> {
 
     @Override
     public void map(byte[] csvLine) {
-        logger.warning(new String(csvLine));
-        BranchOfy bf = new BranchOfy();
         String branchCsv = new String(csvLine);
+        logger.warning(branchCsv);
         Branch branch = Branch.fromCSVLine(branchCsv);
         //Search index.
-        BranchIndexer bsi = new BranchIndexer();
-        BranchIndexer.put(bsi.createDoc(branch));
+        //BranchIndexer bsi = new BranchIndexer();
+        //BranchIndexer.put(bsi.createDoc(branch));
+
         //Entity Creator
+        // TODO put entity creation part to Branch class.
         Entity entity = new Entity(kind, branch.getIfsc());
-        entity.setProperty("bankName", branch.getBankName());
+        entity.setProperty("name", branch.getName());
         entity.setProperty("state", branch.getState());
         entity.setProperty("district", branch.getDistrict());
         entity.setProperty("city", branch.getCity());
@@ -51,6 +52,7 @@ public class BranchMapper extends MapOnlyMapper<byte[], Entity> {
         entity.setProperty("pinCode", branch.getPinCode());
         entity.setProperty("addDate", branch.getAddDate());
         entity.setProperty("updateDate", branch.getUpdateDate());
+        entity.setProperty("bank", branch.getBank().createEmbeddedEntity());
         emit(entity);
     }
 

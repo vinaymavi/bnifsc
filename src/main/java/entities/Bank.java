@@ -1,5 +1,6 @@
 package entities;
 
+import com.google.appengine.api.datastore.EmbeddedEntity;
 import util.Word;
 import com.google.appengine.api.datastore.Email;
 import com.googlecode.objectify.annotation.Entity;
@@ -22,18 +23,37 @@ public class Bank {
     String name;
     URL image;
     /*Bank head office details.*/
+    @Index
     String state;
+    @Index
     String district;
+    @Index
     String city;
+    @Index
     String address;
     Email email;
     String phone;
     String mobile;
+    @Index
     String pinCode;
+    @Index
+    Boolean popular;
     Date updateDate;
     Date addDate;
 
     public Bank() {
+    }
+
+    public Bank(String name) {
+        this.name = name;
+    }
+
+    public Boolean getPopular() {
+        return popular;
+    }
+
+    public void setPopular(Boolean popular) {
+        this.popular = popular;
     }
 
     public String getPinCode() {
@@ -139,8 +159,37 @@ public class Bank {
     public void setMobile(String mobile) {
         this.mobile = mobile.trim();
     }
+
     @OnSave
-    void addDefaultDate(){
+    void addDefaultDate() {
         this.addDate = new Date();
+    }
+
+    /**
+     * @param line String
+     * @return Bank
+     */
+    public static Bank createFromCSV(String line) {
+        Bank bank = new Bank(line);
+        bank.setAddDate(new Date());
+        return bank;
+    }
+
+    public EmbeddedEntity createEmbeddedEntity() {
+        EmbeddedEntity embeddedEntity = new EmbeddedEntity();
+        embeddedEntity.setProperty("name", this.getName());
+        embeddedEntity.setProperty("image", this.getImage().toString());
+        embeddedEntity.setProperty("state", this.getState());
+        embeddedEntity.setProperty("district", this.getDistrict());
+        embeddedEntity.setProperty("city", this.getCity());
+        embeddedEntity.setProperty("address", this.getAddress());
+        embeddedEntity.setProperty("email", this.getEmail());
+        embeddedEntity.setProperty("phone", this.getPhone());
+        embeddedEntity.setProperty("mobile", this.getMobile());
+        embeddedEntity.setProperty("pinCode", this.getPinCode());
+        embeddedEntity.setProperty("popular", this.getPopular());
+        embeddedEntity.setProperty("updateDate", this.getUpdateDate());
+        embeddedEntity.setProperty("addDate", this.getAddDate());
+        return embeddedEntity;
     }
 }

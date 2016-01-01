@@ -26,12 +26,13 @@ public class BankOfy {
         logger.warning("Get bank by key = " + key.toString());
         return ofy().load().key(key).now();
     }
+
     /*TODO load single Entity*/
-    public List<Bank> loadByName(String name) {
+    public static Bank loadByName(String name) {
         logger.warning("Req Get bank by name= " + name);
-        List<Bank> bankList = ofy().load().type(Bank.class).filter("name", name).list();
-        logger.warning("Resp Get bank by name= " + name + ",size=" + bankList.size());
-        return bankList;
+        Bank bank = ofy().load().type(Bank.class).filter("name", name).first().now();
+        logger.warning("Resp Get bank by name= " + name + ",size=" + bank);
+        return bank;
     }
 
     public List<Bank> listAll() {

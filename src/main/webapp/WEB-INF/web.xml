@@ -1,84 +1,93 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-    <!-- Objectify Filter start-->
-    <filter>
-        <filter-name>ObjectifyFilter</filter-name>
-        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>ObjectifyFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <!-- Objectify filter end-->
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<!-- Objectify Filter start-->
+	<filter>
+		<filter-name>ObjectifyFilter</filter-name>
+		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ObjectifyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- Objectify filter end-->
 
-    <!-- Seo bot filter -->
-    <filter>
-        <filter-name>seobot</filter-name>
-        <filter-class>filters.SeoBotFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>seobot</filter-name>
-        <url-pattern>/</url-pattern>
-    </filter-mapping>
+	<!-- Seo bot filter -->
+	<filter>
+		<filter-name>seobot</filter-name>
+		<filter-class>filters.SeoBotFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>seobot</filter-name>
+		<url-pattern>/</url-pattern>
+	</filter-mapping>
 
-    <!-- Seo Servlet -->
-    <servlet>
-        <servlet-name>seo</servlet-name>
-        <servlet-class>seo.Seo</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>seo</servlet-name>
-        <url-pattern>/app/seo</url-pattern>
-    </servlet-mapping>
+	<!-- Seo Servlet -->
+	<servlet>
+		<servlet-name>seo</servlet-name>
+		<servlet-class>seo.Seo</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>seo</servlet-name>
+		<url-pattern>/app/seo</url-pattern>
+	</servlet-mapping>
 
-    <!--Branch Bulk Upload -->
-    <servlet>
-        <servlet-name>branch</servlet-name>
-        <servlet-class>servlet.BranchUploadServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>branch</servlet-name>
-        <url-pattern>/branch</url-pattern>
-    </servlet-mapping>
+	<!--Branch Bulk Upload -->
+	<servlet>
+		<servlet-name>branch</servlet-name>
+		<servlet-class>servlet.BranchUploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>branch</servlet-name>
+		<url-pattern>/branch</url-pattern>
+	</servlet-mapping>
+	<!--Bank Bulk Upload -->
+	<servlet>
+		<servlet-name>bank</servlet-name>
+		<servlet-class>servlet.BanksUploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>bank</servlet-name>
+		<url-pattern>/bank</url-pattern>
+	</servlet-mapping>
 
-    <!-- Map reduce configuration  -->
-    <servlet>
-        <servlet-name>mapreduce</servlet-name>
-        <servlet-class>
-            com.google.appengine.tools.mapreduce.MapReduceServlet
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>mapreduce</servlet-name>
-        <url-pattern>/mapreduce/*</url-pattern>
-    </servlet-mapping>
+	<!-- Map reduce configuration  -->
+	<servlet>
+		<servlet-name>mapreduce</servlet-name>
+		<servlet-class>
+			com.google.appengine.tools.mapreduce.MapReduceServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mapreduce</servlet-name>
+		<url-pattern>/mapreduce/*</url-pattern>
+	</servlet-mapping>
 
-    <servlet>
-        <servlet-name>pipeline</servlet-name>
-        <servlet-class>
-            com.google.appengine.tools.pipeline.impl.servlets.PipelineServlet
-        </servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>pipeline</servlet-name>
-        <url-pattern>/_ah/pipeline/*</url-pattern>
-    </servlet-mapping>
-    <!-- Web Application Configuration  -->
-    <servlet>
-        <servlet-name>SystemServiceServlet</servlet-name>
-        <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
-        <init-param>
-            <param-name>services</param-name>
-            <param-value>BnifscAPI</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SystemServiceServlet</servlet-name>
-        <url-pattern>/_ah/spi/*</url-pattern>
-    </servlet-mapping>
-    <welcome-file-list>
-        <welcome-file>xyz.html</welcome-file>
-    </welcome-file-list>
+	<servlet>
+		<servlet-name>pipeline</servlet-name>
+		<servlet-class>
+			com.google.appengine.tools.pipeline.impl.servlets.PipelineServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>pipeline</servlet-name>
+		<url-pattern>/_ah/pipeline/*</url-pattern>
+	</servlet-mapping>
+	<!-- Web Application Configuration  -->
+	<servlet>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+		<init-param>
+			<param-name>services</param-name>
+			<param-value>bnifsc.BnifscAPI</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<url-pattern>/_ah/spi/*</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>xyz.html</welcome-file>
+	</welcome-file-list>
 </web-app>

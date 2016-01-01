@@ -1,6 +1,7 @@
 package entities;
 
 import com.google.appengine.api.datastore.EmbeddedEntity;
+import persist.BankOfy;
 import util.Word;
 import com.google.appengine.api.datastore.Email;
 import com.googlecode.objectify.annotation.Entity;
@@ -45,7 +46,7 @@ public class Bank {
     }
 
     public Bank(String name) {
-        this.name = name;
+        this.name = WordUtils.capitalizeFully(name).trim();
     }
 
     public Boolean getPopular() {
@@ -77,7 +78,7 @@ public class Bank {
     }
 
     public void setName(String name) {
-        this.name = WordUtils.capitalizeFully(name);
+        this.name = WordUtils.capitalizeFully(name).trim();
     }
 
     public URL getImage() {
@@ -93,7 +94,7 @@ public class Bank {
     }
 
     public void setState(String state) {
-        this.state = Word.capitalize(state);
+        this.state = Word.capitalize(state).trim();
     }
 
     public String getDistrict() {
@@ -101,7 +102,7 @@ public class Bank {
     }
 
     public void setDistrict(String district) {
-        this.district = Word.capitalize(district);
+        this.district = Word.capitalize(district).trim();
     }
 
     public String getCity() {
@@ -109,7 +110,7 @@ public class Bank {
     }
 
     public void setCity(String city) {
-        this.city = Word.capitalize(city);
+        this.city = Word.capitalize(city).trim();
     }
 
     public String getAddress() {
@@ -117,7 +118,7 @@ public class Bank {
     }
 
     public void setAddress(String address) {
-        this.address = Word.capitalize(address);
+        this.address = Word.capitalize(address).trim();
     }
 
     public Email getEmail() {
@@ -170,8 +171,13 @@ public class Bank {
      * @return Bank
      */
     public static Bank createFromCSV(String line) {
-        Bank bank = new Bank(line);
-        bank.setAddDate(new Date());
+        Bank bank = BankOfy.loadByName(WordUtils.capitalizeFully(line).trim());
+        if (bank != null) {
+            bank.setUpdateDate(new Date());
+        } else {
+            bank = new Bank(line);
+            bank.setAddDate(new Date());
+        }
         return bank;
     }
 

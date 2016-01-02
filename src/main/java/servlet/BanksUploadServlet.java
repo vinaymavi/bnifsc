@@ -39,7 +39,7 @@ public class BanksUploadServlet extends HttpServlet {
                 String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBankSpec(KIND, bucket, gcsfile),
                         MapReduceSettings.getSettings()));
                 logger.warning("tracking URL @/_ah/pipeline/status.html?root=" + pipelineId);
-                resp.sendRedirect("/_ah/pipeline/status.html?root=" + pipelineId);
+                resp.getWriter().write("/_ah/pipeline/status.html?root=" + pipelineId);
             } else {
                 logger.warning("csv/banks.csv not exist");
                 resp.getWriter().write("csv/banks.csv not exist.");

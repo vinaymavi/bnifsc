@@ -40,7 +40,7 @@ public class BranchUploadServlet extends HttpServlet {
             if (gcsfile != null) {
                 String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBranchSpec(KIND, bucket, gcsfile), MapReduceSettings.getSettings()));
                 logger.warning("tracking URL @/_ah/pipeline/status.html?root=" + pipelineId);
-                resp.sendRedirect("/_ah/pipeline/status.html?root=" + pipelineId);
+                resp.getWriter().write("/_ah/pipeline/status.html?root=" + pipelineId);
             } else {
                 logger.warning("csv/branch.csv not exist");
                 resp.getWriter().write("csv/branch.csv not exist.");

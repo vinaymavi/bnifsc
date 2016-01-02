@@ -9,6 +9,7 @@ import com.google.appengine.tools.mapreduce.inputs.GoogleCloudStorageLineInput;
 import com.google.appengine.tools.mapreduce.outputs.DatastoreOutput;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -33,7 +34,7 @@ public class MapReduceSpec {
      */
     public static MapSpecification<byte[], Entity, Void> getBranchSpec(String kind, String bucket, GcsFilename gcsfile) {
 
-        String jobName = "Branch_upload";
+        String jobName = "Branch_upload" + new Date().toString();
         byte separator = (byte) '\n';
         // [START mapSpec]
         MapSpecification<byte[], Entity, Void> spec = new MapSpecification.Builder<>(
@@ -55,7 +56,7 @@ public class MapReduceSpec {
      * @return {{MapSpecification}}
      */
     public static MapSpecification<byte[], Entity, Void> getBankSpec(String kind, String bucket, GcsFilename gcsfile) {
-        String jobName = "Bank_upload";
+        String jobName = "Bank_upload" + new Date().toString();
         byte separator = (byte) '\n';
         MapSpecification<byte[], Entity, Void> spec = new MapSpecification.Builder<>(
                 new GoogleCloudStorageLineInput(gcsfile, separator, SHARD_COUNT),

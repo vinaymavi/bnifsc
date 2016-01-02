@@ -226,16 +226,12 @@ public class Branch {
         logger.warning("str=" + branchCsv);
         String[] branchPros = branchCsv.split("\";\"");
         logger.warning("Array Length" + branchPros.length);
-        for (String str : branchPros) {
-            logger.warning(str);
-        }
         //Getting props from branch str.
         String bankName = WordUtils.capitalizeFully(StringUtils.substringAfter(branchPros[0], "\""));
-        logger.warning(bankName);
         Bank bank = BankOfy.loadByName(bankName);
 //        Bank bank = null;
         String state = WordUtils.capitalizeFully(StringUtils.substringBefore(branchPros[8], "\""));
-        logger.warning(state);
+
         String district = WordUtils.capitalizeFully(branchPros[7]).trim();
         String city = WordUtils.capitalizeFully(branchPros[6]).trim();
         String branchName = WordUtils.capitalizeFully(branchPros[3]).trim();

@@ -22,6 +22,9 @@ public class GoogleCloudStorage {
         } catch (IOException ioe) {
             logger.warning(ioe.getMessage());
             return null;
+        } catch (NullPointerException npe) {
+            logger.warning(npe.getMessage());
+            return null;
         }
 
     }

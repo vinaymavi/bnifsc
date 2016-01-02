@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class MapReduceSpec {
     public static final Logger log = Logger.getLogger(MapReduceSpec.class.getName());
-    public static final int SHARD_COUNT = 20;
+    public static final int SHARD_COUNT = 10;
     public static final String KIND = "Branch";
 
     private MapReduceSpec() {

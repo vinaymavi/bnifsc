@@ -35,10 +35,16 @@ public class BanksUploadServlet extends HttpServlet {
             String gcsObject = "csv/banks.csv";
             PipelineService service = PipelineServiceFactory.newPipelineService();
             GcsFilename gcsfile = GoogleCloudStorage.createFile(bucket, gcsObject);
-            String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBankSpec(KIND, bucket, gcsfile),
-                    MapReduceSettings.getSettings()));
-            logger.warning("tracking URL @/_ah/pipeline/status.html?root=" + pipelineId);
-            resp.sendRedirect("/_ah/pipeline/status.html?root=" + pipelineId);
+            if (gcsfile != null) {
+                String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBankSpec(KIND, bucket, gcsfile),
+                        MapReduceSettings.getSettings()));
+                logger.warning("tracking URL @/_ah/pipeline/status.html?root=" + pipelineId);
+                resp.sendRedirect("/_ah/pipeline/status.html?root=" + pipelineId);
+            } else {
+                logger.warning("csv/banks.csv not exist");
+                resp.getWriter().write("csv/banks.csv not exist.");
+            }
+
         } catch (IOException ioe) {
             logger.warning(ioe.getMessage());
         }

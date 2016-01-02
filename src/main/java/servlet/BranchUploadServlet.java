@@ -1,6 +1,7 @@
 package servlet;
 
 import com.google.appengine.tools.cloudstorage.GcsFilename;
+import com.google.apphosting.api.ApiProxy;
 import gcs.GoogleCloudStorage;
 import mapreduce.MapReduceSettings;
 import mapreduce.MapReduceSpec;
@@ -25,43 +26,27 @@ public class BranchUploadServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        try {
-            PrintWriter out = resp.getWriter();
-            out.write("<html>" +
-                    "<head>" +
-                    "<title>Branch Upload</title>" +
-                    "</head>" +
-                    "<body>" +
-                    "<form method='post'>" +
-                    "Email <input type='text' name='email'/><br/>" +
-                    "Bucket <input type='text' name='bucket'/><br/>" +
-                    "CSV File <input type='text' name='csvfile'/><br/>" +
-                    "<input type='submit'/>" +
-                    "</form>" +
-                    "</body>" +
-                    "</html>");
-        } catch (IOException ioe) {
-            logger.warning(ioe.getMessage());
-        }
-    }
+        ApiProxy.Environment env = ApiProxy.getCurrentEnvironment();
+        logger.warning("host=" + env.getAttributes().get("com.google.appengine.runtime.default_version_hostname"));
+        String host = (String) env.getAttributes().get("com.google.appengine.runtime.default_version_hostname");
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        String email = req.getParameter("email");
-        String bucket = req.getParameter("bucket");
-        String csvFile = req.getParameter("csvfile");
-        logger.warning("Branch Uploader Email address=" + email);
-        if (email.equals("vinaymavi@gmail.com")) {
-            try {
-                String KIND = "Branch";
-                PipelineService service = PipelineServiceFactory.newPipelineService();
-                GcsFilename gcsfile = GoogleCloudStorage.createFile(bucket, "csv/" + csvFile);
+        String KIND = "Branch";
+        logger.warning("app_id=" + host.split("\\.")[0]);
+        String bucket = host.split("\\.")[0];
+        String gcsObject = "csv/banks.csv";
+        PipelineService service = PipelineServiceFactory.newPipelineService();
+        try {
+            GcsFilename gcsfile = GoogleCloudStorage.createFile(bucket, gcsObject);
+            if (gcsfile != null) {
                 String pipelineId = service.startNewPipeline(new MapJob<>(MapReduceSpec.getBranchSpec(KIND, bucket, gcsfile), MapReduceSettings.getSettings()));
                 logger.warning("tracking URL @/_ah/pipeline/status.html?root=" + pipelineId);
                 resp.sendRedirect("/_ah/pipeline/status.html?root=" + pipelineId);
-            } catch (IOException ioe) {
-                logger.warning(ioe.getMessage());
+            } else {
+                logger.warning("csv/branch.csv not exist");
+                resp.getWriter().write("csv/branch.csv not exist.");
             }
+        } catch (IOException ioe) {
+            logger.warning(ioe.getMessage());
         }
     }
 }

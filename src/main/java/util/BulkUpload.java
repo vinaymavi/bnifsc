@@ -1,4 +1,7 @@
 package util;
+/**
+ * This file has no more use.
+ */
 
 import java.io.BufferedReader;
 import java.io.IOException;

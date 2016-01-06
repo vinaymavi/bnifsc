@@ -33,7 +33,7 @@ import javax.inject.Named;
  * An endpoint class we are exposing
  */
 @Api(name = "bnifsc",
-        version = "v2",
+        version = "v1",
         scopes = {Constants.EMAIL_SCOPE},
         clientIds = {Constants.WEB_CLIENT_ID, com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID},
         audiences = {Constants.ANDROID_AUDIENCE})
@@ -100,19 +100,6 @@ public class BnifscAPI {
         return null;
     }
 
-
-    @ApiMethod(name = "admin.importBranches")
-    public List<Branch> importBranches(@Named("bucket") String bucket,
-                                       @Named("fileName") String fileName, User user) {
-        if (Auth.validate(user)) {
-            BulkUpload bulkUpload = new BulkUpload();
-            bulkUpload.setBucket(bucket);
-            bulkUpload.setFileName(fileName);
-            return bulkUpload.importBranch();
-        }
-        return null;
-    }
-
     @ApiMethod(name = "public.branches")
     public List<Branch> branches(
             @Named("bankName") String bankName,
@@ -150,6 +137,7 @@ public class BnifscAPI {
         return branchOfy.districtsList(Word.capitalize(bankName), stateName);
     }
 
+    /*TODO check use of this function.*/
     @ApiMethod(name = "admin.createGcsFile")
     public List<String> createGcsFile(@Named("fileName") String fileName, @Named("content") String content, User user) {
         StringBuilder strBuilder = new StringBuilder();

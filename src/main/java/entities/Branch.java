@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 @Entity(name = "Branch")
 public class Branch {
+    /*TODO implement toString function for logging*/
     @Id
     private String id;
     @Index

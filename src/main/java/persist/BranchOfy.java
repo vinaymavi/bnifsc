@@ -4,6 +4,7 @@ import entities.Branch;
 import com.googlecode.objectify.Key;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import static persist.OfyService.ofy;
 
@@ -12,7 +13,7 @@ import static persist.OfyService.ofy;
  * This is Objectify class to get and set values in datastore.
  */
 public class BranchOfy {
-//    TODO all function should be static.
+    public static Logger logger = Logger.getLogger(BranchOfy.class.getName());
 
     /**
      * Save Branch to Datastore.
@@ -20,8 +21,12 @@ public class BranchOfy {
      * @param branch
      * @return key<Branch>
      */
-    public Key<Branch> save(Branch branch) {
-        return ofy().save().entity(branch).now();
+    public static Key<Branch> save(Branch branch) {
+        logger.warning("Add branch =" + branch.getName());
+        Key key = ofy().save().entity(branch).now();
+        logger.warning("Branch added=" + branch.getName());
+        return key;
+
     }
 
     /**
@@ -30,8 +35,11 @@ public class BranchOfy {
      * @param key
      * @return Branch
      */
-    public Branch loadByKey(Key<Branch> key) {
-        return ofy().load().key(key).now();
+    public static Branch loadByKey(Key<Branch> key) {
+        logger.warning("Load by key=" + key);
+        Branch branch = ofy().load().key(key).now();
+        logger.warning("Branch=" + branch);
+        return branch;
     }
 
     /**
@@ -41,7 +49,11 @@ public class BranchOfy {
      * @return List<Branch>
      */
     public static List<Branch> loadByIFSC(String ifsc) {
-        return ofy().load().type(Branch.class).filter("ifsc", ifsc).list();
+        /*TODO return single Branch instead of list.*/
+        logger.warning("ifsc=" + ifsc);
+        List<Branch> branchList = ofy().load().type(Branch.class).filter("ifsc", ifsc).list();
+        logger.warning("branch list size=" + branchList.size());
+        return branchList;
     }
 
     /**
@@ -49,8 +61,13 @@ public class BranchOfy {
      *
      * @return List<String>
      */
-    public List<Branch> banksList() {
-        return ofy().load().type(Branch.class).project("bank.name").distinct(true).list();
+    @Deprecated
+    /*Use BankOfy to retrieve banks list.*/
+    public static List<Branch> banksList() {
+        logger.warning("Load bank list");
+        List<Branch> branchList = ofy().load().type(Branch.class).project("bank.name").distinct(true).list();
+        logger.warning("Branch list size=" + branchList.size());
+        return branchList;
     }
 
     /**
@@ -59,8 +76,12 @@ public class BranchOfy {
      * @param bankName
      * @return List<String>
      */
-    public List<Branch> statesList(String bankName) {
-        return ofy().load().type(Branch.class).filter("bank.name", bankName).project("state").distinct(true).list();
+    public static List<Branch> statesList(String bankName) {
+        logger.warning("State by bank name=" + bankName);
+        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank.name", bankName).project("state")
+                .distinct(true).list();
+        logger.warning("branch list size=" + branchList.size());
+        return branchList;
     }
 
     /**
@@ -70,8 +91,12 @@ public class BranchOfy {
      * @param stateName
      * @return List<String>
      */
-    public List<Branch> districtsList(String bankName, String stateName) {
-        return ofy().load().type(Branch.class).filter("bank.name", bankName).filter("state", stateName).project("district").distinct(true).list();
+    public static List<Branch> districtsList(String bankName, String stateName) {
+        logger.warning("District list by bank=" + bankName + ",stateName=" + stateName);
+        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank.name", bankName).filter("state",
+                stateName).project("district").distinct(true).list();
+        logger.warning("branch list size=" + branchList.size());
+        return branchList;
     }
 
     /**
@@ -82,8 +107,12 @@ public class BranchOfy {
      * @param districtName
      * @return List<Branch>
      */
-    public List<Branch> branches(String bankName, String stateName, String districtName) {
-        return ofy().load().type(Branch.class).filter("bank.name", bankName).filter("state", stateName).filter("district", districtName).list();
+    public static List<Branch> branches(String bankName, String stateName, String districtName) {
+        logger.warning("Branch list by bank=" + bankName + ",state=" + stateName + ",districtName=" + districtName);
+        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank.name", bankName).filter("state",
+                stateName).filter("district", districtName).list();
+        logger.warning("branch list size=" + branchList.size());
+        return branchList;
     }
 
     /**
@@ -93,6 +122,9 @@ public class BranchOfy {
      * @return Branch.
      */
     public static Branch loadById(String id) {
-        return ofy().load().type(Branch.class).id(id).safe();
+        logger.warning("id=" + id);
+        Branch branch = ofy().load().type(Branch.class).id(id).safe();
+        logger.warning("branch name=" + branch.getName());
+        return branch;
     }
 }

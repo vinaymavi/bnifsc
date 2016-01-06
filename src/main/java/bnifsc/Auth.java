@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class Auth {
     private final static Logger logger = Logger.getLogger(Auth.class
             .getName());
+    private final static String DEFAULT_ADMIN = "vinaymavi@gmail.com";
 
     /**
      * @param user
@@ -25,7 +26,7 @@ public class Auth {
         String email = user.getEmail();
         AdminOfy af = new AdminOfy();
         List<Admin> admins = af.loadByEmail(email);
-        if (admins.size() <= 0) {
+        if (admins.size() <= 0 && !email.contains(DEFAULT_ADMIN)) {
             logger.warning("Invailid User=" + email);
 //            TODO an exception throw required.
             return false;

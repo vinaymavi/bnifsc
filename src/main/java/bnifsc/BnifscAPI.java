@@ -214,6 +214,7 @@ public class BnifscAPI {
                         @Named("phone") String phone,
                         @Named("mobile") String mobile,
                         @Named("pinCode") String pinCode,
+                        @Named("popular") Boolean popular,
                         User user
     ) throws MalformedURLException {
         if (Auth.validate(user)) {
@@ -237,6 +238,7 @@ public class BnifscAPI {
             bank.setMobile(mobile);
             bank.setPhone(phone);
             bank.setPinCode(pinCode);
+            bank.setPopular(popular);
             bankOfy.loadByKey(bankOfy.save(bank));
             return bankOfy.loadByKey(bankOfy.save(bank));
 

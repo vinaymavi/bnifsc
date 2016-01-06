@@ -28,7 +28,6 @@ public class Auth {
         List<Admin> admins = af.loadByEmail(email);
         if (admins.size() <= 0 && !email.contains(DEFAULT_ADMIN)) {
             logger.warning("Invailid User=" + email);
-//            TODO an exception throw required.
             return false;
         }
         logger.warning("valid login=" + email);

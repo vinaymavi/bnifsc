@@ -49,12 +49,11 @@ public class BranchOfy {
      * @param ifsc
      * @return List<Branch>
      */
-    public static List<Branch> loadByIFSC(String ifsc) {
-        /*TODO return single Branch instead of list.*/
+    public static Branch loadByIFSC(String ifsc) {
         logger.warning("ifsc=" + ifsc);
-        List<Branch> branchList = ofy().load().type(Branch.class).filter("ifsc", ifsc).list();
-        logger.warning("branch list size=" + branchList.size());
-        return branchList;
+        Branch branch = ofy().load().type(Branch.class).filter("ifsc", ifsc).first().now();
+        logger.warning("branch =" + branch);
+        return branch;
     }
 
     /**
@@ -65,7 +64,6 @@ public class BranchOfy {
     @Deprecated
     /*Use BankOfy to retrieve banks list.*/
     public static List<Branch> banksList() {
-        /*TODO implement Bank list function inside BankOfy.*/
         logger.warning("Load bank list");
         List<Branch> branchList = ofy().load().type(Branch.class).project("bank.name").distinct(true).list();
         logger.warning("Branch list size=" + branchList.size());

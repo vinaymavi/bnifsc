@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 
 @Entity(name = "Branch")
 public class Branch {
-    /*TODO implement toString function for logging*/
     @Id
     private String id;
     @Index
@@ -268,9 +267,8 @@ public class Branch {
         //Add and update date.
         Date updateDate;
         Date addDate;
-        List<Branch> branchList = bf.loadByIFSC(ifsc);
-        if (branchList.size() > 0) {
-            branch = branchList.get(0);
+        branch = bf.loadByIFSC(ifsc);
+        if (branch != null) {
             updateDate = new Date();
             addDate = branch.getAddDate();
         } else {

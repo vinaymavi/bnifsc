@@ -27,7 +27,7 @@ public class BankOfy {
         return ofy().load().key(key).now();
     }
 
-    /*TODO load single Entity*/
+
     public static Bank loadByName(String name) {
         logger.warning("Req Get bank by name= " + name);
         Bank bank = ofy().load().type(Bank.class).filter("name", name).first().now();

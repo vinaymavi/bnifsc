@@ -21,7 +21,7 @@ public class BranchIndexer {
      * @return {{Document}}
      */
     public Document createDoc(Branch branch) {
-//        TODO inclue State,district,city in address for more efficient search.
+//        TODO include State,district,city in address for more efficient search.
         Document doc = Document.newBuilder()
                 .setId(branch.getIfsc())
                 .addField(Field.newBuilder().setName("ifsc").setText(branch.getIfsc()))

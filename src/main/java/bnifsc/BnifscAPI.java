@@ -64,10 +64,8 @@ public class BnifscAPI {
                             @Named("pin") String pinCode,
                             User user) throws Exception {
         if (Auth.validate(user)) {
-            Branch branch = null;
-            List<Branch> branchList = BranchOfy.loadByIFSC(ifsc.trim());
-            if (branchList.size() > 0) {
-                branch = branchList.get(0);
+            Branch branch = BranchOfy.loadByIFSC(ifsc.trim());
+            if (branch != null) {
                 branch.setUpdateDate(new Date());
             } else {
                 branch = new Branch();
@@ -173,7 +171,7 @@ public class BnifscAPI {
     }
 
     @ApiMethod(name = "public.branchByIFSC")
-    public List<Branch> branchIfsc(@Named("ifsc") String ifsc) {
+    public Branch branchIfsc(@Named("ifsc") String ifsc) {
         return branchOfy.loadByIFSC(ifsc.trim());
     }
 

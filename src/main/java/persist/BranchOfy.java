@@ -1,5 +1,6 @@
 package persist;
 
+import entities.Bank;
 import entities.Branch;
 import com.googlecode.objectify.Key;
 
@@ -64,6 +65,7 @@ public class BranchOfy {
     @Deprecated
     /*Use BankOfy to retrieve banks list.*/
     public static List<Branch> banksList() {
+        /*TODO implement Bank list function inside BankOfy.*/
         logger.warning("Load bank list");
         List<Branch> branchList = ofy().load().type(Branch.class).project("bank.name").distinct(true).list();
         logger.warning("Branch list size=" + branchList.size());
@@ -78,7 +80,8 @@ public class BranchOfy {
      */
     public static List<Branch> statesList(String bankName) {
         logger.warning("State by bank name=" + bankName);
-        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank.name", bankName).project("state")
+        Bank bank = BankOfy.loadByName(bankName);
+        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank", bank).project("state")
                 .distinct(true).list();
         logger.warning("branch list size=" + branchList.size());
         return branchList;
@@ -93,7 +96,8 @@ public class BranchOfy {
      */
     public static List<Branch> districtsList(String bankName, String stateName) {
         logger.warning("District list by bank=" + bankName + ",stateName=" + stateName);
-        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank.name", bankName).filter("state",
+        Bank bank = BankOfy.loadByName(bankName);
+        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank", bank).filter("state",
                 stateName).project("district").distinct(true).list();
         logger.warning("branch list size=" + branchList.size());
         return branchList;
@@ -109,7 +113,8 @@ public class BranchOfy {
      */
     public static List<Branch> branches(String bankName, String stateName, String districtName) {
         logger.warning("Branch list by bank=" + bankName + ",state=" + stateName + ",districtName=" + districtName);
-        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank.name", bankName).filter("state",
+        Bank bank = BankOfy.loadByName(bankName);
+        List<Branch> branchList = ofy().load().type(Branch.class).filter("bank", bank).filter("state",
                 stateName).filter("district", districtName).list();
         logger.warning("branch list size=" + branchList.size());
         return branchList;

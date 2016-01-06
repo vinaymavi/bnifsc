@@ -62,7 +62,11 @@ public class Branch {
     }
 
     public Bank getBank() {
-        return bank.get();
+        if (bank != null) {
+            return bank.get();
+        }
+        return null;
+
     }
 
     public void setBank(Bank bank) {

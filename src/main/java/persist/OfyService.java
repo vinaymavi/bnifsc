@@ -27,7 +27,6 @@ public class OfyService {
         factory().register(Admin.class);
         factory().register(Branch.class);
         factory().register(Bank.class);
-        logger.warning("Classes registered for Objectify service.");
     }
 
     public static Objectify ofy() {

@@ -105,7 +105,7 @@ public class BnifscAPI {
             @Named("bankName") String bankName,
             @Named("stateName") String stateName,
             @Named("districtName") String districtName) {
-        return branchOfy.branches(Word.capitalize(bankName), stateName, districtName);
+        return branchOfy.branches(Word.capitalize(bankName), Word.capitalize(stateName), Word.capitalize(districtName));
     }
 
     @ApiMethod(name = "public.banks")
@@ -134,7 +134,7 @@ public class BnifscAPI {
     @ApiMethod(name = "public.districts")
     public List<Branch> districts(@Named("bankName") String bankName,
                                   @Named("stateName") String stateName) {
-        return branchOfy.districtsList(Word.capitalize(bankName), stateName);
+        return branchOfy.districtsList(Word.capitalize(bankName), Word.capitalize(stateName));
     }
 
     /*TODO check use of this function.*/

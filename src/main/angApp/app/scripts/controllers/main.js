@@ -51,7 +51,7 @@ angular.module('bnifscApp')
                     deferred.resolve(resp.branches);
                 });
                 return deferred.promise;
-            }else{
+            } else {
                 return results;
             }
 

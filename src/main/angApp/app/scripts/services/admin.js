@@ -9,6 +9,7 @@ angular.module('bnifscApp')
          * @param cb function
          */
         var self = this;
+        self.appLoaded = false;
         self.login = function (cb) {
             gapi.auth.authorize({
                     client_id: CLIENT_ID,

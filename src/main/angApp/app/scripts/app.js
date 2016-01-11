@@ -23,10 +23,16 @@ angular
     .config(function ($routeProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/");
         $stateProvider.state("admin", {
-            url: "/admin",
-            templateUrl: "views/admin.html",
-            controller: "AdminCtrl"
-        })
+                url: "/admin",
+                templateUrl: "views/admin.html",
+                controller: "AdminCtrl"
+            })
+            .state("login", {
+                url: "/login",
+                templateUrl: "views/login.html",
+                controller: "LoginCtrl"
+            })
+
 
         // Set hashbang mode mode.
         $locationProvider.hashPrefix('!');
@@ -34,8 +40,8 @@ angular
 
 
 function init() {
-    var ROOT = 'https://bnifsc-beta.appspot.com/_ah/api';
-    gapi.client.load('bnifsc', 'v2', function () {
+    var ROOT = 'https://bnifsc-beta-01.appspot.com/_ah/api';
+    gapi.client.load('bnifsc', 'v1', function () {
         window.init();
     }, ROOT);
 }

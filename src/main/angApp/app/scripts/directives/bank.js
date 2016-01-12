@@ -1,27 +1,34 @@
 'use strict';
 
 angular.module('bnifscApp')
-    .directive('bank', function () {
+    .directive('bank', function ($filter) {
         return {
             scope: {
-                banks: '='
+                banks: '=',
+                bankFilter: '='
             },
             restrict: 'EA',
             link: function postLink(scope, element, attrs) {
 
                 if (scope.banks) {
-                    render(banks);
+                    render(scope.banks);
                 }
 
                 scope.$watch("banks", function (banks) {
                     console.log(banks);
-                    render(banks)
+                    render(banks,scope.bankFilter);
                 });
 
-                function render(banks) {
+                scope.$watch("bankFilter", function (bankFilter) {
+                    console.log(bankFilter);
+                    render(scope.banks,bankFilter);
+                });
+
+                function render(items, filterStr) {
                     var html = [];
+                    var filterItems = $filter('filter')(items,filterStr);
                     html.push("<!--Bank Start-->")
-                    angular.forEach(banks, function (value, index) {
+                    angular.forEach(filterItems, function (value, index) {
                         console.log(value.name);
                         html.push("<div class='col-lg-12'><a href='#'>" + value.name + "</a></div>")
                     });

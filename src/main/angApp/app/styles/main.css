@@ -1,14 +1,25 @@
-.caret{
-	border: none;
-}
-h1{
-	border-left: 1px solid gray;
-	padding-left: 20px;
-}
-.margin-10{
-	margin-bottom: 10px;
+.caret {
+    border: none;
 }
 
-.font-25{
-	font-size: 25px;
+h1 {
+    border-left: 1px solid gray;
+    padding-left: 20px;
+}
+
+.margin-10 {
+    margin-bottom: 10px;
+}
+
+.font-25 {
+    font-size: 25px;
+}
+
+body,html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+.full-h{
+    height: 100vh;
 }

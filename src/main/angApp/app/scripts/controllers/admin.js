@@ -2,6 +2,7 @@
 
 angular.module('bnifscApp')
     .controller('AdminCtrl', function ($scope, $window, bnifsc, admin, $timeout) {
+        $scope.bankFilter='';
         function init() {
             if (admin.appLoaded) {
                 bnifsc.banks(function (resp) {

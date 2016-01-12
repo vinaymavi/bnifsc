@@ -2,7 +2,7 @@
 
 angular.module('bnifscApp')
     .controller('AdminCtrl', function ($scope, $window, bnifsc, admin, $timeout) {
-        $scope.bankFilter='';
+        $scope.bankFilter = '';
         function init() {
             if (admin.appLoaded) {
                 bnifsc.banks(function (resp) {
@@ -16,8 +16,12 @@ angular.module('bnifscApp')
         /*Initialization of function*/
         $window.init = function () {
             console.log("init calling");
-            admin.appLoaded = true;
-            init();
+            admin.appLoaded = true;            
+            $scope.$emit("appLoaded");
         }
+
+        $scope.$on("appLoaded", function () {
+            init();
+        })
         init();
     });

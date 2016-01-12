@@ -225,6 +225,7 @@ public class BnifscAPI {
                 bank = new Bank();
                 bank.setAddDate(new Date());
             }
+            /*TODO add updated date.*/
             bank.setId(name);
             bank.setName(name);
             bank.setImage(new URL(image));
@@ -245,5 +246,10 @@ public class BnifscAPI {
         }
         return null;
 
+    }
+
+    @ApiMethod(name = "admin.bank.loadByName", httpMethod = "GET")
+    public Bank bankLoadByName(@Named("name") String name) {
+        return BankOfy.loadByName(Word.capitalize(name));
     }
 }

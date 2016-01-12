@@ -22,10 +22,16 @@ angular
     ])
     .config(function ($routeProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/");
-        $stateProvider.state("admin", {
+        $stateProvider
+            .state("admin", {
                 url: "/admin",
                 templateUrl: "views/admin.html",
                 controller: "AdminCtrl"
+            })
+            .state("admin.bank", {
+                url: "/bank/:name",
+                templateUrl: "views/bank.html"  ,
+                controller: "BankCtrl"
             })
             .state("login", {
                 url: "/login",

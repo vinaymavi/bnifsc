@@ -1,39 +1,36 @@
 'use strict';
 
 angular.module('bnifscApp')
-    .directive('bank', function ($filter) {
+    .directive('bank', function ($filter, $compile,$state) {
         return {
             scope: {
-                banks: '=',
+                items: '=',
                 bankFilter: '='
             },
             restrict: 'EA',
             link: function postLink(scope, element, attrs) {
 
                 if (scope.banks) {
-                    render(scope.banks);
+                    render(scope.items);
                 }
 
-                scope.$watch("banks", function (banks) {
-                    console.log(banks);
-                    render(banks,scope.bankFilter);
+                scope.$watch("items", function (banks) {                    
+                    render(banks, scope.bankFilter);
                 });
 
-                scope.$watch("bankFilter", function (bankFilter) {
-                    console.log(bankFilter);
-                    render(scope.banks,bankFilter);
+                scope.$watch("bankFilter", function (bankFilter) {                    
+                    render(scope.items, bankFilter);
                 });
 
                 function render(items, filterStr) {
                     var html = [];
-                    var filterItems = $filter('filter')(items,filterStr);
+                    var filterItems = $filter('filter')(items, filterStr);
                     html.push("<!--Bank Start-->")
-                    angular.forEach(filterItems, function (value, index) {
-                        console.log(value.name);
-                        html.push("<div class='col-lg-12'><a href='#'>" + value.name + "</a></div>")
+                    angular.forEach(filterItems, function (value, index) {                        
+                        html.push("<div class='col-lg-12'><a href='"+$state.href("admin.bank",{name:value.name})+"'>" + value.name + "</a></div>")
                     });
                     html.push("<!--Bank End-->")
-                    element.html(html.join(''));
+                    element.html(html.join(''));                    
                 }
 
             }

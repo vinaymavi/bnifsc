@@ -10,6 +10,7 @@ angular.module('bnifscApp')
                     console.log(resp);
                     $timeout(function () {
                         $scope.bank = resp;
+                        $scope.bank.email = resp.email.email;
                         $scope.bank.image = "http://www.apnaatmsite.com/images/bank.jpg";
                     }, 0);
 

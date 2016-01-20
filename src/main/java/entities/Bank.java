@@ -24,6 +24,8 @@ public class Bank {
     String id;
     @Index
     String name;
+    @Index
+    String acronym;
     URL image;
     /*Bank head office details.*/
     @Index
@@ -163,6 +165,13 @@ public class Bank {
         this.mobile = mobile.trim();
     }
 
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
 
     /**
      * @param line String

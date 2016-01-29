@@ -38,6 +38,11 @@ angular
                 templateUrl: "views/login.html",
                 controller: "LoginCtrl"
             })
+           .state("home",{
+              url:"/",
+             templateUrl:"views/home.html",
+             "controller":"HomeCtrl"
+           })
 
 
         // Set hashbang mode mode.

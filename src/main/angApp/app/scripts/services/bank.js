@@ -1,22 +1,35 @@
 'use strict';
 
 angular.module('bnifscApp')
-    .factory('bank', function () {
-        function loadByName(name, cb) {
-            gapi.client.bnifsc.admin.bank.loadByName({'name': name}).execute(function (resp) {
-                cb(resp);
-            });
-        }
+  .factory('bank', function () {
 
-        function save(bank, cb) {
-            gapi.client.bnifsc.admin.addBank(bank).execute(function (resp) {
-                cb(resp);
-            });
-        }
+    function emitReq(scope) {
+      scope.$emit("ajaxReq");
+    }
 
-        // Public API here
-        return {
-            loadByName: loadByName,
-            save: save
-        };
-    });
+    function emitResp(scope) {
+      scope.$emit("ajaxResp");
+    }
+
+    function loadByName(name, scope, cb) {
+      emitReq(scope);
+      gapi.client.bnifsc.admin.bank.loadByName({'name': name}).execute(function (resp) {
+        emitResp(scope);
+        cb(resp);
+      });
+    }
+
+    function save(bank, cb) {
+      emitReq(scope);
+      gapi.client.bnifsc.admin.addBank(bank).execute(function (resp) {
+        emitResp(scope);
+        cb(resp);
+      });
+    }
+
+    // Public API here
+    return {
+      loadByName: loadByName,
+      save: save
+    };
+  });

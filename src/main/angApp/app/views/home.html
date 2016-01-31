@@ -1,38 +1,38 @@
-<md-whiteframe class="md-whiteframe-z1" layout>
-    <div class='col-sm-2 col-xs-6 col-lg-2 col-md-2'>
-        <a ng-href="#"><img src="images/bnifsc_s.png" style="margin: 35px 30px;"></a>
-    </div>
-    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" style="width: 90%;margin: 20px;s">
-        <h1>All Indian Banks IFSC codes</h1>
-    </div>
-</md-whiteframe>
-
-<div layout="row" ng-show="ajaxrequest" layout-sm="column" layout-align="space-around">
-    <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
-</div>
-<br/>
-<div class="row" style="margin:0px;padding:0px">
-    <div class="panel panel-default ">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>{{panelTitle}}</h2>
-                </div>
-            </div>
+<div class="col-lg-offset-1 col-md-offset-1 col-lg-10 col-md-10">
+    <md-whiteframe class="md-whiteframe-z1 ng-scope" layout="">
+        <div class="col-sm-2 col-xs-6 col-lg-2 col-md-2">
+            <a ng-href="#" href="#"><img src="images/bnifsc_s.png" style="margin:22px"></a>
         </div>
-        <div class="panel-body">
-            <div class="col-lg-12 " ng-init="handle=''" ng-repeat="(key, value) in viewObj.itemsList">
-                <div ng-if="handle!==key" class='row'>
-                    <div class='col-lg-4' ng-init="handle=key"><span class='font-25'>
-            {{handle}}
-          </span></div>
-                </div>
-                <div class='row'>
-                    <div ng-repeat="item in value" class='col-lg-4 anchor margin-10'>
-                        <a ng-href="#!{{item.name}}/">{{item.name}}</a>
+        <div><h1>All Indian Banks IFSC codes</h1></div>
+    </md-whiteframe>
+
+    <div layout="row" ng-show="ajaxrequest" layout-sm="column" layout-align="space-around">
+        <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <br/>
+    <div class="row" style="margin:0px;padding:0px">
+        <div class="panel panel-default ">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>{{panelTitle}}</h2>
                     </div>
                 </div>
-                <hr/>
+            </div>
+            <div class="panel-body">
+                <div class="col-lg-12 " ng-init="handle=''" ng-repeat="(key, value) in viewObj.itemsList">
+                    <div ng-if="handle!==key" class='row'>
+                        <div class='col-lg-4' ng-init="handle=key"><span class='font-25'>
+            {{handle}}
+          </span></div>
+                    </div>
+                    <div class='row'>
+                        <div ng-repeat="item in value" class='col-lg-4 anchor margin-10'>
+                            <a ng-href="#!{{item.name}}/">{{item.name}}</a>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
             </div>
         </div>
     </div>

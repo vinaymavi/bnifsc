@@ -5,6 +5,7 @@ package mapreduce;
 import entities.Branch;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.MapOnlyMapper;
+import util.BranchIndexer;
 
 import java.util.Random;
 import java.util.logging.Logger;
@@ -31,9 +32,10 @@ public class BranchMapper extends MapOnlyMapper<byte[], Entity> {
         logger.warning("********************** Branch Update start **********************");
         logger.warning("branch csv line=" + branchCsv);
         Branch branch = Branch.fromCSVLine(branchCsv);
-        //Search index.
-        //BranchIndexer bsi = new BranchIndexer();
-        //BranchIndexer.put(bsi.createDoc(branch));
+
+        /*Put data to search index*/
+        BranchIndexer bsi = new BranchIndexer();
+        BranchIndexer.put(bsi.createDoc(branch));
 
         //Entity Creator
         // TODO put entity creation part to Branch class.

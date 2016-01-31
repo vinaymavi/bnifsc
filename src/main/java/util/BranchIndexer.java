@@ -21,12 +21,15 @@ public class BranchIndexer {
      * @return {{Document}}
      */
     public Document createDoc(Branch branch) {
-//        TODO include State,district,city in address for more efficient search.
+        String fullText = branch.getState() + " " +
+                branch.getDistrict() + " " +
+                branch.getCity() + " " +
+                branch.getAddress();
         Document doc = Document.newBuilder()
                 .setId(branch.getIfsc())
                 .addField(Field.newBuilder().setName("ifsc").setText(branch.getIfsc()))
-                .addField(Field.newBuilder().setName("address").setText(branch.getAddress()))
-                .addField(Field.newBuilder().setName("bankName").setText(branch.getBankName()))
+                .addField(Field.newBuilder().setName("fullText").setText(fullText))
+                .addField(Field.newBuilder().setName("bankName").setText(branch.getBank().getName()))
                 .build();
         logger.warning("Document created.");
         return doc;
@@ -44,8 +47,9 @@ public class BranchIndexer {
             index.put(doc);
             logger.warning("Document pushed.");
         } catch (PutException e) {
+            logger.warning(e.getMessage());
             if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-                // retry putting the document
+                BranchIndexer.put(doc);
             }
         }
     }

@@ -19,7 +19,7 @@ angular.module('bnifscApp')
       });
     }
 
-    function save(bank, cb) {
+    function save(bank,scope, cb) {
       emitReq(scope);
       gapi.client.bnifsc.admin.addBank(bank).execute(function (resp) {
         emitResp(scope);

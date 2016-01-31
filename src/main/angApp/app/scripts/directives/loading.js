@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bnifscApp')
-  .directive('loading', function () {
+  .directive('loading', function ($timeout) {
     return {
       restrict: 'C',
       link: function postLink(scope, element, attrs) {
@@ -15,11 +15,14 @@ angular.module('bnifscApp')
 
         /*Ajax resp listener*/
         scope.$on("ajaxResp", function () {
-          numOfAjaxReq--;
+          $timeout(()=> {
+            numOfAjaxReq--;
+          }, 0);
           console.log("ajax resp");
         });
 
         scope.isLoading = function () {
+          console.log("Num Of Ajax Req=" + numOfAjaxReq);
           return numOfAjaxReq === 0
         };
 

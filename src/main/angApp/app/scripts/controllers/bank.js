@@ -10,8 +10,8 @@ angular.module('bnifscApp')
           console.log(resp);
           $timeout(function () {
             $scope.bank = resp;
-            $scope.bank.email = resp.email.email;
             $scope.bank.image = "http://www.apnaatmsite.com/images/bank.jpg";
+            $scope.bank.email = resp.email.email;
           }, 0);
 
         });
@@ -20,7 +20,7 @@ angular.module('bnifscApp')
 
     $scope.save = function () {
       console.log("save calling");
-      bank.save($scope.bank, function (resp) {
+      bank.save($scope.bank, $scope, function (resp) {
         console.log(resp);
       });
     };

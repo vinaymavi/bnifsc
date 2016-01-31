@@ -41,4 +41,15 @@ public class BankOfy {
         logger.warning("Resp all banks list size = " + bankList.size());
         return bankList;
     }
+
+    /**
+     * Return List of popular banks.
+     *  @return List<Banks>
+     */
+    public List<Bank> popularBanks() {
+        logger.warning("req");
+        List<Bank> banks = ofy().load().type(Bank.class).filter("popular", true).list();
+        logger.warning("resp size=" + banks.size());
+        return banks;
+    }
 }

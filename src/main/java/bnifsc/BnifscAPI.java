@@ -111,6 +111,11 @@ public class BnifscAPI {
         return bankOfy.listAll();
     }
 
+    @ApiMethod(name = "public.popularBanks")
+    public List<Bank> popularBanks() {
+        return bankOfy.popularBanks();
+    }
+
     /**
      * List of states by bank name.
      *

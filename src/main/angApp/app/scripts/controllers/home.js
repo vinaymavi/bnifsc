@@ -19,7 +19,7 @@ angular.module('bnifscApp')
         $scope.panelTitle;
         $scope.autocompleteData;
         $scope.ajaxrequest = true;
-
+        $scope.quickLinks=[];
         /*This function has to much logic split logic to different controllers*/
         function init() {
             /*Main page*/
@@ -27,8 +27,9 @@ angular.module('bnifscApp')
             $scope.panelTitle = 'IFSC Banks List'
             bnifsc.banks(function (resp) {
                 $timeout(function () {
-                    $scope.viewObj.itemsList = groupByAlfabatical(resp.items);
-                }, 0)
+                    $scope.viewObj.itemsList = groupByAlphabetical(resp.items);
+                    $scope.quickLinks = $scope.quickLinks.concat(Object.keys($scope.viewObj.itemsList));
+                }, 0);
             });
             /*Google analytics code*/
             ga('set', {page: $location.path(), title: $scope.panelTitle});
@@ -46,7 +47,7 @@ angular.module('bnifscApp')
 
         }
 
-        function groupByAlfabatical(items) {
+        function groupByAlphabetical(items) {
             $scope.ajaxrequest = false;
             $scope.autocompleteData = items;
             var data = {},

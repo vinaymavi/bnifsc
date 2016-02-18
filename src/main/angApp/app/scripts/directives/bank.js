@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * TODO documentation comments required.
+ * TODO Test case required.
+ */
 angular.module('bnifscApp')
     .directive('bank', function ($filter, $compile,$state) {
         return {
@@ -7,18 +10,17 @@ angular.module('bnifscApp')
                 items: '=',
                 bankFilter: '='
             },
-            restrict: 'EA',
+            restrict: 'E',
             link: function postLink(scope, element, attrs) {
-
                 if (scope.banks) {
                     render(scope.items);
                 }
 
-                scope.$watch("items", function (banks) {                    
+                scope.$watch("items", function (banks) {
                     render(banks, scope.bankFilter);
                 });
 
-                scope.$watch("bankFilter", function (bankFilter) {                    
+                scope.$watch("bankFilter", function (bankFilter) {
                     render(scope.items, bankFilter);
                 });
 
@@ -26,11 +28,11 @@ angular.module('bnifscApp')
                     var html = [];
                     var filterItems = $filter('filter')(items, filterStr);
                     html.push("<!--Bank Start-->")
-                    angular.forEach(filterItems, function (value, index) {                        
+                    angular.forEach(filterItems, function (value, index) {
                         html.push("<div class='col-lg-12'><a href='"+$state.href("admin.bank",{name:value.name})+"'>" + value.name + "</a></div>")
                     });
                     html.push("<!--Bank End-->")
-                    element.html(html.join(''));                    
+                    element.html(html.join(''));
                 }
 
             }

@@ -32,7 +32,31 @@ angular.module('bnifscApp')
           cb(resp);
         });
     };
-
+    /**
+     * Convert given array to object and bind all details to first
+     * character of given key
+     * @param items {{Array}}
+     * @param mapKey {{String}} default name
+     * @return {{Object}}
+     */
+    self.groupByAlphabetical = function (items, mapKey) {
+      if (!mapKey) {
+        mapKey = 'name'
+      }
+      if (!items) {
+        return {};
+      }
+      var data = {},
+        key = "";
+      items.forEach(function (value, index, arr) {
+        if (key !== value[mapKey][0]) {
+          key = value[mapKey][0];
+          data[key] = [];
+        }
+        data[key].push(value);
+      });
+      return data;
+    }
     self.districts = function (bank, state, cb) {
       gapi.client.bnifsc.public.districts({
           'bankName': bank,

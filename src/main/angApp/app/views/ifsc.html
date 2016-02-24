@@ -1,0 +1,72 @@
+<br/>
+<div class="row" style="margin:0px;padding:0px">
+  <div class="panel panel-default ">
+    <div class="panel-heading">
+      <h2>
+        <a ui-sref="home">Banks</a>
+        <a ui-sref="state({bank:branchProps.bank.name})"> > {{branchProps.bank.name}}</a>
+        <a ui-sref="city({bank:branchProps.bank.name,state:branchProps.state})"> > {{branchProps.state}}</a>
+        <a ui-sref="branches({bank:branchProps.bank.name,state:branchProps.state,city:branchProps.district})"> >
+          {{branchProps.district}}</a>
+        > {{branchProps.name}}
+      </h2>
+    </div>
+    <div class="panel-body">
+      <table class="table .table-hover ">
+        <tr>
+          <td style="min-width: 120px;" class='text-right'><h2>IFSC :</h2></td>
+          <td>
+            <h2>
+              <click-copy>{{branchProps.ifsc.trim()}}</click-copy>
+            </h2>
+          </td>
+        </tr>
+        <tr>
+          <td class='text-right'>MICR :</td>
+          <td>{{branchProps.micr.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>Bank Name :</td>
+          <td>{{branchProps.bank.name.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>Branch Name :</td>
+          <td>{{branchProps.name.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>Address :</td>
+          <td>{{branchProps.address.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>Pin Code :</td>
+          <td>{{branchProps.pinCode.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>District :</td>
+          <td>{{branchProps.district.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>State :</td>
+          <td>{{branchProps.state.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>Phone :</td>
+          <td>{{branchProps.phone.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>Email :</td>
+          <td>{{branchProps.email.trim()}}</td>
+        </tr>
+        <tr>
+          <td class='text-right'>Customer Care :</td>
+          <td>{{branchProps.custCare.trim()}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="panel-footer">Disclaimer: We are work hard make information correct and updated.Please verify
+      information
+      brfore use.
+    </div>
+  </div>
+</div>
+</div>

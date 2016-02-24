@@ -7,6 +7,7 @@ angular.module('bnifscApp')
     $scope.state = '';
     $scope.viewObj = {};
     $scope.quickLinks=[];
+    $scope.ajaxrequest=true;
     function init() {
       $scope.bank = $stateParams.bank;
       $scope.state = $stateParams.state;

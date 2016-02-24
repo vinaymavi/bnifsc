@@ -6,6 +6,7 @@ angular.module('bnifscApp')
     $scope.viewObj = {};
     $scope.panelTitle = "";
     $scope.bank;
+    $scope.ajaxrequest=true;
     function init() {
       console.log($stateParams.bank);
       $scope.bank = $stateParams.bank;

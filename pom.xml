@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-endpoints</artifactId>
-			<version>1.9.17</version>
+			<version>1.9.54</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -78,13 +78,8 @@
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-testing</artifactId>
-			<version>1.9.17</version>
+			<version>1.9.54</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-stubs</artifactId>
-			<version>1.9.17</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.objectify</groupId>
@@ -146,7 +141,7 @@
 			<plugin>
 				<groupId>com.google.appengine</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
-				<version>1.9.17</version>
+				<version>1.9.54</version>
 				<configuration>
 					<enableJarClasses>false</enableJarClasses>
 					<!-- Comment in the below snippet to bind to all IPs instead of just

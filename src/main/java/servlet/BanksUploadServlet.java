@@ -31,8 +31,9 @@ public class BanksUploadServlet extends HttpServlet {
 
             String KIND = "Bank";
             logger.warning("app_id=" + host.split("\\.")[0]);
-            String bucket = host.split("\\.")[0];
-            String gcsObject = "csv/banks.csv";
+//            String bucket = host.split("\\.")[0];
+            String bucket = "bnifsc-beta-01";
+            String gcsObject = "csv_files/banks.csv";
             PipelineService service = PipelineServiceFactory.newPipelineService();
             GcsFilename gcsfile = GoogleCloudStorage.createFile(bucket, gcsObject);
             if (gcsfile != null) {
@@ -41,8 +42,8 @@ public class BanksUploadServlet extends HttpServlet {
                 logger.warning("tracking URL @/_ah/pipeline/status.html?root=" + pipelineId);
                 resp.getWriter().write("/_ah/pipeline/status.html?root=" + pipelineId);
             } else {
-                logger.warning("csv/banks.csv not exist");
-                resp.getWriter().write("csv/banks.csv not exist.");
+                logger.warning("csv_files/banks.csv not exist");
+                resp.getWriter().write("csv_files/banks.csv not exist.");
             }
 
         } catch (IOException ioe) {

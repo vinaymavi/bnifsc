@@ -32,8 +32,9 @@ public class BranchUploadServlet extends HttpServlet {
 
         String KIND = "Branch";
         logger.warning("app_id=" + host.split("\\.")[0]);
-        String bucket = host.split("\\.")[0];
-        String gcsObject = "csv/branch.csv";
+//        String bucket = host.split("\\.")[0];
+        String bucket = "bnifsc-beta-01";
+        String gcsObject = "csv_files/branch.csv";
         PipelineService service = PipelineServiceFactory.newPipelineService();
         try {
             GcsFilename gcsfile = GoogleCloudStorage.createFile(bucket, gcsObject);

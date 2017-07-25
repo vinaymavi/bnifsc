@@ -21,7 +21,7 @@ angular.module('bnifscApp')
           }
           var len = linksArr.length;
           var html = [];
-          html.push('<div class="btn-group col-lg-12" style="margin:-35px 0px" role="group" aria-label="...">');
+          html.push('<div class="btn-group col-lg-12 hidden-xs" style="margin:-35px 0px" role="group" aria-label="...">');
           linksArr.forEach(function (val, ind) {
             html.push(`<button type="button" class="btn btn-default" style="width:calc(100% / ${len})">${val}</button>`);
           })

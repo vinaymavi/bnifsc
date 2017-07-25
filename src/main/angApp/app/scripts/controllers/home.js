@@ -24,7 +24,7 @@ angular.module('bnifscApp')
     function init() {
       /*Main page*/
       $scope.ajaxrequest = true;
-      $scope.panelTitle = 'Banks'
+      $scope.panelTitle = 'All Indian Bank List.'
       bnifsc.banks(function (resp) {
         $timeout(function () {
           $scope.ajaxrequest = false;

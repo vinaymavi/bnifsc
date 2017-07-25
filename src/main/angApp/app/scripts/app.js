@@ -71,7 +71,7 @@ angular
 
 
 function init() {
-  var ROOT = 'https://bnifsc-beta-01.appspot.com/_ah/api';
+  var ROOT = 'https://bnifsc-beta.appspot.com/_ah/api';
   gapi.client.load('bnifsc', 'v1', function () {
     window.init();
   }, ROOT);

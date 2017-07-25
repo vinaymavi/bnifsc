@@ -20,7 +20,7 @@ body,html {
     height: 100vh;
 }
 .full-h{
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .loading{
@@ -28,4 +28,28 @@ body,html {
   padding: 0px 10px;
   background-color: rgba(255, 255, 0, 0.86);
   color: black;
+}
+.nav{
+  list-style:none;
+  line-height:80px;
+  font-size:18px;
+}
+.nav li{
+  display:inline;
+}
+.nav li::after{
+  content:'|';
+  margin:5px;
+}
+.nav li:last-child::after{
+  content:'';
+  margin:5px;
+}
+footer,.disclaimer{
+  background-color:whitesmoke;
+  border-radius:5px;
+}
+.disclaimer{
+  padding:10px;
+  margin:5px 0;
 }

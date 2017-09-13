@@ -9,7 +9,7 @@
 	<url-pattern>/</url-pattern>
 </filter-mapping>
 <!-- Seo Servlet -->
-<servlet> 
+<servlet>
 	<servlet-name>seo</servlet-name>
 	<servlet-class>seo.Seo</servlet-class>
 </servlet>
@@ -28,7 +28,14 @@
   <servlet-name>mapreduce</servlet-name>
   <url-pattern>/mapreduce/*</url-pattern>
 </servlet-mapping>
-
+<servlet>
+    <servlet-name>Redirect</servlet-name>
+    <servlet-class>servlet.Redirect</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>Redirect</servlet-name>
+        <url-pattern>/redirect</url-pattern>
+    </servlet-mapping>
 <servlet>
   <servlet-name>pipeline</servlet-name>
   <servlet-class>
@@ -37,7 +44,7 @@
 </servlet>
 <servlet-mapping>
   <servlet-name>pipeline</servlet-name>
-  <url-pattern>/_ah/pipeline/*</url-pattern> 
+  <url-pattern>/_ah/pipeline/*</url-pattern>
   <!-- Web Application Configuration  -->
 </servlet-mapping>
     <servlet>
@@ -51,8 +58,8 @@
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
-    </servlet-mapping>       
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>xyz.html</welcome-file>
-    </welcome-file-list>    
+    </welcome-file-list>
 </web-app>

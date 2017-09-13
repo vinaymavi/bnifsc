@@ -28,9 +28,9 @@ public class SeoBotFilter implements  Filter {
 			FilterChain chain) throws IOException, ServletException {
 		    String _escaped_fragment_ = req.getParameter("_escaped_fragment_");
 		    logger.warning("_escaped_fragment_="+_escaped_fragment_);
-		    
+        String url = "";
 		    if (req instanceof HttpServletRequest) {
-		    	 String url = ((HttpServletRequest)req).getRequestURL().toString();
+		    	  url = ((HttpServletRequest)req).getRequestURL().toString();
 		    	 String uri = ((HttpServletRequest)req).getRequestURI().toString();
 		    	 String remoteAddress = ((HttpServletRequest)req).getRemoteAddr().toString();
 		    	 String remoteHost = ((HttpServletRequest)req).getRemoteHost().toString();
@@ -43,8 +43,10 @@ public class SeoBotFilter implements  Filter {
 		    	 logger.warning(uri);
 		    	 logger.warning(queryString);
 		    }
-		    
-		    if(_escaped_fragment_ != null ){		    				   
+		    if(url.contains("appspot")){
+                req.getRequestDispatcher("/redirect").forward(req, resp);
+            }
+		    else if(_escaped_fragment_ != null ){
 			    req.getRequestDispatcher("/app/seo").forward(req, resp);			    
 		    }else{
 		    	logger.warning("Else Part");

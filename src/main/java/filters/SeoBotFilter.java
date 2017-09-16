@@ -1,4 +1,5 @@
 package filters;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Logger;
@@ -15,48 +16,50 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-public class SeoBotFilter implements  Filter {
-	final static Logger logger = Logger.getLogger(SeoBotFilter.class.getName());
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void doFilter(ServletRequest req, ServletResponse resp,
-			FilterChain chain) throws IOException, ServletException {
-		    String _escaped_fragment_ = req.getParameter("_escaped_fragment_");
-		    logger.warning("_escaped_fragment_="+_escaped_fragment_);
+public class SeoBotFilter implements Filter {
+    final static Logger logger = Logger.getLogger(SeoBotFilter.class.getName());
+
+    @Override
+    public void destroy() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp,
+                         FilterChain chain) throws IOException, ServletException {
+        String _escaped_fragment_ = req.getParameter("_escaped_fragment_");
+        logger.warning("_escaped_fragment_=" + _escaped_fragment_);
         String url = "";
-		    if (req instanceof HttpServletRequest) {
-		    	  url = ((HttpServletRequest)req).getRequestURL().toString();
-		    	 String uri = ((HttpServletRequest)req).getRequestURI().toString();
-		    	 String remoteAddress = ((HttpServletRequest)req).getRemoteAddr().toString();
-		    	 String remoteHost = ((HttpServletRequest)req).getRemoteHost().toString();
-		    	 int remotePort = ((HttpServletRequest)req).getRemotePort();
-		    	 String queryString = ((HttpServletRequest)req).getQueryString();
-		    	 logger.warning("remoteaddress="+remoteAddress);
-		    	 logger.warning("remoteHost="+remoteHost);
-		    	 logger.warning("remoteport="+remotePort);
-		    	 logger.warning(url);
-		    	 logger.warning(uri);
-		    	 logger.warning(queryString);
-		    }
-		    if(url.contains("appspot")){
-                req.getRequestDispatcher("/redirect").forward(req, resp);
-            }
-		    else if(_escaped_fragment_ != null ){
-			    req.getRequestDispatcher("/app/seo").forward(req, resp);			    
-		    }else{
-		    	logger.warning("Else Part");
-		    	req.getRequestDispatcher("index.html").forward(req, resp);
-		    }
-	}
+        String remoteAddress = "";
+        if (req instanceof HttpServletRequest) {
+            url = ((HttpServletRequest) req).getRequestURL().toString();
+            String uri = ((HttpServletRequest) req).getRequestURI().toString();
+            remoteAddress = ((HttpServletRequest) req).getRemoteAddr().toString();
+            String remoteHost = ((HttpServletRequest) req).getRemoteHost().toString();
+            int remotePort = ((HttpServletRequest) req).getRemotePort();
+            String queryString = ((HttpServletRequest) req).getQueryString();
+            logger.warning("remoteaddress=" + remoteAddress);
+            logger.warning("remoteHost=" + remoteHost);
+            logger.warning("remoteport=" + remotePort);
+            logger.warning(url);
+            logger.warning(uri);
+            logger.warning(queryString);
+        }
+        if (url.contains("appspot") || !url.contains("https")) {
+            req.getRequestDispatcher("/redirect").forward(req, resp);
+        } else if (_escaped_fragment_ != null) {
+            req.getRequestDispatcher("/app/seo").forward(req, resp);
+        } else {
+            logger.warning("Else Part");
+            req.getRequestDispatcher("index.html").forward(req, resp);
+        }
+    }
 
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-		// TODO Auto-generated method stub		
-	}
+    @Override
+    public void init(FilterConfig config) throws ServletException {
+        // TODO Auto-generated method stub
+    }
 
 }

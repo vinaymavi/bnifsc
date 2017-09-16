@@ -10,14 +10,14 @@ import java.io.IOException;
  * Created by vinaymavi on 14/09/17.
  */
 public class Redirect extends HttpServlet {
-    private static final String CUSTOM_DOAMIN = "http://bnifsc.in";
+    private static final String CUSTOM_DOMAIN = "https://bnifsc.in";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-        response.setHeader("Location",CUSTOM_DOAMIN);
+        response.setHeader("Location",CUSTOM_DOMAIN);
         response.getWriter().write("");
     }
 }

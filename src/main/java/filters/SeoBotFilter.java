@@ -22,6 +22,7 @@ public class SeoBotFilter implements Filter {
     final static Logger logger = Logger.getLogger(SeoBotFilter.class.getName());
     private static final String HTTPS = "https";
     private static final String HTTP = "http";
+    private static final String CUSTOM_DOMAIN = "https://bnifsc.in";
     @Override
     public void destroy() {
         // TODO Auto-generated method stub
@@ -53,7 +54,7 @@ public class SeoBotFilter implements Filter {
         if (url.contains("appspot") || !url.contains("https")) {
             HttpServletResponse response = (HttpServletResponse)resp;
             response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-            response.setHeader("Location", url.replaceAll(HTTP, HTTPS));
+            response.setHeader("Location", CUSTOM_DOMAIN);
         } else if (_escaped_fragment_ != null) {
             req.getRequestDispatcher("/app/seo").forward(req, resp);
         } else {

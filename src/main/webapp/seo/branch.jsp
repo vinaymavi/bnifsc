@@ -3,7 +3,7 @@
 %@ page import="java.util.List" %>
 %@ page import="bnifsc.entites.Branch" %>
 <!Doctype html>
-<html itemscope itemtype="http://schema.org/WebPage">
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
   <head>
     <meta charset="utf-8">
     <title>All ${bank} Banks ${state}, ${district},${branchName}  IFSC codes | ifsc code|Banks Ifsc code</title>

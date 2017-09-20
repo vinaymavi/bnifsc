@@ -1,10 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
-<html itemscope itemtype="http://schema.org/WebPage">
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
     <head>
         <meta charset="utf-8">
-        <title>All ${bank} Banks IFSC codes | ifsc code|Banks Ifsc code</title>
+        <title>All ${bank} Banks IFSC codes | ${bank} ifsc code| ${bank} Banks Ifsc code</title>
         <meta name="description" content="All ${bank} Banks ifsc codes,ifsc,ifsc codes">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <style>

@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!Doctype html>
-<html itemscope itemtype="http://schema.org/WebPage">
-    <head>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+    <head lang="en">
         <meta charset="utf-8">
         <title>All Indian Banks IFSC codes | ifsc code|Banks Ifsc code</title>
         <meta name="description" content="All Indian Banks ifsc codes,ifsc,ifsc codes">

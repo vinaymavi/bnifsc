@@ -32,3 +32,8 @@ indexes:
   properties:
   - name: app
   - name: name
+
+- kind: webapp_bank
+  properties:
+  - name: __key__
+    direction: desc

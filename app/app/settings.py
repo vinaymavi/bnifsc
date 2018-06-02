@@ -42,7 +42,8 @@ INSTALLED_APPS = (
     'djangae.contrib.security',
     'app',
     'app.webapp',
-    'app.api'
+    'app.api',
+    'rest_framework'
     # 'djangae.contrib.uniquetool',
 )
 

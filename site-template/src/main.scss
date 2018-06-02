@@ -1,0 +1,165 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+// variables.
+
+$primary-color: #3b78e7;
+$secondry-color:#3367d6;
+$white: #fff;
+$black: #000;
+$gary:rgba(0,0,0,.987);
+$gray-light:rgba(245, 242, 242, 0.987);
+$heading-color: White;;
+$background-color:$gray-light;
+$anchor-color-1: $white;
+$anchor-color-2: $black;
+
+// Global style
+body {
+    color: $heading-color;
+  }
+  a {
+    color: $heading-color;
+  }
+
+// Header component
+@keyframes slidein {
+  from {
+    width: 10%;
+  }
+  to: {
+    width: 100%;
+  }
+}
+
+header {
+  height: 100px;
+  width: 100%;
+  background-color: $primary-color;
+  display: flex;
+  .container {
+    height: 100%;
+    display: flex;
+    .brand-logo {
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+    }
+    nav {
+      display: flex;
+      ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        font-size: 20px;
+        li {
+          padding: 0 10px;
+          display: flex;
+          height: 100%;
+          align-items: center;
+          position: relative;
+          &::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            border: 2px solid transparent;
+            transition: all 0.8s ease-out;
+          }
+          &.active,
+          &:hover {
+            background-color: $heading-color;
+            a {
+              color: $primary-color;
+              &:hover {
+                text-decoration: none;
+              }
+            }
+            &::after {
+              border: 2px solid $primary-color;
+              animation-duration: 0.4s;
+              animation-name: slidein;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+// Footer component
+footer {
+  width: 100%;
+  background-color: $primary-color;
+  padding: 20px 0;
+  .container {
+    height: 100%;
+    display: felx;
+    flex-direction: column;
+    nav {
+      display: flex;
+      justify-content: center;
+      height: 30px;
+      ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        font-size: 20px;
+        li {
+          padding: 0 10px;
+          display: flex;
+          height: 100%;
+          align-items: center;
+          position: relative;
+        }
+      }
+    }
+  }
+  .disclaimer {
+    display: flex;
+    justify-content: center;
+    height: 20px;
+  }
+}
+
+
+
+// Bank List component
+.list-container {
+  display: flex;
+  padding: 50px 0;
+  background-color: $background-color;
+  h2,
+  a {
+    color: $anchor-color-2;
+  }
+  .item-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+// Form component
+.form-section {
+  background-color:$background-color;
+  padding: 50px 0;
+  form {
+    width: 100%;
+  }
+  select {
+    min-width: 200px;
+    width: 50%;
+  }
+  label {
+    width: 150px;
+    text-align: right;
+    padding: 0 10px;
+    color:$anchor-color-2;
+  }
+  .bank-form {
+    display: flex;
+    justify-content: center;
+  }
+}
+

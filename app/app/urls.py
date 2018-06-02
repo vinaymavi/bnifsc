@@ -4,16 +4,20 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.views import serve
 
 import session_csrf
+
 session_csrf.monkeypatch()
 
 from django.contrib import admin
+
 admin.autodiscover()
 
 import webapp.views as webapp
-import api.views as api
+from webapp.api_views import ApiInfo, BankApi
+
 urlpatterns = (
     url(r'^$', webapp.index, name='home'),
-    url(r'^api/', api.index, name="api_home"),
+    url(r'^api/bank', BankApi.as_view(), name="api_bank"),
+    url(r'^api/', ApiInfo.as_view(), name="api_home"),
     url(r'^_ah/', include('djangae.urls')),
 
     # Note that by default this is also locked down with login:admin in app.yaml

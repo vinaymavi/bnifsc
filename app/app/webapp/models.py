@@ -6,7 +6,7 @@ from djangae import fields
 
 
 class Bank(models.Model):
-    name = fields.CharField(max_length=200 )
+    name = fields.CharField(max_length=200)
     url_name = fields.CharField(max_length=200)
     image_url = fields.CharField(max_length=200, default='', blank=True)
     acronym = fields.CharField(max_length=50, default='', blank=True)
@@ -38,12 +38,18 @@ class BankDetail(models.Model):
     mobile = fields.CharField(max_length=500, blank=True)
     land_line = fields.CharField(max_length=500, blank=True)
     pin = fields.CharField(max_length=500, blank=True)
-    is_verified = models.BooleanField(default=False)    
+    is_verified = models.BooleanField(default=False)
+
     def __str__(self):
         return self.branch_name
+
 
 class Seo(models.Model):
     rule_name = fields.CharField(max_length=100)
     # Type could be template/text
     rule_type = fields.CharField(max_length=20)
     rule_content = models.TextField(max_length=1000)
+
+
+class AppInfo(models.Model):
+    info = models.CharField(max_length=160)

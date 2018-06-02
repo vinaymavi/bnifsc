@@ -6,15 +6,19 @@ from djangae import fields
 
 
 class Bank(models.Model):
-    name = fields.CharField(max_length=200, default='')
+    name = fields.CharField(max_length=200 )
+    url_name = fields.CharField(max_length=200)
     image_url = fields.CharField(max_length=200, default='', blank=True)
     acronym = fields.CharField(max_length=50, default='', blank=True)
-    seo_content_top = models.TextField(max_length=1000, blank=True)
-    seo_content_middle = models.TextField(max_length=100, blank=True)
-    seo_content_bottom = models.TextField(max_length=100, blank=True)
+    seo_content_one = models.TextField(max_length=1000, blank=True)
+    seo_content_two = models.TextField(max_length=100, blank=True)
+    seo_content_three = models.TextField(max_length=100, blank=True)
     help_line_number = fields.CharField(max_length=20, blank=True)
     support_email = fields.CharField(max_length=100, blank=True)
     is_top_list = models.BooleanField(default=False)
+    meta_key_words = models.TextField(max_length=250)
+    meta_description = models.TextField(max_length=250)
+    meta_canonical_url = models.TextField(max_length=250)
 
     def __str__(self):
         return self.name
@@ -34,6 +38,12 @@ class BankDetail(models.Model):
     mobile = fields.CharField(max_length=500, blank=True)
     land_line = fields.CharField(max_length=500, blank=True)
     pin = fields.CharField(max_length=500, blank=True)
-    is_verified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)    
     def __str__(self):
         return self.branch_name
+
+class Seo(models.Model):
+    rule_name = fields.CharField(max_length=100)
+    # Type could be template/text
+    rule_type = fields.CharField(max_length=20)
+    rule_content = models.TextField(max_length=1000)

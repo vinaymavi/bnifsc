@@ -2,23 +2,26 @@
 // variables.
 
 $primary-color: #3b78e7;
-$secondry-color:#3367d6;
+$secondry-color: #3367d6;
 $white: #fff;
 $black: #000;
-$gary:rgba(0,0,0,.987);
-$gray-light:rgba(245, 242, 242, 0.987);
-$heading-color: White;;
-$background-color:$gray-light;
+$gary: rgba(0, 0, 0, 0.987);
+$gray-light: rgba(245, 242, 242, 0.987);
+$heading-color: White;
+$background-color: $gray-light;
 $anchor-color-1: $white;
 $anchor-color-2: $black;
-
+$font-large: 48px;
+$font-medium: 32px;
+$font-small: 18px;
 // Global style
-body {
-    color: $heading-color;
-  }
-  a {
-    color: $heading-color;
-  }
+body,
+a {
+  color: $anchor-color-2;
+}
+a {
+  font-size: $font-small;
+}
 
 // Header component
 @keyframes slidein {
@@ -31,9 +34,13 @@ body {
 }
 
 header {
-  height: 100px;
+  height: 80px;
   width: 100%;
   background-color: $primary-color;
+  color: $anchor-color-1;
+  a {
+    color: $anchor-color-1;
+  }
   display: flex;
   .container {
     height: 100%;
@@ -67,15 +74,13 @@ header {
           }
           &.active,
           &:hover {
-            background-color: $heading-color;
             a {
-              color: $primary-color;
               &:hover {
                 text-decoration: none;
               }
             }
             &::after {
-              border: 2px solid $primary-color;
+              border: 2px solid $anchor-color-1;
               animation-duration: 0.4s;
               animation-name: slidein;
             }
@@ -86,13 +91,15 @@ header {
   }
 }
 
-
-
 // Footer component
 footer {
   width: 100%;
   background-color: $primary-color;
   padding: 20px 0;
+  color: $anchor-color-1;
+  a {
+    color: $anchor-color-1;
+  }
   .container {
     height: 100%;
     display: felx;
@@ -123,26 +130,22 @@ footer {
   }
 }
 
-
-
 // Bank List component
 .list-container {
   display: flex;
   padding: 50px 0;
-  background-color: $background-color;
   h2,
-  a {
-    color: $anchor-color-2;
-  }
   .item-list {
     display: flex;
     flex-wrap: wrap;
+    .item {
+      padding: 5px 0;
+    }
   }
 }
 
 // Form component
 .form-section {
-  background-color:$background-color;
   padding: 50px 0;
   form {
     width: 100%;
@@ -152,10 +155,10 @@ footer {
     width: 50%;
   }
   label {
-    width: 150px;
+    width: 100px;
     text-align: right;
     padding: 0 10px;
-    color:$anchor-color-2;
+    color: $anchor-color-2;
   }
   .bank-form {
     display: flex;
@@ -163,3 +166,20 @@ footer {
   }
 }
 
+// Seo content
+.seo-content {
+  padding: 30px 0;
+}
+
+// Bank Detail
+.bank-detail {
+  padding: 50px 0;
+  tr{
+      &.ifsc{
+          font-size: $font-medium;
+      }
+      &.address{
+          font-size: $font-small;
+      }
+    }  
+}

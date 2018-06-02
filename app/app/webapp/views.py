@@ -3,5 +3,12 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 
+from models import Bank
+import logging
+
+
 def index(request):
-    return render(request,'base.html')
+    banks = Bank.objects.all()
+    context = {"banks": banks}
+    logging.info("Banks count = %s" % (len(context["banks"])))
+    return render(request, 'base.html', context=context)

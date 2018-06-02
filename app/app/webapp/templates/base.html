@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Hello, AMPs</title>    
-    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"> {% block seo %}
+    <title>Hello, AMPs</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    {% block seo %}
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",
@@ -15,209 +16,217 @@
           "logo.jpg"
         ]
       }
+
     </script>
     <link href="/static/css/app.css" rel="stylesheet"/>
-    
+
     {% endblock %}
 
     </noscript>
 </head>
 
 <body>
-    {% block header%}
-    <header>
-        <div class="container">
-            <div class="brand-logo">
-                <span>BNIFSC</span>
-            </div>
-            <nav>
-                <ul>
-                    <li class='active'>
-                        <a href="#">Find By IFSC</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    {% endblock%}
+{% block header%}
+<header>
     <div class="container">
-        {% block form%}
-        <section class='row form-section'>
-            <div class='col-12 col-md-8 bank-form'>
-                <form action="">
-                    <div>
-                        <label for="bank">Banks</label>
-                        <select name="bank" id="">
-                            <option value="SBI">State Bank Of India</option>
-                            <option value="SBI">Punjan National Bank</option>
-                            <option value="SBI">Canara Bank</option>
-                            <option value="SBI">Syndicate Bank</option>
-                            <option value="SBI">Bank Of Maharastra</option>
-                            <option value="SBI">JILA Sahkari bank</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="state">State</label>
-                        <select name="state" id="state">
-                            <option value="">Maharastra</option>
-                            <option value="">Bhiar</option>
-                            <option value="">Uttar Pradesh</option>
-                            <option value="">Utrakhand</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="city">City</label>
-                        <select name="city" id="name">
-                            <option value="">Meerut</option>
-                            <option value="">Patna</option>
-                            <option value="">Mathura</option>
-                            <option value="">Gaziabad</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="barnches">Branches</label>
-                        <select name="branches" id="Branches">
-                            <option value="">Prikshit Garh</option>
-                            <option value="">Kailli Rampur</option>
-                            <option value="">Meeruty</option>
-                            <option value="">Mawana</option>
-                            <option value="">Patana</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class='col-12 col-md-4'>
-                <h1>Ads</h1>
-            </div>
-        </section>
-        {% endblock %} {% block banklist%}
-        <section class='row list-container'>
-            <div class="col-12">
-                <h2>All Indian Bank list</h2>
-            </div>
-            <div class="item-list col-12">
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 1</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 2</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 3</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 4</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 5</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 6</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 7</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 8</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 9</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 10</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 11</a>
-                </div>
-                <div class="item col-12 col-md-4">
-                    <a href="">Bank Name 12</a>
-                </div>
-            </div>
-        </section>
-        {% endblock%} {% block seo_body%}
-        <!-- SEO content -->
-        <section class="row seo-content">
-            <div class="col-12">
-                <h3>Seo content</h3>
-                <div class="content">
-                    all rich text.
-                </div>
-            </div>
-        </section>
-        {% endblock%}
-        <!--Bank Detail-->
-        <!--Bank Details list-->
-    <div class="bank-detail">
-      <h2>Name Of Bank</h2>
-      <table class="table">
-        <tr class="ifsc">
-          <td>label 1</td>
-          <td>value 1</td>
-        </tr>
-        <tr>
-          <td>label 2</td>
-          <td>value 2</td>
-        </tr>
-        <tr>
-          <td>label 3</td>
-          <td>value 3</td>
-        </tr>
-        <tr>
-          <td>label 4</td>
-          <td>value 4</td>
-        </tr>
-        <tr>
-          <td>label 5</td>
-          <td>value 5</td>
-        </tr>
-        <tr>
-          <td>label 6</td>
-          <td>value 6</td>
-        </tr>
-        <tr>
-          <td>label 7</td>
-          <td>value 7</td>
-        </tr>
-        <tr>
-          <td>label 8</td>
-          <td>value 8</td>
-        </tr>
-        <tr>
-          <td>label 9</td>
-          <td>value 9</td>
-        </tr>
-        <tr>
-          <td>label 10</td>
-          <td>value 10</td>
-        </tr>
-      </table>
-    </div>
-
-    </div>
-
-    {% block footer%}
-    <footer>
-        <div class="container">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#">Aboutus</a>
-                    </li>
-                    <li>
-                        <a href="#">Contactus</a>
-                    </li>
-                    <li>
-                        <a href="#">Privay Policy</a>
-                    </li>
-                    <li>
-                        <a href="#">Disclaimer</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class='disclaimer'>all rights are reserved@bnifs.</div>
+        <div class="brand-logo">
+            <span>BNIFSC</span>
         </div>
-    </footer>
+        <nav>
+            <ul>
+                <li class='active'>
+                    <a href="#">Find By IFSC</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+{% endblock%}
+<div class="container">
+    {% block form%}
+    <section class='row form-section'>
+        <div class='col-12 col-md-8 bank-form'>
+            <form action="">
+                <div>
+                    <label for="bank">Banks</label>
+                    <select name="bank" id="bank">
+                        <option value="0">Select Bank</option>
+                        {% for bank in banks%}
+                        <option value={{bank.url_name}}>{{bank.name}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+                <div>
+                    <label for="state">State</label>
+                    <select name="state" id="state">
+                        <option value="0">Select State</option>
+                        {% for state in states %}
+                        <option value="{{state.url_name}}">{{state.name}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+                <div>
+                    <label for="district">District</label>
+                    <select name="district" id="district">
+                        <option value="0">Select District</option>
+                        {% for district in districts%}
+                        <option value="{{district.url_name}}">{{district.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="city">City</label>
+                    <select name="city" id="city">
+                        <option value="0">Select City</option>
+                        {% for city in cites%}
+                        <option value="{{city.url_name}}">{{city.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="branch">Branch</label>
+                    <select name="branch" id="branch">
+                        <option value="0">Select Branch</option>
+                        {% for branch in branches%}
+                        <option value="{{branch.url_name}}">{{branch.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class='col-12 col-md-4'>
+            <h1>Ads</h1>
+        </div>
+    </section>
+    {% endblock %} {% block banklist%}
+    <section class='row list-container'>
+        <div class="col-12">
+            <h2>All Indian Bank list</h2>
+        </div>
+        <div class="item-list col-12">
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 1</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 2</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 3</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 4</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 5</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 6</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 7</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 8</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 9</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 10</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 11</a>
+            </div>
+            <div class="item col-12 col-md-4">
+                <a href="">Bank Name 12</a>
+            </div>
+        </div>
+    </section>
+    {% endblock%} {% block seo_body%}
+    <!-- SEO content -->
+    <section class="row seo-content">
+        <div class="col-12">
+            <h3>Seo content</h3>
+            <div class="content">
+                all rich text.
+            </div>
+        </div>
+    </section>
     {% endblock%}
+    <!--Bank Detail-->
+    <!--Bank Details list-->
+    <div class="bank-detail">
+        <h2>Name Of Bank</h2>
+        <table class="table">
+            <tr class="ifsc">
+                <td>label 1</td>
+                <td>value 1</td>
+            </tr>
+            <tr>
+                <td>label 2</td>
+                <td>value 2</td>
+            </tr>
+            <tr>
+                <td>label 3</td>
+                <td>value 3</td>
+            </tr>
+            <tr>
+                <td>label 4</td>
+                <td>value 4</td>
+            </tr>
+            <tr>
+                <td>label 5</td>
+                <td>value 5</td>
+            </tr>
+            <tr>
+                <td>label 6</td>
+                <td>value 6</td>
+            </tr>
+            <tr>
+                <td>label 7</td>
+                <td>value 7</td>
+            </tr>
+            <tr>
+                <td>label 8</td>
+                <td>value 8</td>
+            </tr>
+            <tr>
+                <td>label 9</td>
+                <td>value 9</td>
+            </tr>
+            <tr>
+                <td>label 10</td>
+                <td>value 10</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+{% block footer%}
+<footer>
+    <div class="container">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">Aboutus</a>
+                </li>
+                <li>
+                    <a href="#">Contactus</a>
+                </li>
+                <li>
+                    <a href="#">Privay Policy</a>
+                </li>
+                <li>
+                    <a href="#">Disclaimer</a>
+                </li>
+            </ul>
+        </nav>
+        <div class='disclaimer'>all rights are reserved@bnifs.</div>
+    </div>
+</footer>
+{% endblock%}
 
 
 </body>

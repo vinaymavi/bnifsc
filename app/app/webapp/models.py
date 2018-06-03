@@ -15,7 +15,7 @@ class Bank(models.Model):
     name = fields.CharField(max_length=200)
     url_name = fields.CharField(max_length=200, unique=True)
     bank_id = fields.ComputedIntegerField(
-        lambda self: self.bank_id_id if self.bank_id else len(Bank.objects.all()) + 1)
+        lambda self: self.bank_id if self.bank_id else len(Bank.objects.all()) + 1)
     image_url = fields.CharField(max_length=200, default='', blank=True)
     acronym = fields.CharField(max_length=50, default='', blank=True)
     seo_content_one = models.TextField(max_length=1000, blank=True)

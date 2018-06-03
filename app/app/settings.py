@@ -130,5 +130,9 @@ CSP_SCRIPT_SRC = ("'self'", "*.ampproject.org","*.googleanalytics.com", "*.googl
 CSP_IMG_SRC = ("'self'", "data:", "s.ytimg.com", "*.googleusercontent.com", "*.gstatic.com", "www.google-analytics.com")
 CSP_CONNECT_SRC = ("'self'", "plus.google.com", "www.google-analytics.com")
 
+SITE_ADMIN_HEADER = "BNIFSC Admin Panel"
+SITE_ADMIN_TITLE = "BNIFSC Admin Panel"
 
 from djangae.contrib.gauth.settings import *
+
+

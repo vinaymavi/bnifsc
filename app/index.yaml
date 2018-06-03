@@ -72,3 +72,14 @@ indexes:
   properties:
   - name: __key__
     direction: desc
+
+- kind: djangae_group
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: auth_group
+  properties:
+  - name: name
+  - name: __key__
+    direction: desc

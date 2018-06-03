@@ -30,3 +30,8 @@ class StateApi(APIView):
         bank_details = BranchDetail.objects.filter(bank_id=bank)
         serializer = BankDetailSerializer(bank_details, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+
+class BankDetailApi(APIView):
+    def post(self, request):
+        return JsonResponse(request.data)

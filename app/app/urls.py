@@ -12,12 +12,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 import webapp.views as webapp
-from webapp.api_views import ApiInfo, BankApi,StateApi
+from webapp.api_views import ApiInfo, BankApi, StateApi, BankDetailApi
 
 urlpatterns = (
     url(r'^$', webapp.index, name='home'),
-    url(r'^api/bank', BankApi.as_view(), name="api_bank"),
-    url(r'^api/state', StateApi.as_view(), name="api_state"),
+    url(r'^api/bank$', BankApi.as_view(), name="api_bank"),
+    url(r'^api/state$', StateApi.as_view(), name="api_state"),
+    url(r'^api/bank-detail$', BankDetailApi.as_view(), name="api_bank_detail"),
     url(r'^api/', ApiInfo.as_view(), name="api_home"),
     url(r'^_ah/', include('djangae.urls')),
 

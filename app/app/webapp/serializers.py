@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Bank
+from models import Bank, BranchDetail
 
 
 class ApiInfoSerializer(serializers.Serializer):
@@ -9,4 +9,10 @@ class ApiInfoSerializer(serializers.Serializer):
 class BankSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bank
+        fields = '__all__'
+
+
+class BankDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BranchDetail
         fields = '__all__'

@@ -48,7 +48,27 @@ indexes:
   - name: __key__
     direction: desc
 
+- kind: webapp_branchdetail
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: webapp_city
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: webapp_district
+  properties:
+  - name: __key__
+    direction: desc
+
 - kind: webapp_seo
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: webapp_state
   properties:
   - name: __key__
     direction: desc

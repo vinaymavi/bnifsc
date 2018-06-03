@@ -3,11 +3,19 @@ from __future__ import unicode_literals
 
 from django.db import models
 from djangae import fields
+from datetime import datetime
 
+
+SEO_TEMPLATE_TYPE = (('TEMPLATE', 'TEMPLATE'),('TEXT', 'TEXT'))
+
+
+# TODO Seo should be a Seprate model and have link with others.
 
 class Bank(models.Model):
     name = fields.CharField(max_length=200)
-    url_name = fields.CharField(max_length=200)
+    url_name = fields.CharField(max_length=200, unique=True)
+    bank_id = fields.ComputedIntegerField(
+        lambda self: self.bank_id_id if self.bank_id else len(Bank.objects.all()) + 1)
     image_url = fields.CharField(max_length=200, default='', blank=True)
     acronym = fields.CharField(max_length=50, default='', blank=True)
     seo_content_one = models.TextField(max_length=1000, blank=True)
@@ -19,36 +27,82 @@ class Bank(models.Model):
     meta_key_words = models.TextField(max_length=250)
     meta_description = models.TextField(max_length=250)
     meta_canonical_url = models.TextField(max_length=250)
+    add_date = models.DateTimeField(default=datetime.now())
+    update_date = models.DateTimeField(default=datetime.now())
 
     def __str__(self):
         return self.name
 
 
-class BankDetail(models.Model):
+class State(models.Model):
+    name = fields.CharField(max_length=200)
+    bank = fields.RelatedSetField(Bank)
+    url_name = fields.CharField(max_length=50)
+    state_id = fields.ComputedIntegerField(
+        lambda self: self.state_id if self.state_id else len(State.objects.all()) + 1)
+    add_date = models.DateTimeField(default=datetime.now())
+    update_date = models.DateTimeField(default=datetime.now())
+
+    def __str__(self):
+        return self.name
+
+
+class District(models.Model):
+    name = fields.CharField(max_length=200)
+    url_name = fields.CharField(max_length=50)
+    district_id = fields.ComputedIntegerField(lambda self: self.district_id if self.district_id else len(District.objects.all()) + 1)
+    state = models.ForeignKey(State)
+    add_date = models.DateTimeField(default=datetime.now())
+    update_date = models.DateTimeField(default=datetime.now())
+
+    def __str__(self):
+        return self.name
+
+
+class City(models.Model):
+    name = fields.CharField(max_length=200)
+    url_name = fields.CharField(max_length=50)
+    city_id = fields.ComputedIntegerField(lambda self: self.city_id if self.city_id else len(City.objects.all()) + 1)
+    district = models.ForeignKey(District)
+    add_date = models.DateTimeField(default=datetime.now())
+    update_date = models.DateTimeField(default=datetime.now())
+
+    def __str__(self):
+        return self.name
+
+
+class BranchDetail(models.Model):
     bank = models.ForeignKey(Bank)
     branch_name = fields.CharField(max_length=100)
+    branch_url_name = fields.CharField(max_length=100)
     ifsc_code = fields.CharField(max_length=20)
     micr = fields.CharField(max_length=10, blank=True)
     swift = fields.CharField(max_length=10, blank=True)
-    state = fields.CharField(max_length=200)
-    district = fields.CharField(max_length=200)
-    city = fields.CharField(max_length=200)
+    state = models.ForeignKey(State)
+    district = models.ForeignKey(District)
+    city = models.ForeignKey(City)
     address = models.TextField(max_length=500)
     email = fields.CharField(max_length=500, blank=True)
     mobile = fields.CharField(max_length=500, blank=True)
     land_line = fields.CharField(max_length=500, blank=True)
     pin = fields.CharField(max_length=500, blank=True)
     is_verified = models.BooleanField(default=False)
+    add_date = models.DateTimeField(default=datetime.now())
+    update_date = models.DateTimeField(default=datetime.now())
 
     def __str__(self):
         return self.branch_name
 
 
 class Seo(models.Model):
-    rule_name = fields.CharField(max_length=100)
-    # Type could be template/text
-    rule_type = fields.CharField(max_length=20)
+    rule_name = fields.CharField(max_length=100, unique=True)
+    rule_type = fields.CharField(max_length=20, choices=SEO_TEMPLATE_TYPE)
     rule_content = models.TextField(max_length=1000)
+    add_date = models.DateTimeField(default=datetime.now())
+    update_date = models.DateTimeField(default=datetime.now())
+
+    def __str__(self):
+        return self.rule_name
 
 
 class AppInfo(models.Model):

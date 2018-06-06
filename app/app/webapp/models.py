@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from djangae import fields
-from datetime import datetime
+from django.utils import timezone
 
 
 SEO_TEMPLATE_TYPE = (('TEMPLATE', 'TEMPLATE'),('TEXT', 'TEXT'))
@@ -27,8 +27,8 @@ class Bank(models.Model):
     meta_key_words = models.TextField(max_length=250)
     meta_description = models.TextField(max_length=250)
     meta_canonical_url = models.TextField(max_length=250)
-    add_date = models.DateTimeField(default=datetime.now())
-    update_date = models.DateTimeField(default=datetime.now())
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.name
@@ -40,8 +40,8 @@ class State(models.Model):
     url_name = fields.CharField(max_length=50)
     state_id = fields.ComputedIntegerField(
         lambda self: self.state_id if self.state_id else len(State.objects.all()) + 1)
-    add_date = models.DateTimeField(default=datetime.now())
-    update_date = models.DateTimeField(default=datetime.now())
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.name
@@ -52,8 +52,8 @@ class District(models.Model):
     url_name = fields.CharField(max_length=50)
     district_id = fields.ComputedIntegerField(lambda self: self.district_id if self.district_id else len(District.objects.all()) + 1)
     state = models.ForeignKey(State)
-    add_date = models.DateTimeField(default=datetime.now())
-    update_date = models.DateTimeField(default=datetime.now())
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.name
@@ -64,8 +64,8 @@ class City(models.Model):
     url_name = fields.CharField(max_length=50)
     city_id = fields.ComputedIntegerField(lambda self: self.city_id if self.city_id else len(City.objects.all()) + 1)
     district = models.ForeignKey(District)
-    add_date = models.DateTimeField(default=datetime.now())
-    update_date = models.DateTimeField(default=datetime.now())
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.name
@@ -87,8 +87,8 @@ class BranchDetail(models.Model):
     land_line = fields.CharField(max_length=500, blank=True)
     pin = fields.CharField(max_length=500, blank=True)
     is_verified = models.BooleanField(default=False)
-    add_date = models.DateTimeField(default=datetime.now())
-    update_date = models.DateTimeField(default=datetime.now())
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.branch_name
@@ -98,8 +98,8 @@ class Seo(models.Model):
     rule_name = fields.CharField(max_length=100, unique=True)
     rule_type = fields.CharField(max_length=20, choices=SEO_TEMPLATE_TYPE)
     rule_content = models.TextField(max_length=1000)
-    add_date = models.DateTimeField(default=datetime.now())
-    update_date = models.DateTimeField(default=datetime.now())
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return self.rule_name

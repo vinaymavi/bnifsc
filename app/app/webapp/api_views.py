@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from django.utils.six import BytesIO
-from models import AppInfo, Bank, BranchDetail
+from models import AppInfo, Bank, BranchDetail, State, District, City, BranchDetail
 from serializers import ApiInfoSerializer, BankSerializer, BranchDetailSerializer, BankDetailSerializer
 
 import logging
@@ -43,6 +43,19 @@ class BankDetailApi(APIView):
         serializer = BankDetailSerializer(data=data)
         if serializer.is_valid():
             logging.warning("valid data")
+            validated_data = serializer.validated_data
+            bank = Bank().get_by_name(validated_data["bank"])
+            if bank is None:
+                logging.info("Inside if block")
+                bank = Bank(name=validated_data["bank"], url_name="vinay")
+                bank.save()
+            state = State().by_bank_and_state(bank, validated_data["state"])
+            if state is None:
+                logging.info("State if block")
+                state = State(
+                    name=validated_data["state"], url_name=validated_data["state"])
+                state.bank.add(bank)
+                state.save()
             return JsonResponse(serializer.validated_data)
         else:
             logging.warning("Not a valid data")

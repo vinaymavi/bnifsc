@@ -5,8 +5,7 @@ from django.db import models
 from djangae import fields
 from django.utils import timezone
 
-
-SEO_TEMPLATE_TYPE = (('TEMPLATE', 'TEMPLATE'),('TEXT', 'TEXT'))
+SEO_TEMPLATE_TYPE = (('TEMPLATE', 'TEMPLATE'), ('TEXT', 'TEXT'))
 
 
 # TODO Seo should be a Seprate model and have link with others.
@@ -24,11 +23,14 @@ class Bank(models.Model):
     help_line_number = fields.CharField(max_length=20, blank=True)
     support_email = fields.CharField(max_length=100, blank=True)
     is_top_list = models.BooleanField(default=False)
-    meta_key_words = models.TextField(max_length=250)
-    meta_description = models.TextField(max_length=250)
-    meta_canonical_url = models.TextField(max_length=250)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
+
+    def get_by_name(self, name):
+        try:
+            return Bank.objects.get(name=name)
+        except Bank.DoesNotExist:
+            return None    
 
     def __str__(self):
         return self.name
@@ -46,11 +48,19 @@ class State(models.Model):
     def __str__(self):
         return self.name
 
+    def by_bank_and_state(self, bank, state_name):
+        try:
+            return State.objects.get(bank__overlap=[bank.id],name=state_name)
+        except State.DoesNotExist:
+            return None    
+        
+
 
 class District(models.Model):
     name = fields.CharField(max_length=200)
     url_name = fields.CharField(max_length=50)
-    district_id = fields.ComputedIntegerField(lambda self: self.district_id if self.district_id else len(District.objects.all()) + 1)
+    district_id = fields.ComputedIntegerField(
+        lambda self: self.district_id if self.district_id else len(District.objects.all()) + 1)
     state = models.ForeignKey(State)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())

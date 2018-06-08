@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.test import TestCase
 import logging
-from models import Bank,State,District
+from models import Bank,State,District,City
 
 
 class BankTestCase(TestCase):
@@ -107,8 +107,27 @@ class DistrictTestCase(TestCase):
     def test_by_state_and_district_return_district(self):
         district = District(name="District Name",url_name="DN")                
         state = State(name="Not a state", url_name="NAS")
+        state.save()
         district.state = state
+        district.save()
         new_district = district.by_state_and_district(state,"District Name")
-        self.assertFalse(new_district)
+        self.assertTrue(new_district)
 
+class CityTestCase(TestCase):
+    def test_by_district_and_city_return_none(self):
+        district = District(name="District Name",url_name="DN")
+        city = City().by_district_and_city(district,"No Name")
+        self.assertFalse(city)
     
+    def test_by_district_and_city_return_city(self):
+        district = District(name="District Name",url_name="DN")                
+        state = State(name="Not a state", url_name="NAS")
+        state.save()
+        district.state = state
+        district.save()
+        city = City(name="City Name",url_name="CN")
+        city.district = district
+        city.save()
+        new_city = City().by_district_and_city(district,"No Name")
+        
+        self.assertTrue(city)

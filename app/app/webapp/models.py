@@ -144,6 +144,12 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+    def by_district_and_city(self,district,city_name):
+        try:
+            return City.objects.get(district=district,name=city_name)
+        except City.DoesNotExist:
+            return None
+
 
 class BranchDetail(models.Model):
     bank = models.ForeignKey(Bank)

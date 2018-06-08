@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.test import TestCase
 import logging
-from models import Bank,State
+from models import Bank,State,District
 
 
 class BankTestCase(TestCase):
@@ -19,7 +19,12 @@ class BankTestCase(TestCase):
         bank = Bank(name="Test Bank",url_name="TB")
         bank.save()
         new_bank = Bank().get_by_name('Test Bank')
-        self.assertEqual(new_bank.url_name,"TB")    
+        self.assertEqual(new_bank.url_name,"TB")
+    def test_get_by_id(self):
+        bank = Bank(name="Test Bank",url_name="TB")
+        bank.save()
+        new_bank = Bank().get_by_bank_id(1)
+        self.assertTrue(new_bank)
 
 class StateTestCase(TestCase):
     def test_get_state_by_bank_id_return_none(self):
@@ -57,10 +62,10 @@ class StateTestCase(TestCase):
 
     def test_add_bank_to_state(self):
         bank = Bank(name="Test Bank",url_name="TB")
-        bank.save()        
+        bank.save()
         state = State(name="Test State",url_name="TS")
         state.save()
-        state = State.add_bank_to_state(state,bank)        
+        state = State.add_bank_to_state(state,bank)
         self.assertTrue(len(list(state.bank.filter())))
 
     def test_get_by_bank_and_state_return_none(self):
@@ -77,3 +82,33 @@ class StateTestCase(TestCase):
         new_bank = state.by_bank_and_state(bank,state.name)
         self.assertTrue(new_bank)
 
+
+class DistrictTestCase(TestCase):
+    def test_by_name_return_none(self):
+        district = District(name="District Name",url_name="DN")
+        new_district = district.by_name("District Name")
+        self.assertFalse(new_district)
+    
+    def test_by_name_return_district(self):
+        district = District(name="District Name",url_name="DN")
+        state = State(name="Not a state", url_name="NAS")
+        state.save()
+        district.state = state
+        district.save()
+        new_district = district.by_name("District Name")
+        self.assertTrue(new_district)    
+
+    def test_by_state_and_district_return_None(self):
+        district = District(name="District Name",url_name="DN")        
+        state = State(name="Not a state", url_name="NAS")
+        new_district = district.by_state_and_district(state,"District Name")
+        self.assertFalse(new_district)
+    
+    def test_by_state_and_district_return_district(self):
+        district = District(name="District Name",url_name="DN")                
+        state = State(name="Not a state", url_name="NAS")
+        district.state = state
+        new_district = district.by_state_and_district(state,"District Name")
+        self.assertFalse(new_district)
+
+    

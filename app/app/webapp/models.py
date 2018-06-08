@@ -33,6 +33,12 @@ class Bank(models.Model):
         except Bank.DoesNotExist:
             return None
 
+    def get_by_bank_id(self, bank_id):
+        try:
+            return Bank.objects.get(bank_id=bank_id)
+        except Bank.DoesNotExist:
+            return None
+
     def __str__(self):
         return self.name
 
@@ -61,9 +67,8 @@ class State(models.Model):
             if state is None:
                 return None
             else:
-                return State.add_bank_to_state(state,bank)
-                
-    
+                return State.add_bank_to_state(state, bank)
+
     @staticmethod
     def add_bank_to_state(state, bank):
         """
@@ -72,8 +77,6 @@ class State(models.Model):
         state.bank.add(bank)
         state.save()
         return state
-
-    
 
     def by_bank_id(self, bank_id):
         """
@@ -85,7 +88,6 @@ class State(models.Model):
         else:
             logging.warn('state does not exist for bank id=%s', bank_id)
             return None
-    
 
     def by_state_name(self, state_name):
         """
@@ -110,9 +112,22 @@ class District(models.Model):
     def __str__(self):
         return self.name
 
-    def by_state_and_district(self, state, district):
+    def by_state_and_district(self, state, district_name):
+        """
+        Return district by state and district name if state is not linked it will link or 
+        None if district does not exist.
+        """
         try:
-            District.objects.get(state__overlap=[state.id], name=district)
+            return District.objects.get(state=state, name=district_name)
+        except District.DoesNotExist:            
+            return None            
+
+    def by_name(self, district_name):
+        """
+        Return district by name or None if district not found
+        """
+        try:
+            return District.objects.get(name=district_name)
         except District.DoesNotExist:
             return None
 

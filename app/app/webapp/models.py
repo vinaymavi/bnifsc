@@ -119,7 +119,8 @@ class District(models.Model):
         """
         try:
             return District.objects.get(state=state, name=district_name)
-        except District.DoesNotExist:            
+        except District.DoesNotExist:
+            logging.warn("State name='%s' with district = '%s' does not exist.",state.name,district_name)        
             return None            
 
     def by_name(self, district_name):
@@ -129,6 +130,7 @@ class District(models.Model):
         try:
             return District.objects.get(name=district_name)
         except District.DoesNotExist:
+            logging.warn("District name ='%s' does not exist.", district_name)
             return None
 
 
@@ -145,9 +147,13 @@ class City(models.Model):
         return self.name
 
     def by_district_and_city(self,district,city_name):
+        """
+        Return city by district and city name or None if does not exist.
+        """
         try:
             return City.objects.get(district=district,name=city_name)
         except City.DoesNotExist:
+            logging.warn("City with district='%s' with city='%s' does not exist",district.name,city_name)
             return None
 
 
@@ -172,6 +178,13 @@ class BranchDetail(models.Model):
 
     def __str__(self):
         return self.branch_name
+
+    def by_city(self,city):
+        try:
+            return BranchDetail.objects.get(city=city)
+        except BranchDetail.DoesNotExist as er:
+            logging.warn("Branch with city='%s' does not exist.",city.name)
+            return None    
 
 
 class Seo(models.Model):

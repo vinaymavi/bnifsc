@@ -56,6 +56,9 @@ class BankDetailApi(APIView):
                     name=validated_data["state"], url_name=validated_data["state"])
                 state.bank.add(bank)
                 state.save()
+            district = District().by_state_and_district(state,validated_data['district'])
+            if district is None:
+                District(name=validated_data['district'])
             return JsonResponse(serializer.validated_data)
         else:
             logging.warning("Not a valid data")

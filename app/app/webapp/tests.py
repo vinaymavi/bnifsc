@@ -154,11 +154,32 @@ class BranchDetailTestCase(TestCase):
         city.district = district
         city.save()
         branch = BranchDetail(branch_name="Branch Name",
-                              branch_url_name="BN", ifsc_code="IFSC")
+                              branch_url_name="BN", ifsc_code="1234567")
         branch.bank = bank
         branch.state = state
         branch.district = district
         branch.city = city
         branch.save()
         new_branch = BranchDetail().by_city(city)
+        self.assertTrue(new_branch)
+    
+    def test_by_ifsc_return_branch(self):
+        bank = Bank(name="Test Bank", url_name="TB")
+        bank.save()
+        state = State(name="Not a state", url_name="NAS")
+        state.save()
+        district = District(name="District Name", url_name="DN")
+        district.state = state
+        district.save()
+        city = City(name="City Name", url_name="CN")
+        city.district = district
+        city.save()
+        branch = BranchDetail(branch_name="Branch Name",
+                              branch_url_name="BN", ifsc_code="1234567")
+        branch.bank = bank
+        branch.state = state
+        branch.district = district
+        branch.city = city
+        branch.save()
+        new_branch = BranchDetail().by_ifsc("1234567")
         self.assertTrue(new_branch)

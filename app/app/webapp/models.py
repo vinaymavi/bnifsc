@@ -13,7 +13,7 @@ SEO_TEMPLATE_TYPE = (('TEMPLATE', 'TEMPLATE'), ('TEXT', 'TEXT'))
 
 class Bank(models.Model):
     name = fields.CharField(max_length=200)
-    url_name = fields.CharField(max_length=200, unique=True)
+    url_name = fields.CharField(max_length=200)
     bank_id = fields.ComputedIntegerField(
         lambda self: self.bank_id if self.bank_id else len(Bank.objects.all()) + 1)
     image_url = fields.CharField(max_length=200, default='', blank=True)
@@ -186,6 +186,14 @@ class BranchDetail(models.Model):
             return BranchDetail.objects.get(city=city)
         except BranchDetail.DoesNotExist as er:
             logging.warn("Branch with city='%s' does not exist.", city.name)
+            return None
+
+    def by_ifsc(self, ifsc_code):
+        try:
+            return BranchDetail.objects.get(ifsc_code=ifsc_code)
+        except BranchDetail.DoesNotExist as er:
+            logging.warn(
+                "Branch with ifsc code = '%s' does not exist.", ifsc_code)
             return None
 
 

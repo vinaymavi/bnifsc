@@ -52,7 +52,7 @@
                     <select name="bank" id="bank">
                         <option value="0">Select Bank</option>
                         {% for bank in banks%}
-                        <option value={{bank.url_name}}>{{bank.name}}</option>
+                        <option value={{bank.bank_id}}>{{bank.name}}</option>
                         {% endfor%}
                     </select>
                 </div>
@@ -105,42 +105,11 @@
             <h2>All Indian Bank list</h2>
         </div>
         <div class="item-list col-12">
+            {% for bank in banks%}
             <div class="item col-12 col-md-4">
-                <a href="">Bank Name 1</a>
+                <a href="/bank/{{bank.bank_id}}">{{bank.name}}</a>
             </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 2</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 3</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 4</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 5</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 6</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 7</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 8</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 9</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 10</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 11</a>
-            </div>
-            <div class="item col-12 col-md-4">
-                <a href="">Bank Name 12</a>
-            </div>
+            {% endfor %}
         </div>
     </section>
     {% endblock%} {% block seo_body%}

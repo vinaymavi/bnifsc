@@ -54,6 +54,17 @@ indexes:
   - name: __key__
     direction: desc
 
+- kind: webapp_bank
+  properties:
+  - name: is_top_list
+  - name: name
+
+- kind: webapp_bank
+  properties:
+  - name: is_top_list
+    direction: desc
+  - name: name
+
 - kind: webapp_bankdetail
   properties:
   - name: __key__

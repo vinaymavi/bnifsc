@@ -39,6 +39,9 @@ class Bank(models.Model):
         except Bank.DoesNotExist:
             return None
 
+    def list_all(self):
+        return Bank.objects.all().order_by('-is_top_list', 'name')
+
     def __str__(self):
         return self.name
 

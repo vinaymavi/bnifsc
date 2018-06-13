@@ -8,7 +8,7 @@ import logging
 
 
 def index(request):
-    banks = Bank.objects.all()
+    banks = Bank().list_all()
     context = {"banks": banks}
     logging.info("Banks count = %s" % (len(context["banks"])))
     return render(request, 'base.html', context=context)

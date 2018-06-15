@@ -17,10 +17,13 @@ class BankSerializer(serializers.ModelSerializer):
         
 
 class BranchDetailSerializer(serializers.ModelSerializer):
+    _id = serializers.SerializerMethodField('get_custom_id')
     class Meta:
         model = BranchDetail
         fields = '__all__'    
-
+    
+    def get_custom_id(self, obj):
+        return obj.branch_id
 
 class StateSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')

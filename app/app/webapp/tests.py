@@ -162,7 +162,7 @@ class BranchDetailTestCase(TestCase):
         city = City(name="City Name", url_name="CN")
         city.district = district
         city.save()
-        branch = BranchDetail(branch_name="Branch Name",
+        branch = BranchDetail(name="Branch Name",
                               branch_url_name="BN", ifsc_code="1234567")
         branch.bank = bank
         branch.state = state
@@ -183,7 +183,7 @@ class BranchDetailTestCase(TestCase):
         city = City(name="City Name", url_name="CN")
         city.district = district
         city.save()
-        branch = BranchDetail(branch_name="Branch Name",
+        branch = BranchDetail(name="Branch Name",
                               branch_url_name="BN", ifsc_code="1234567")
         branch.bank = bank
         branch.state = state

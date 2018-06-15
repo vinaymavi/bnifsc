@@ -108,7 +108,7 @@ class BankDetailApi(APIView):
             # BranchDetail Section
             branch = BranchDetail().by_ifsc(validated_data['ifsc'])
             if branch is None:
-                branch = BranchDetail(bank=bank, branch_name=validated_data['branch'], branch_url_name=validated_data['branch'], ifsc_code=validated_data['ifsc'],
+                branch = BranchDetail(bank=bank, name=validated_data['branch'], branch_url_name=validated_data['branch'], ifsc_code=validated_data['ifsc'],
                                       micr=validated_data['micr'], land_line=validated_data['contact'], state=state, district=district, city=city, address=validated_data['address'])
                 branch.save()
             branch_detail_serializer = BranchDetailSerializer(branch)

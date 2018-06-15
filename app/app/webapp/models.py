@@ -83,7 +83,7 @@ class State(models.Model):
 
     def by_bank_id(self, bank_id):
         """
-        This function accepts a bank_id an return objects of State or None if not found.
+        This function accepts a bank_id an return list of State or None if not found.
         """
         query_set = State.objects.filter(bank__overlap=[bank_id])
         if query_set.count() > 0:
@@ -100,6 +100,16 @@ class State(models.Model):
             return State.objects.get(name=state_name)
         except State.DoesNotExist:
             logging.warn('state name = %s does not exist', state_name)
+            return None
+
+    def by_state_id(self, state_id):
+        """
+        This function return State by state id or None.
+        """
+        try:
+            return State.objects.get(state_id=state_id)
+        except State.DoesNotExist as err:
+            logging.warn("State doest not exist for state_id=%s", state_id)
             return None
 
 
@@ -135,6 +145,17 @@ class District(models.Model):
             return District.objects.get(name=district_name)
         except District.DoesNotExist:
             logging.warn("District name ='%s' does not exist.", district_name)
+            return None
+
+    def by_sate(self, state):
+        """
+        Return district list by state or None if district not found.
+        """
+        query_set = District.objects.filter(state=state)
+        if query_set.count() > 0:
+            return query_set
+        else:
+            logging.warn('district does not exist for state =%s', state.name)
             return None
 
 

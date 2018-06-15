@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Bank, BranchDetail
+from models import Bank, BranchDetail, State, District
 
 
 class ApiInfoSerializer(serializers.Serializer):
@@ -7,15 +7,41 @@ class ApiInfoSerializer(serializers.Serializer):
 
 
 class BankSerializer(serializers.ModelSerializer):
+    _id = serializers.SerializerMethodField('get_custom_id')
     class Meta:
         model = Bank
         fields = '__all__'
 
+    def get_custom_id(self, obj):
+        return obj.state_id
+        
 
 class BranchDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = BranchDetail
+        fields = '__all__'    
+
+
+class StateSerializer(serializers.ModelSerializer):
+    _id = serializers.SerializerMethodField('get_custom_id')
+
+    class Meta:
+        model = State
         fields = '__all__'
+
+    def get_custom_id(self, obj):
+        return obj.state_id
+
+
+class DistrictSerializer(serializers.ModelSerializer):
+    _id = serializers.SerializerMethodField('get_custom_id')
+
+    class Meta:
+        model = District
+        fields = '__all__'
+
+    def get_custom_id(self, obj):
+        return obj.district_id
 
 
 class BankDetailSerializer(serializers.Serializer):

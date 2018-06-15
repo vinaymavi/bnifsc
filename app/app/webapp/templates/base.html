@@ -1,6 +1,6 @@
 <!doctype html>
 <html amp lang="en">
-
+{% load static%}
 <head>
     <meta charset="utf-8">
     <title>Hello, AMPs</title>
@@ -18,7 +18,8 @@
       }
 
     </script>
-    <link href="/static/css/app.css" rel="stylesheet"/>
+    <link href="{% static 'webapp/css/app.css' %}" rel="stylesheet"/>
+    <script src="{% static 'webapp/javascript/script.js' %}"></script>
 
     {% endblock %}
 
@@ -34,7 +35,7 @@
         </div>
         <nav>
             <ul>
-                <li class='active'>
+                <li >
                     <a href="#">Find By IFSC</a>
                 </li>
             </ul>
@@ -50,7 +51,7 @@
                 <div>
                     <label for="bank">Banks</label>
                     <select name="bank" id="bank">
-                        <option value="0">Select Bank</option>
+                        <option value="0">Select</option>
                         {% for bank in banks%}
                         <option value={{bank.bank_id}}>{{bank.name}}</option>
                         {% endfor%}
@@ -59,7 +60,7 @@
                 <div>
                     <label for="state">State</label>
                     <select name="state" id="state">
-                        <option value="0">Select State</option>
+                        <option value="0">Select </option>
                         {% for state in states %}
                         <option value="{{state.url_name}}">{{state.name}}</option>
                         {% endfor %}
@@ -69,7 +70,7 @@
                 <div>
                     <label for="district">District</label>
                     <select name="district" id="district">
-                        <option value="0">Select District</option>
+                        <option value="0">Select </option>
                         {% for district in districts%}
                         <option value="{{district.url_name}}">{{district.name}}</option>
                         {% endfor %}
@@ -78,7 +79,7 @@
                 <div>
                     <label for="city">City</label>
                     <select name="city" id="city">
-                        <option value="0">Select City</option>
+                        <option value="0">Select </option>
                         {% for city in cites%}
                         <option value="{{city.url_name}}">{{city.name}}</option>
                         {% endfor %}
@@ -87,7 +88,7 @@
                 <div>
                     <label for="branch">Branch</label>
                     <select name="branch" id="branch">
-                        <option value="0">Select Branch</option>
+                        <option value="0">Select</option>
                         {% for branch in branches%}
                         <option value="{{branch.url_name}}">{{branch.name}}</option>
                         {% endfor %}

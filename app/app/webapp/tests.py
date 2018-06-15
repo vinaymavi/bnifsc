@@ -115,6 +115,15 @@ class DistrictTestCase(TestCase):
         new_district = district.by_state_and_district(state, "District Name")
         self.assertTrue(new_district)
 
+    def test_by_state_id(self):
+        district = District(name="District Name", url_name="DN")
+        state = State(name="Not a state", url_name="NAS")
+        state.save()
+        district.state = state
+        district.save()
+        district_list = district.by_sate(state)
+        logging.info("District list size = %s",len(district_list))
+        self.assertTrue(len(district_list))
 
 class CityTestCase(TestCase):
     def test_by_district_and_city_return_none(self):

@@ -3,12 +3,17 @@
   const config = {
     api: {
       state_api: "/api/state?bank_id=",
-      district_api: "/api/district?state_id="
+      district_api: "/api/district?state_id=",
+      city_api: "/api/city?district_id=",
+      branch_api: "/api/branch?city_id=",
+      branch_detail_api: "/api/branch_detail?branch_id=",
     },
     selector: {
       bank: "#bank",
       state: "#state",
-      district: "#district"
+      district: "#district",
+      city: "#city",
+      branch: "#branch"
     }
   };
 
@@ -32,6 +37,45 @@
         load_data(`${config.api.district_api}${event.target.value}`).then(
           data => {
             update_select_elem(config.selector.district, data);
+          }
+        );
+      });
+
+    // District change listener
+    document
+      .querySelector(config.selector.district)
+      .addEventListener("change", function(event) {
+        event.preventDefault();
+        console.log(event.target.value);
+        load_data(`${config.api.city_api}${event.target.value}`).then(
+          data => {
+            update_select_elem(config.selector.city, data);
+          }
+        );
+      });
+
+    // City change listener
+    document
+      .querySelector(config.selector.city)
+      .addEventListener("change", function(event) {
+        event.preventDefault();
+        console.log(event.target.value);
+        load_data(`${config.api.branch_api}${event.target.value}`).then(
+          data => {
+            update_select_elem(config.selector.branch, data);
+          }
+        );
+      });
+
+    // Branch change listener
+    document
+      .querySelector(config.selector.branch)
+      .addEventListener("change", function(event) {
+        event.preventDefault();
+        console.log(event.target.value);
+        load_data(`${config.api.branch_detail_api}${event.target.value}`).then(
+          data => {
+            update_select_elem(config.selector.branch, data);
           }
         );
       });

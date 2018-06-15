@@ -158,6 +158,12 @@ class District(models.Model):
             logging.warn('district does not exist for state =%s', state.name)
             return None
 
+    def by_district_id(self, district_id):
+        try:
+            return District.objects.get(district_id=district_id)
+        except District.DoesNotExist:
+            logging.warn("District does not exist district_id=%s", district_id)
+
 
 class City(models.Model):
     name = fields.CharField(max_length=200)
@@ -182,10 +188,29 @@ class City(models.Model):
                 "City with district='%s' with city='%s' does not exist", district.name, city_name)
             return None
 
+    def by_district(self, district):
+        """
+        Return list of city or none.
+        """
+        query_set = City.objects.filter(district=district)
+        if query_set.count() > 0:
+            return query_set
+        else:
+            logging.warn('city does not exist for district =%s', district.name)
+            return None
+
+    def by_city_id(self, city_id):
+        try:
+            return City.objects.get(city_id=city_id)
+        except City.DoesNotExist:
+            logging.info("City does not exist, city_id=%s", city_id)
+
 
 class BranchDetail(models.Model):
     bank = models.ForeignKey(Bank)
-    branch_name = fields.CharField(max_length=100)
+    name = fields.CharField(max_length=100)
+    branch_id = fields.ComputedIntegerField(
+        lambda self: self.branch_id if self.branch_id else len(BranchDetail.objects.all()) + 1)
     branch_url_name = fields.CharField(max_length=100)
     ifsc_code = fields.CharField(max_length=20)
     micr = fields.CharField(max_length=10, blank=True)
@@ -203,7 +228,7 @@ class BranchDetail(models.Model):
     update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
-        return self.branch_name
+        return self.name
 
     def by_city(self, city):
         try:
@@ -219,6 +244,26 @@ class BranchDetail(models.Model):
             logging.warn(
                 "Branch with ifsc code = '%s' does not exist.", ifsc_code)
             return None
+
+    def by_city(self, city):
+        """
+        Return list of city or none.
+        """
+        query_set = BranchDetail.objects.filter(city=city)
+        if query_set.count() > 0:
+            return query_set
+        else:
+            logging.warn('city does not exist for city =%s', city.name)
+            return None
+
+    def by_branch_id(self, branch_id):
+        """
+        Return Branch or None
+        """
+        try:
+            return BranchDetail.objects.get(branch_id=branch_id)
+        except BranchDetail.DoesNotExist:
+            logging.warn("Branch does not exist with branch_id=%s", branch_id)
 
 
 class Seo(models.Model):

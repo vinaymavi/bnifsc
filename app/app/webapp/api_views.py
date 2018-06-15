@@ -5,7 +5,7 @@ from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 from django.utils.six import BytesIO
 from models import AppInfo, Bank, BranchDetail, State, District, City, BranchDetail
-from serializers import ApiInfoSerializer, BankSerializer, BranchDetailSerializer, BankDetailSerializer, StateSerializer, DistrictSerializer
+from serializers import ApiInfoSerializer, BankSerializer, BranchDetailSerializer, BankDetailSerializer, StateSerializer, DistrictSerializer,CitySerializer
 
 import logging
 
@@ -39,8 +39,28 @@ class DistrictApi(APIView):
         logging.info("state id = %s", req.GET['state_id'])
         state_id = req.GET['state_id']
         state = State().by_state_id(state_id)
-        districts = District().by_sate(state)        
-        serializer = DistrictSerializer(districts, many=True) 
+        districts = District().by_sate(state)
+        serializer = DistrictSerializer(districts, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+class CityApi(APIView):
+    def get(self, req):
+        district_id = req.GET['district_id']
+        logging.info("District id=%s", district_id)
+        district = District().by_district_id(district_id)
+        cities = City().by_district(district)
+        serializer = CitySerializer(cities, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+class BranchApi(APIView):
+    def get(self, req):
+        city_id = req.GET['city_id']
+        logging.info("City id=%s", city_id)
+        city = City().by_city_id(city_id)
+        branches = BranchDetail().by_city(city)
+        serializer = BranchDetailSerializer(branches, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 

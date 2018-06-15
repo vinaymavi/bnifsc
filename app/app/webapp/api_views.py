@@ -70,49 +70,50 @@ class BankDetailApi(APIView):
         stream = BytesIO(request.data['_content'])
         data = JSONParser().parse(stream=stream)
         logging.info("Data %s", data)
-        serializer = BankDetailSerializer(data=data)
+        serializer = BankDetailSerializer(data=data, many=True)
         if serializer.is_valid():
             logging.info("Valid Data")
-            validated_data = serializer.validated_data
+            for data in serializer.validated_data:
+                validated_data = data
 
-            # Bank section
-            bank = Bank().get_by_name(validated_data["bank"])
-            if bank is None:
-                bank = Bank(
-                    name=validated_data["bank"], url_name=validated_data["bank"])
-                bank.save()
+                # Bank section
+                bank = Bank().get_by_name(validated_data["bank"])
+                if bank is None:
+                    bank = Bank(
+                        name=validated_data["bank"], url_name=validated_data["bank"])
+                    bank.save()
 
-            # State section
-            state = State().by_bank_and_state(bank, validated_data["state"])
-            if state is None:
-                state = State(
-                    name=validated_data["state"], url_name=validated_data["state"])
-                state.bank.add(bank)
-                state.save()
+                # State section
+                state = State().by_bank_and_state(bank, validated_data["state"])
+                if state is None:
+                    state = State(
+                        name=validated_data["state"], url_name=validated_data["state"])
+                    state.bank.add(bank)
+                    state.save()
 
-            # District section
-            district = District().by_state_and_district(
-                state, validated_data['district'])
-            if district is None:
-                district = District(
-                    name=validated_data['district'], url_name=validated_data['district'], state=state)
-                district.save()
+                # District section
+                district = District().by_state_and_district(
+                    state, validated_data['district'])
+                if district is None:
+                    district = District(
+                        name=validated_data['district'], url_name=validated_data['district'], state=state)
+                    district.save()
 
-            # City Section
-            city = City().by_district_and_city(
-                district, validated_data['city'])
-            if city is None:
-                city = City(
-                    name=validated_data['city'], url_name=validated_data['city'], district=district)
-                city.save()
-            # BranchDetail Section
-            branch = BranchDetail().by_ifsc(validated_data['ifsc'])
-            if branch is None:
-                branch = BranchDetail(bank=bank, name=validated_data['branch'], branch_url_name=validated_data['branch'], ifsc_code=validated_data['ifsc'],
-                                      micr=validated_data['micr'], land_line=validated_data['contact'], state=state, district=district, city=city, address=validated_data['address'])
-                branch.save()
-            branch_detail_serializer = BranchDetailSerializer(branch)
-            return JsonResponse(branch_detail_serializer.data)
+                # City Section
+                city = City().by_district_and_city(
+                    district, validated_data['city'])
+                if city is None:
+                    city = City(
+                        name=validated_data['city'], url_name=validated_data['city'], district=district)
+                    city.save()
+                # BranchDetail Section
+                branch = BranchDetail().by_ifsc(validated_data['ifsc'])
+                if branch is None:
+                    branch = BranchDetail(bank=bank, name=validated_data['branch'], branch_url_name=validated_data['branch'], ifsc_code=validated_data['ifsc'],
+                                        micr=validated_data['micr'], land_line=validated_data['contact'], state=state, district=district, city=city, address=validated_data['address'])
+                    branch.save()
+                branch_detail_serializer = BranchDetailSerializer(branch)
+            return JsonResponse(serializer.validated_data,safe=False)
         else:
             logging.warning("Not a valid data")
             return JsonResponse(serializer.errors)

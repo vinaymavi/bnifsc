@@ -6,7 +6,7 @@
       district_api: "/api/district?state_id=",
       city_api: "/api/city?district_id=",
       branch_api: "/api/branch?city_id=",
-      branch_detail_api: "/api/branch_detail?branch_id=",
+      branch_detail_api: "/api/branch_detail?branch_id="
     },
     selector: {
       bank: "#bank",
@@ -14,7 +14,8 @@
       district: "#district",
       city: "#city",
       branch: "#branch"
-    }
+    },
+    select_arr: ["#bank", "#state", "#district", "#city", "#branch"]
   };
 
   function register_listener() {
@@ -24,6 +25,7 @@
       .addEventListener("change", function(event) {
         event.preventDefault();
         console.log(event.target.value);
+        clear_next_select_elem(config.selector.bank);
         load_data(`${config.api.state_api}${event.target.value}`).then(data => {
           update_select_elem(config.selector.state, data);
         });
@@ -34,6 +36,7 @@
       .addEventListener("change", function(event) {
         event.preventDefault();
         console.log(event.target.value);
+        clear_next_select_elem(config.selector.state);
         load_data(`${config.api.district_api}${event.target.value}`).then(
           data => {
             update_select_elem(config.selector.district, data);
@@ -47,11 +50,10 @@
       .addEventListener("change", function(event) {
         event.preventDefault();
         console.log(event.target.value);
-        load_data(`${config.api.city_api}${event.target.value}`).then(
-          data => {
-            update_select_elem(config.selector.city, data);
-          }
-        );
+        clear_next_select_elem(config.selector.district);
+        load_data(`${config.api.city_api}${event.target.value}`).then(data => {
+          update_select_elem(config.selector.city, data);
+        });
       });
 
     // City change listener
@@ -60,6 +62,7 @@
       .addEventListener("change", function(event) {
         event.preventDefault();
         console.log(event.target.value);
+        clear_next_select_elem(config.selector.city);
         load_data(`${config.api.branch_api}${event.target.value}`).then(
           data => {
             update_select_elem(config.selector.branch, data);
@@ -73,6 +76,7 @@
       .addEventListener("change", function(event) {
         event.preventDefault();
         console.log(event.target.value);
+        clear_next_select_elem(config.selector.branch);
         load_data(`${config.api.branch_detail_api}${event.target.value}`).then(
           data => {
             update_select_elem(config.selector.branch, data);
@@ -83,6 +87,14 @@
 
   function init() {
     register_listener();
+  }
+
+  function clear_next_select_elem(current_elem) {
+    const current_index = config.select_arr.indexOf(current_elem);
+    const next_elems_arr = config.select_arr.slice(current_index + 1);
+    next_elems_arr.length &&
+      (document.querySelectorAll(next_elems_arr.join(",")).forEach((node)=>node.innerHTML =
+      "<option value='0'>Select</option>"));
   }
 
   function update_select_elem(selector, data) {

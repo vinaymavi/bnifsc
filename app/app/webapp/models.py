@@ -14,8 +14,7 @@ SEO_TEMPLATE_TYPE = (('TEMPLATE', 'TEMPLATE'), ('TEXT', 'TEXT'))
 class Bank(models.Model):
     name = fields.CharField(max_length=200)
     url_name = fields.CharField(max_length=200)
-    bank_id = fields.ComputedIntegerField(
-        lambda self: self.bank_id if self.bank_id else len(Bank.objects.all()) + 1)
+    bank_id = models.PositiveIntegerField(default=0)
     image_url = fields.CharField(max_length=200, default='', blank=True)
     acronym = fields.CharField(max_length=50, default='', blank=True)
     seo_content_one = models.TextField(max_length=1000, blank=True)
@@ -50,8 +49,7 @@ class State(models.Model):
     name = fields.CharField(max_length=200, unique=True)
     bank = fields.RelatedSetField(Bank)
     url_name = fields.CharField(max_length=50)
-    state_id = fields.ComputedIntegerField(
-        lambda self: self.state_id if self.state_id else len(State.objects.all()) + 1)
+    state_id = models.PositiveIntegerField(default=0)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
 
@@ -116,8 +114,7 @@ class State(models.Model):
 class District(models.Model):
     name = fields.CharField(max_length=200)
     url_name = fields.CharField(max_length=50)
-    district_id = fields.ComputedIntegerField(
-        lambda self: self.district_id if self.district_id else len(District.objects.all()) + 1)
+    district_id = models.PositiveIntegerField(default=0)
     state = models.ForeignKey(State)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
@@ -152,7 +149,8 @@ class District(models.Model):
         """
         Return district list by state or None if district not found.
         """
-        query_set = District.objects.filter(bank__overlap=[bank.pk], state=state)
+        query_set = District.objects.filter(
+            bank__overlap=[bank.pk], state=state)
         if query_set.count() > 0:
             return query_set
         else:
@@ -169,13 +167,12 @@ class District(models.Model):
 class City(models.Model):
     name = fields.CharField(max_length=200)
     url_name = fields.CharField(max_length=50)
-    city_id = fields.ComputedIntegerField(
-        lambda self: self.city_id if self.city_id else len(City.objects.all()) + 1)
+    city_id = models.PositiveIntegerField(default=0)
     district = models.ForeignKey(District)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
     bank = fields.RelatedSetField(Bank)
-    
+
     def __str__(self):
         return self.name
 
@@ -194,7 +191,8 @@ class City(models.Model):
         """
         Return list of city or none.
         """
-        query_set = City.objects.filter(bank__overlap=[bank.pk],district=district)
+        query_set = City.objects.filter(
+            bank__overlap=[bank.pk], district=district)
         if query_set.count() > 0:
             return query_set
         else:
@@ -211,8 +209,7 @@ class City(models.Model):
 class BranchDetail(models.Model):
     bank = models.ForeignKey(Bank)
     name = fields.CharField(max_length=100)
-    branch_id = fields.ComputedIntegerField(
-        lambda self: self.branch_id if self.branch_id else len(BranchDetail.objects.all()) + 1)
+    branch_id = models.PositiveIntegerField(default=0)
     branch_url_name = fields.CharField(max_length=100)
     ifsc_code = fields.CharField(max_length=20)
     micr = fields.CharField(max_length=10, blank=True)
@@ -233,7 +230,7 @@ class BranchDetail(models.Model):
         return self.name
 
     def by_city(self, city):
-        
+
         query_set = BranchDetail.objects.filter(city=city)
         if query_set.count() > 0:
             return query_set
@@ -283,3 +280,48 @@ class Seo(models.Model):
 
 class AppInfo(models.Model):
     info = models.CharField(max_length=160)
+
+
+class Counter(models.Model):
+    bank = models.PositiveIntegerField(default=0)
+    state = models.PositiveIntegerField(default=0)
+    district = models.PositiveIntegerField(default=0)
+    city = models.PositiveIntegerField(default=0)
+    branch = models.PositiveIntegerField(default=0)
+
+    @staticmethod
+    def next_bank_id(counter):
+        counter.bank += 1
+        counter.save()
+        return counter.bank
+        
+    @staticmethod
+    def next_state_id(counter):
+        counter.state += 1
+        counter.save()
+        return counter.state
+    @staticmethod
+    def next_district_id(counter):
+        counter.district += 1
+        counter.save()
+        return counter.district
+    @staticmethod
+    def next_city_id(counter):
+        counter.city += 1
+        counter.save()
+        return counter.city
+    @staticmethod
+    def next_branch_id(counter):
+        counter.branch += 1
+        counter.save()
+        return counter.branch
+
+    @staticmethod
+    def get_counter():
+        query_set = Counter.objects.all()
+        if query_set.count() > 0:
+            return query_set.first()
+        else:
+            counter = Counter()
+            counter.save()
+            return Counter.get_counter()

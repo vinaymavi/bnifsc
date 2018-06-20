@@ -26,7 +26,6 @@ SECRET_KEY = get_app_config().secret_key
 DEBUG = True
 
 # Application definition
-
 INSTALLED_APPS = (
     'djangae', # Djangae needs to come before django apps in django 1.7 and above
     'django.contrib.admin',
@@ -135,3 +134,8 @@ SITE_ADMIN_TITLE = "BNIFSC Admin Panel"
 from djangae.contrib.gauth.settings import *
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    )
+}

@@ -36,20 +36,24 @@ class StateApi(APIView):
 
 class DistrictApi(APIView):
     def get(self, req):
+        logging.info("Request bank id %s", req.GET["bank_id"])
         logging.info("state id = %s", req.GET['state_id'])
+        bank = Bank.objects.get(bank_id=req.GET["bank_id"])
         state_id = req.GET['state_id']
         state = State().by_state_id(state_id)
-        districts = District().by_sate(state)
+        districts = District().by_bank_and_state(bank,state)
         serializer = DistrictSerializer(districts, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
 class CityApi(APIView):
     def get(self, req):
+        logging.info("Request bank id %s", req.GET["bank_id"])
         district_id = req.GET['district_id']
+        bank = Bank.objects.get(bank_id=req.GET["bank_id"])        
         logging.info("District id=%s", district_id)
         district = District().by_district_id(district_id)
-        cities = City().by_district(district)
+        cities = City().by_bank_and_district(bank,district)
         serializer = CitySerializer(cities, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -57,9 +61,12 @@ class CityApi(APIView):
 class BranchApi(APIView):
     def get(self, req):
         city_id = req.GET['city_id']
+        bank_id = req.GET['bank_id']
         logging.info("City id=%s", city_id)
+        logging.info("Bank id=%s", bank_id)        
         city = City().by_city_id(city_id)
-        branches = BranchDetail().by_city(city)
+        bank = Bank.objects.get(bank_id=req.GET["bank_id"])
+        branches = BranchDetail().by_bank_and_city(bank, city)
         serializer = BranchDetailSerializer(branches, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -97,6 +104,7 @@ class BankDetailApi(APIView):
                 if district is None:
                     district = District(
                         name=validated_data['district'], url_name=validated_data['district'], state=state)
+                    district.bank.add(bank)                            
                     district.save()
 
                 # City Section
@@ -105,6 +113,7 @@ class BankDetailApi(APIView):
                 if city is None:
                     city = City(
                         name=validated_data['city'], url_name=validated_data['city'], district=district)
+                    city.bank.add(bank)
                     city.save()
                 # BranchDetail Section
                 branch = BranchDetail().by_ifsc(validated_data['ifsc'])

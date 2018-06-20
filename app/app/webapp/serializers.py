@@ -13,7 +13,7 @@ class BankSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_custom_id(self, obj):
-        return obj.state_id
+        return obj.bank_id
         
 
 class BranchDetailSerializer(serializers.ModelSerializer):

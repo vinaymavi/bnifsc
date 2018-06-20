@@ -121,6 +121,7 @@ class District(models.Model):
     state = models.ForeignKey(State)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
+    bank = fields.RelatedSetField(Bank)
 
     def __str__(self):
         return self.name
@@ -147,11 +148,11 @@ class District(models.Model):
             logging.warn("District name ='%s' does not exist.", district_name)
             return None
 
-    def by_sate(self, state):
+    def by_bank_and_state(self, bank, state):
         """
         Return district list by state or None if district not found.
         """
-        query_set = District.objects.filter(state=state)
+        query_set = District.objects.filter(bank__overlap=[bank.pk], state=state)
         if query_set.count() > 0:
             return query_set
         else:
@@ -173,7 +174,8 @@ class City(models.Model):
     district = models.ForeignKey(District)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
-
+    bank = fields.RelatedSetField(Bank)
+    
     def __str__(self):
         return self.name
 
@@ -188,11 +190,11 @@ class City(models.Model):
                 "City with district='%s' with city='%s' does not exist", district.name, city_name)
             return None
 
-    def by_district(self, district):
+    def by_bank_and_district(self, bank, district):
         """
         Return list of city or none.
         """
-        query_set = City.objects.filter(district=district)
+        query_set = City.objects.filter(bank__overlap=[bank.pk],district=district)
         if query_set.count() > 0:
             return query_set
         else:
@@ -231,10 +233,12 @@ class BranchDetail(models.Model):
         return self.name
 
     def by_city(self, city):
-        try:
-            return BranchDetail.objects.get(city=city)
-        except BranchDetail.DoesNotExist as er:
-            logging.warn("Branch with city='%s' does not exist.", city.name)
+        
+        query_set = BranchDetail.objects.filter(city=city)
+        if query_set.count() > 0:
+            return query_set
+        else:
+            logging.warn('Bank does not exist for city =%s', city.name)
             return None
 
     def by_ifsc(self, ifsc_code):
@@ -245,11 +249,11 @@ class BranchDetail(models.Model):
                 "Branch with ifsc code = '%s' does not exist.", ifsc_code)
             return None
 
-    def by_city(self, city):
+    def by_bank_and_city(self, bank, city):
         """
         Return list of city or none.
         """
-        query_set = BranchDetail.objects.filter(city=city)
+        query_set = BranchDetail.objects.filter(bank=bank, city=city)
         if query_set.count() > 0:
             return query_set
         else:

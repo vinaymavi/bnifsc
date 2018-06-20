@@ -2,11 +2,11 @@
 (function() {
   const config = {
     api: {
-      state_api: "/api/state?bank_id=",
-      district_api: "/api/district?state_id=",
-      city_api: "/api/city?district_id=",
-      branch_api: "/api/branch?city_id=",
-      branch_detail_api: "/api/branch_detail?branch_id="
+      state_api: "/api/state",
+      district_api: "/api/district",
+      city_api: "/api/city",
+      branch_api: "/api/branch",
+      branch_detail_api: "/api/branch_detail"
     },
     selector: {
       bank: "#bank",
@@ -19,14 +19,13 @@
   };
 
   function register_listener() {
+    const bank_sel = document
+    .querySelector(config.selector.bank);
     // Bank change listener
-    document
-      .querySelector(config.selector.bank)
-      .addEventListener("change", function(event) {
-        event.preventDefault();
-        console.log(event.target.value);
+   bank_sel.addEventListener("change", function(event) {
+        event.preventDefault();                
         clear_next_select_elem(config.selector.bank);
-        load_data(`${config.api.state_api}${event.target.value}`).then(data => {
+        load_data(`${config.api.state_api}?bank_id=${event.target.value}`).then(data => {
           update_select_elem(config.selector.state, data);
         });
       });
@@ -35,13 +34,12 @@
       .querySelector(config.selector.state)
       .addEventListener("change", function(event) {
         event.preventDefault();
+
         console.log(event.target.value);
         clear_next_select_elem(config.selector.state);
-        load_data(`${config.api.district_api}${event.target.value}`).then(
-          data => {
-            update_select_elem(config.selector.district, data);
-          }
-        );
+        load_data(`${config.api.district_api}?bank_id=${bank_sel.value}&state_id=${event.target.value}`).then(data => {
+          update_select_elem(config.selector.district, data);
+        });
       });
 
     // District change listener
@@ -51,7 +49,7 @@
         event.preventDefault();
         console.log(event.target.value);
         clear_next_select_elem(config.selector.district);
-        load_data(`${config.api.city_api}${event.target.value}`).then(data => {
+        load_data(`${config.api.city_api}?bank_id=${bank_sel.value}&district_id=${event.target.value}`).then(data => {
           update_select_elem(config.selector.city, data);
         });
       });
@@ -63,11 +61,9 @@
         event.preventDefault();
         console.log(event.target.value);
         clear_next_select_elem(config.selector.city);
-        load_data(`${config.api.branch_api}${event.target.value}`).then(
-          data => {
-            update_select_elem(config.selector.branch, data);
-          }
-        );
+        load_data(`${config.api.branch_api}?bank_id=${bank_sel.value}&city_id=${event.target.value}`).then(data => {
+          update_select_elem(config.selector.branch, data);
+        });
       });
 
     // Branch change listener
@@ -77,11 +73,9 @@
         event.preventDefault();
         console.log(event.target.value);
         clear_next_select_elem(config.selector.branch);
-        load_data(`${config.api.branch_detail_api}${event.target.value}`).then(
-          data => {
-            update_select_elem(config.selector.branch, data);
-          }
-        );
+        load_data(`${config.api.branch_detail_api}?bank_id=${bank_sel.value}&branch_id=${event.target.value}`).then(data => {
+          update_select_elem(config.selector.branch, data);
+        });
       });
   }
 
@@ -93,8 +87,11 @@
     const current_index = config.select_arr.indexOf(current_elem);
     const next_elems_arr = config.select_arr.slice(current_index + 1);
     next_elems_arr.length &&
-      (document.querySelectorAll(next_elems_arr.join(",")).forEach((node)=>node.innerHTML =
-      "<option value='0'>Select</option>"));
+      document
+        .querySelectorAll(next_elems_arr.join(","))
+        .forEach(
+          node => (node.innerHTML = "<option value='0'>Select</option>")
+        );
   }
 
   function update_select_elem(selector, data) {
@@ -106,10 +103,10 @@
     document.querySelector(selector).innerHTML = options.join("");
   }
 
-  async function load_data(url) {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+  async function load_data(url, data) {
+    const response = await fetch(url, data);
+    const res_data = await response.json();
+    return res_data;
   }
 
   document.addEventListener("DOMContentLoaded", () => init());

@@ -16,6 +16,11 @@ from webapp.api_views import ApiInfo, BankApi, StateApi, BankDetailApi,DistrictA
 
 urlpatterns = (
     url(r'^$', webapp.index, name='home'),
+    url(r'^aboutus$', webapp.aboutus, name='aboutus'),
+    url(r'^contactus$', webapp.contactus, name='contactus'),
+    url(r'^privacy$', webapp.privacy, name='privacy'),
+    url(r'^disclaimer$', webapp.disclaimer, name='disclaimer'),
+    url(r'^search-by-ifsc$', webapp.by_ifsc, name='by_ifsc'),
     url(r'^api/bank$', BankApi.as_view(), name="api_bank"),
     url(r'^api/state$', StateApi.as_view(), name="api_state"),
     url(r'^api/district$', DistrictApi.as_view(), name="api_district"),

@@ -1,11 +1,11 @@
 <!doctype html>
 <html amp lang="en">
 {% load static%}
+
 <head>
     <meta charset="utf-8">
     <title>Hello, AMPs</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-    {% block seo %}
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"> {% block seo %}
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",
@@ -18,185 +18,58 @@
       }
 
     </script>
-    <link href="{% static 'webapp/css/app.css' %}" rel="stylesheet"/>
-    <script src="{% static 'webapp/javascript/script.js' %}"></script>
-
-    {% endblock %}
+    <link href="{% static 'webapp/css/app.css' %}" rel="stylesheet" />
+    <script src="{% static 'webapp/javascript/script.js' %}"></script> {% endblock %}
 
     </noscript>
 </head>
 
 <body>
-{% block header%}
-<header>
-    <div class="container">
-        <div class="brand-logo">
-            <span>BNIFSC</span>
-        </div>
-        <nav>
-            <ul>
-                <li >
-                    <a href="#">Find By IFSC</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
-{% endblock%}
-<div class="container">
-    {% block form%}
-    <section class='row form-section'>
-        <div class='col-12 col-md-8 bank-form'>
-            <form action="">
-                <div>
-                    <label for="bank">Banks</label>
-                    <select name="bank" id="bank">
-                        <option value="0">Select</option>
-                        {% for bank in banks%}
-                        <option data-bank-id="{{bank.id}}" value={{bank.bank_id}}>{{bank.name}}</option>
-                        {% endfor%}
-                    </select>
-                </div>
-                <div>
-                    <label for="state">State</label>
-                    <select name="state" id="state">
-                        <option value="0">Select </option>
-                        {% for state in states %}
-                        <option data-state-id="{{state.id}}"  value="{{state.url_name}}">{{state.name}}</option>
-                        {% endfor %}
-
-                    </select>
-                </div>
-                <div>
-                    <label for="district">District</label>
-                    <select name="district" id="district">
-                        <option value="0">Select </option>
-                        {% for district in districts%}
-                        <option data-district-id="{{district.id}}" value="{{district.url_name}}">{{district.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label for="city">City</label>
-                    <select name="city" id="city">
-                        <option value="0">Select </option>
-                        {% for city in cites%}
-                        <option data-city-id="{{city.id}}" value="{{city.url_name}}">{{city.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label for="branch">Branch</label>
-                    <select name="branch" id="branch">
-                        <option value="0">Select</option>
-                        {% for branch in branches%}
-                        <option data-branch-id="{{branch.id}}" value="{{branch.url_name}}">{{branch.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </form>
-        </div>
-        <div class='col-12 col-md-4'>
-            <h1>Ads</h1>
-        </div>
-    </section>
-    {% endblock %} {% block banklist%}
-    <section class='row list-container'>
-        <div class="col-12">
-            <h2>All Indian Bank list</h2>
-        </div>
-        <div class="item-list col-12">
-            {% for bank in banks%}
-            <div class="item col-12 col-md-4">
-                <a href="/bank/{{bank.bank_id}}">{{bank.name}}</a>
+    {% block header%}
+    <header>
+        <div class="container">
+            <div class="brand-logo">
+                <a href="{% url 'home'%}">BNIFSC</a>
             </div>
-            {% endfor %}
+            <nav>
+                <ul>
+                    <li>
+                        <a href="{% url 'by_ifsc'%}">Find By IFSC</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-    </section>
-    {% endblock%} {% block seo_body%}
-    <!-- SEO content -->
-    <section class="row seo-content">
-        <div class="col-12">
-            <h3>Seo content</h3>
-            <div class="content">
-                all rich text.
-            </div>
-        </div>
-    </section>
+    </header>
     {% endblock%}
-    <!--Bank Detail-->
-    <!--Bank Details list-->
-    <div class="bank-detail">
-        <h2>Name Of Bank</h2>
-        <table class="table">
-            <tr class="ifsc">
-                <td>label 1</td>
-                <td>value 1</td>
-            </tr>
-            <tr>
-                <td>label 2</td>
-                <td>value 2</td>
-            </tr>
-            <tr>
-                <td>label 3</td>
-                <td>value 3</td>
-            </tr>
-            <tr>
-                <td>label 4</td>
-                <td>value 4</td>
-            </tr>
-            <tr>
-                <td>label 5</td>
-                <td>value 5</td>
-            </tr>
-            <tr>
-                <td>label 6</td>
-                <td>value 6</td>
-            </tr>
-            <tr>
-                <td>label 7</td>
-                <td>value 7</td>
-            </tr>
-            <tr>
-                <td>label 8</td>
-                <td>value 8</td>
-            </tr>
-            <tr>
-                <td>label 9</td>
-                <td>value 9</td>
-            </tr>
-            <tr>
-                <td>label 10</td>
-                <td>value 10</td>
-            </tr>
-        </table>
-    </div>
-
-</div>
-
-{% block footer%}
-<footer>
     <div class="container">
-        <nav>
-            <ul>
-                <li>
-                    <a href="#">Aboutus</a>
-                </li>
-                <li>
-                    <a href="#">Contactus</a>
-                </li>
-                <li>
-                    <a href="#">Privay Policy</a>
-                </li>
-                <li>
-                    <a href="#">Disclaimer</a>
-                </li>
-            </ul>
-        </nav>
-        <div class='disclaimer'>all rights are reserved@bnifs.</div>
+        {% block page_content %}
+            <h1>Page content</h1>
+        {% endblock %}
     </div>
-</footer>
-{% endblock%}
+
+    {% block footer%}
+    <footer>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="{% url 'aboutus'%}">Aboutus</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contactus'%}">Contactus</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'privacy'%}">Privay Policy</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'disclaimer'%}">Disclaimer</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class='disclaimer'>all rights are reserved@bnifs.</div>
+        </div>
+    </footer>
+    {% endblock%}
 
 
 </body>

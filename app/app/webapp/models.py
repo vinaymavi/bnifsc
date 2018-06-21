@@ -17,9 +17,6 @@ class Bank(models.Model):
     bank_id = models.PositiveIntegerField(default=0)
     image_url = fields.CharField(max_length=200, default='', blank=True)
     acronym = fields.CharField(max_length=50, default='', blank=True)
-    seo_content_one = models.TextField(max_length=1000, blank=True)
-    seo_content_two = models.TextField(max_length=100, blank=True)
-    seo_content_three = models.TextField(max_length=100, blank=True)
     help_line_number = fields.CharField(max_length=20, blank=True)
     support_email = fields.CharField(max_length=100, blank=True)
     is_top_list = models.BooleanField(default=False)
@@ -267,15 +264,35 @@ class BranchDetail(models.Model):
             logging.warn("Branch does not exist with branch_id=%s", branch_id)
 
 
-class Seo(models.Model):
-    rule_name = fields.CharField(max_length=100, unique=True)
-    rule_type = fields.CharField(max_length=20, choices=SEO_TEMPLATE_TYPE)
-    rule_content = models.TextField(max_length=1000)
+class SeoComponent(models.Model):
+    name = fields.CharField(max_length=100, unique=True)
+    template_type = fields.CharField(max_length=20, choices=SEO_TEMPLATE_TYPE)
+    heading = fields.CharField(max_length=200)
+    content = models.TextField(max_length=1000)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
-        return self.rule_name
+        return self.name
+
+
+class SeoComponentGroup(models.Model):
+    name = fields.CharField(max_length=100)
+    components = fields.RelatedSetField(SeoComponent)
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
+
+    def __str__(self):
+        return self.name
+
+class Page(models.Model):
+    name = fields.CharField(max_length=100)
+    component_group = models.ForeignKey(SeoComponentGroup)
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
+    
+    def __str__(self):
+        return self.name
 
 
 class AppInfo(models.Model):
@@ -294,22 +311,25 @@ class Counter(models.Model):
         counter.bank += 1
         counter.save()
         return counter.bank
-        
+
     @staticmethod
     def next_state_id(counter):
         counter.state += 1
         counter.save()
         return counter.state
+
     @staticmethod
     def next_district_id(counter):
         counter.district += 1
         counter.save()
         return counter.district
+
     @staticmethod
     def next_city_id(counter):
         counter.city += 1
         counter.save()
         return counter.city
+
     @staticmethod
     def next_branch_id(counter):
         counter.branch += 1

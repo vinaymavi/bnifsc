@@ -85,7 +85,22 @@ indexes:
   - name: __key__
     direction: desc
 
+- kind: webapp_page
+  properties:
+  - name: __key__
+    direction: desc
+
 - kind: webapp_seo
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: webapp_seocomponent
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: webapp_seocomponentgroup
   properties:
   - name: __key__
     direction: desc

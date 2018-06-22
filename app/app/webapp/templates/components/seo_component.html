@@ -1,0 +1,11 @@
+<!-- SEO content -->
+<section class="row seo-content">
+        <div class="col-12">
+            {%for component in seo_data.component_group.components %}
+                <h3>{{component.heading}}</h3>
+                <div class="content">
+                    {{component.content | safe}}
+                </div>
+            {% endfor%}        
+        </div>
+    </section>

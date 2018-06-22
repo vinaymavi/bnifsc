@@ -141,5 +141,10 @@ REST_FRAMEWORK = {
 }
 
 URL_PAGE_MAPPING={
-    'HOME_PAGE':'home_page'
+    'HOME_PAGE':'home_page',
+    'ABOUTUS_PAGE':'aboutus_page',
+    'CONTACTUS_PAGE':'contactus_page',
+    'PRIVACY_PAGE':'privacy_page',
+    'DISCLAIMER_PAGE':'disclaimer_page',
+    'BY_IFSC_PAGE':'by_ifsc_page',
 }

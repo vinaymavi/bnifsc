@@ -19,20 +19,35 @@ def index(request):
 
 
 def aboutus(request):
-    return render(request, 'aboutus.html')
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['ABOUTUS_PAGE'])
+    serializer = PageSerializer(page)
+    context = {'seo_data': serializer.data}
+    return render(request, 'aboutus.html', context=context)
 
 
 def disclaimer(request):
-    return render(request, 'disclaimer.html')
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['DISCLAIMER_PAGE'])
+    serializer = PageSerializer(page)
+    context = {'seo_data': serializer.data}
+    return render(request, 'disclaimer.html', context=context)
 
 
 def privacy(request):
-    return render(request, 'privacy.html')
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['PRIVACY_PAGE'])
+    serializer = PageSerializer(page)
+    context = {'seo_data': serializer.data}
+    return render(request, 'privacy.html', context=context)
 
 
 def contactus(request):
-    return render(request, 'contactus.html')
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['CONTACTUS_PAGE'])
+    serializer = PageSerializer(page)
+    context = {'seo_data': serializer.data}
+    return render(request, 'contactus.html', context=context)
 
 
 def by_ifsc(request):
-    return render(request, 'by_ifsc.html')
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['BY_IFSC_PAGE'])
+    serializer = PageSerializer(page)
+    context = {'seo_data': serializer.data}
+    return render(request, 'by_ifsc.html', context=context)

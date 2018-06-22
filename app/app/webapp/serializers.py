@@ -8,32 +8,36 @@ class ApiInfoSerializer(serializers.Serializer):
 
 class BankSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')
+
     class Meta:
         model = Bank
         fields = '__all__'
 
     def get_custom_id(self, obj):
         return obj.bank_id
-        
+
 
 class BranchDetailSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')
+
     class Meta:
         model = BranchDetail
-        fields = '__all__'    
-    
+        fields = '__all__'
+
     def get_custom_id(self, obj):
         return obj.branch_id
 
+
 class StateSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')
+    bank = BankSerializer(many=True, read_only=True)
 
     class Meta:
         model = State
         fields = '__all__'
 
     def get_custom_id(self, obj):
-        return obj.state_id
+        return obj.state_id    
 
 
 class DistrictSerializer(serializers.ModelSerializer):

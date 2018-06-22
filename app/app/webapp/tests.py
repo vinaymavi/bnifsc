@@ -6,6 +6,7 @@ from rest_framework.test import APIClient, APITestCase
 from rest_framework import status
 import logging
 from models import Bank, State, District, City, BranchDetail
+from serializers import BankSerializer, StateSerializer
 
 
 class BankTestCase(TestCase):
@@ -465,3 +466,19 @@ class ApiTesting(APITestCase):
         url = reverse('api_branch')
         res = self.client.get(url,{'bank_id': 1, 'city_id': 1})
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+class BankSerializserTestCase(TestCase):
+    def test_bank_serializer(self):
+        bank = Bank(name="Test Bank", url_name="TB")
+        serializer = BankSerializer(bank)
+        self.assertEqual("Test Bank",serializer.data['name'])
+
+class StateSerializerTestCase(TestCase):
+    def test_state_serializer(self):
+        bank = Bank(name="Test Bank", url_name="TB")        
+        bank.save()
+        state = State(name="Test State", url_name="TS")
+        state.bank.add(bank)
+        state.save()
+        serializer = StateSerializer(state)        
+        self.assertEqual(serializer.data['bank'][0].items()[2][1],'Test Bank')

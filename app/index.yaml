@@ -90,6 +90,16 @@ indexes:
   - name: __key__
     direction: desc
 
+- kind: webapp_pageheadingtemplate
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: webapp_pageurltemplate
+  properties:
+  - name: __key__
+    direction: desc
+
 - kind: webapp_seo
   properties:
   - name: __key__

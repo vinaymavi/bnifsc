@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Bank, BranchDetail, State, District, City,Page,SeoComponentGroup,SeoComponent
+from models import *
 
 
 class ApiInfoSerializer(serializers.Serializer):
@@ -37,7 +37,7 @@ class StateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_custom_id(self, obj):
-        return obj.state_id    
+        return obj.state_id
 
 
 class DistrictSerializer(serializers.ModelSerializer):
@@ -73,21 +73,38 @@ class BankDetailSerializer(serializers.Serializer):
     district = serializers.CharField(max_length=1000)
     state = serializers.CharField(max_length=1000)
 
+
 class SeoComponentSerializer(serializers.ModelSerializer):
     class Meta:
-        model=SeoComponent
-        fields = '__all__'   
+        model = SeoComponent
+        fields = '__all__'
 
 
 class SeoComponentGroupSerializer(serializers.ModelSerializer):
-    components = SeoComponentSerializer(many=True,read_only=True)
+    components = SeoComponentSerializer(many=True, read_only=True)
+
     class Meta:
-        model=SeoComponentGroup
-        fields = '__all__'   
+        model = SeoComponentGroup
+        fields = '__all__'
+
+
+class PageUrlTemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PageUrlTemplate
+        fields = '__all__'
+
+
+class PageHeadingTemplateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PageHeadingTemplate
+        fields = '__all__'
+
 
 class PageSerializer(serializers.ModelSerializer):
     component_group = SeoComponentGroupSerializer(read_only=True)
-    class Meta:
-        model=Page
-        fields = '__all__'        
+    url_template = PageUrlTemplateSerializer(read_only=True)
+    heading_template = PageHeadingTemplateSerializer(read_only=True)
 
+    class Meta:
+        model = Page
+        fields = '__all__'

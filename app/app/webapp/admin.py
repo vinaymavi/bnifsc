@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from models import Bank, BranchDetail, SeoComponent,SeoComponentGroup,Page, State, District, City
+from models import *
 from django.conf import settings
 
 # Register your models here.
@@ -17,3 +17,5 @@ admin.site.register(Page)
 admin.site.register(State)
 admin.site.register(District)
 admin.site.register(City)
+admin.site.register(PageUrlTemplate)
+admin.site.register(PageHeadingTemplate)

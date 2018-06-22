@@ -1,7 +1,8 @@
 {% extends "base.html"%}
 {% block page_content%}
 {% block form%}
-<section class='row form-section'>
+<h1 class="page-heading">{{seo_data.heading_template.h1_template}}</h1>
+<section class='row form-section'>    
     <div class='col-12 col-md-8 bank-form'>
         <form action="">
             <div>
@@ -59,7 +60,7 @@
 {% endblock %} {% block banklist%}
 <section class='row list-container'>
     <div class="col-12">
-        <h2>All Indian Bank list</h2>
+        <h2>{{seo_data.heading_template.h2_template}}</h2>
     </div>
     <div class="item-list col-12">
         {% for bank in banks%}

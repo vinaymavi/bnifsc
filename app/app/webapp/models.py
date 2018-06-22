@@ -286,24 +286,6 @@ class SeoComponentGroup(models.Model):
         return self.name
 
 
-class Page(models.Model):
-    name = fields.CharField(max_length=100, unique=True)
-    component_group = models.ForeignKey(SeoComponentGroup)
-    add_date = models.DateTimeField(default=timezone.now())
-    update_date = models.DateTimeField(default=timezone.now())
-
-    def __str__(self):
-        return self.name
-
-    @staticmethod
-    def by_page_name(page_name):
-        try:
-            return Page.objects.get(name=page_name)
-        except Page.DoesNotExist as err:
-            logging.warning("Page name=%s does not exist ", page_name)
-            return None
-
-
 class AppInfo(models.Model):
     info = models.CharField(max_length=160)
 
@@ -354,3 +336,43 @@ class Counter(models.Model):
             counter = Counter()
             counter.save()
             return Counter.get_counter()
+
+class PageUrlTemplate(models.Model):
+    name = fields.CharField(max_length=100,unique=True)
+    template = models.TextField(max_length=250)
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
+
+    def __str__(self):
+        return self.name
+
+class PageHeadingTemplate(models.Model):
+    name = fields.CharField(max_length=100,unique=True)
+    h1_template = models.TextField(max_length=250)
+    h2_template = models.TextField(max_length=250)
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
+
+    def __str__(self):
+        return self.name
+
+
+class Page(models.Model):
+    name = fields.CharField(max_length=100, unique=True)
+    component_group = models.ForeignKey(SeoComponentGroup)
+    url_template = models.ForeignKey(PageUrlTemplate, blank=True,null=True)
+    heading_template = models.ForeignKey(PageHeadingTemplate)
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
+
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def by_page_name(page_name):
+        try:
+            return Page.objects.get(name=page_name)
+        except Page.DoesNotExist as err:
+            logging.warning("Page name=%s does not exist ", page_name)
+            return None
+            

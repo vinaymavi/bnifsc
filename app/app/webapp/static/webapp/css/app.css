@@ -164,3 +164,8 @@ footer .disclaimer {
 .bank-detail tr.address {
   font-size: 18px;
 }
+
+.page-heading{
+  text-align: center;
+  margin: 10px 0;
+}

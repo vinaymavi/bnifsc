@@ -26,7 +26,7 @@ class Bank(models.Model):
     def get_by_name(self, name):
         try:
             return Bank.objects.get(name=name)
-        except Bank.DoesNotExist:
+        except Bank.DoesNotExist: 
             return None
 
     def get_by_bank_id(self, bank_id):

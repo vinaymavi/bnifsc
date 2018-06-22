@@ -6,14 +6,15 @@ from django.http import HttpResponse
 from models import Bank, Page
 import logging
 from django.conf import settings
-from serializers import PageSerializer
+from serializers import PageSerializer,BankSerializer
 
 
 def index(request):
     banks = Bank().list_all()
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['HOME_PAGE'])
-    serializer = PageSerializer(page)
-    context = {"banks": banks, 'seo_data': serializer.data}
+    page_serializer = PageSerializer(page)
+    bank_serializer = BankSerializer(banks, many=True)
+    context = {"banks": bank_serializer.data, 'seo_data': page_serializer.data}
     logging.info("Banks count = %s" % (len(context["banks"])))
     return render(request, 'basic_page.html', context=context)
 

@@ -147,4 +147,5 @@ URL_PAGE_MAPPING={
     'PRIVACY_PAGE':'privacy_page',
     'DISCLAIMER_PAGE':'disclaimer_page',
     'BY_IFSC_PAGE':'by_ifsc_page',
+    'BANK_PAGE':'bank_page'
 }

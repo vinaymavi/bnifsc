@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from models import *
+from django.conf import settings
+from django.template import Template, Context
+from django.urls import reverse
 
 
 class ApiInfoSerializer(serializers.Serializer):
@@ -8,6 +11,7 @@ class ApiInfoSerializer(serializers.Serializer):
 
 class BankSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')
+    url = serializers.SerializerMethodField()
 
     class Meta:
         model = Bank
@@ -15,6 +19,19 @@ class BankSerializer(serializers.ModelSerializer):
 
     def get_custom_id(self, obj):
         return obj.bank_id
+
+    def get_url(self, obj):
+        """
+        Generate URL for bank.
+        """
+        page = Page.by_page_name(settings.URL_PAGE_MAPPING['BANK_PAGE'])
+        serializer = PageSerializer(page)
+        logging.info(serializer.data['url_template']['template'])
+        template = Template(serializer.data['url_template']['template'])
+        context = Context({'url_name': "-".join(obj.name.split(' '))})
+        url_str = template.render(context)
+        logging.info('url string = {}'.format(url_str))
+        return reverse('bank_page', args=[url_str, obj.bank_id])
 
 
 class BranchDetailSerializer(serializers.ModelSerializer):

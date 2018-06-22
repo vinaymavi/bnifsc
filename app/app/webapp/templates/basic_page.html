@@ -65,7 +65,7 @@
     <div class="item-list col-12">
         {% for bank in banks%}
         <div class="item col-12 col-md-4">
-            <a href="/bank/{{bank.bank_id}}">{{bank.name}}</a>
+            <a href="{{bank.url}}">{{bank.name}}</a>
         </div>
         {% endfor %}
     </div>

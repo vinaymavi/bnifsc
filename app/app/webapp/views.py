@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-
+from django.http import HttpResponse
 from models import Bank, Page
 import logging
 from django.conf import settings
@@ -51,3 +51,18 @@ def by_ifsc(request):
     serializer = PageSerializer(page)
     context = {'seo_data': serializer.data}
     return render(request, 'by_ifsc.html', context=context)
+
+def bank(request,seo_string, bank_id):
+    return HttpResponse("Bank id {}".format(bank_id))
+
+def state(request,seo_string, bank_id,state_id):
+    return HttpResponse("Bank id {},state id {}".format(bank_id,state_id))
+
+def district(request,seo_string, bank_id,state_id,district_id):
+    return HttpResponse("Bank id {},state id {},district id {}".format(bank_id,state_id,district_id))
+
+def city(request,seo_string, bank_id,state_id,district_id,city_id):
+    return HttpResponse("Bank id {},state id {},district id {},city id {}".format(bank_id,state_id,district_id,city_id))    
+
+def branch(request,seo_string, bank_id,state_id,district_id,city_id,branch_id):
+    return HttpResponse("Bank id {},state id {},district id {},city id {},branch id {}".format(bank_id,state_id,district_id,city_id,branch_id))

@@ -15,12 +15,16 @@ import webapp.views as webapp
 from webapp.api_views import ApiInfo, BankApi, StateApi, BankDetailApi,DistrictApi,CityApi,BranchApi
 
 urlpatterns = (
+    
+    # Static Urls
     url(r'^$', webapp.index, name='home'),
     url(r'^aboutus$', webapp.aboutus, name='aboutus'),
     url(r'^contactus$', webapp.contactus, name='contactus'),
     url(r'^privacy$', webapp.privacy, name='privacy'),
     url(r'^disclaimer$', webapp.disclaimer, name='disclaimer'),
     url(r'^search-by-ifsc$', webapp.by_ifsc, name='by_ifsc'),
+    
+    # API Urls
     url(r'^api/bank$', BankApi.as_view(), name="api_bank"),
     url(r'^api/state$', StateApi.as_view(), name="api_state"),
     url(r'^api/district$', DistrictApi.as_view(), name="api_district"),
@@ -28,7 +32,14 @@ urlpatterns = (
     url(r'^api/branch$', BranchApi.as_view(), name="api_branch"),
     url(r'^api/bank-detail$', BankDetailApi.as_view(), name="api_bank_detail"),
     url(r'^api/', ApiInfo.as_view(), name="api_home"),
-    url(r'^_ah/', include('djangae.urls')),
+    url(r'^_ah/', include('djangae.urls')),    
+    
+    # Dymamic Urls
+    url(r'^([\w-]+)/(\d+)/$',webapp.bank, name="bank_page"),
+    url(r'^([\w-]+)/(\d+)-(\d+)/$',webapp.state, name="state_page"),
+    url(r'^([\w-]+)/(\d+)-(\d+)-(\d+)/$',webapp.district, name="district_page"),
+    url(r'^([\w-]+)/(\d+)-(\d+)-(\d+)-(\d+)/$',webapp.city, name="city_page"),
+    url(r'^([\w-]+)/(\d+)-(\d+)-(\d+)-(\d+)-(\d+)/$',webapp.branch, name="branch_page"),
 
     # Note that by default this is also locked down with login:admin in app.yaml
     url(r'^admin/', include(admin.site.urls)),

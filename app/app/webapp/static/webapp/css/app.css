@@ -89,7 +89,7 @@ footer a {
 }
 footer .container {
   height: 100%;
-  display: felx;
+  display: flex;
   flex-direction: column;
 }
 footer .container nav {

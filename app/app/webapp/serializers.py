@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Bank, BranchDetail, State, District, City
+from models import Bank, BranchDetail, State, District, City,Page,SeoComponentGroup,SeoComponent
 
 
 class ApiInfoSerializer(serializers.Serializer):
@@ -72,3 +72,22 @@ class BankDetailSerializer(serializers.Serializer):
     city = serializers.CharField(max_length=1000)
     district = serializers.CharField(max_length=1000)
     state = serializers.CharField(max_length=1000)
+
+class SeoComponentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=SeoComponent
+        fields = '__all__'   
+
+
+class SeoComponentGroupSerializer(serializers.ModelSerializer):
+    components = SeoComponentSerializer(many=True,read_only=True)
+    class Meta:
+        model=SeoComponentGroup
+        fields = '__all__'   
+
+class PageSerializer(serializers.ModelSerializer):
+    component_group = SeoComponentGroupSerializer(read_only=True)
+    class Meta:
+        model=Page
+        fields = '__all__'        
+

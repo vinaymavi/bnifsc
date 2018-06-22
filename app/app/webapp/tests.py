@@ -5,8 +5,8 @@ from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
 from rest_framework import status
 import logging
-from models import Bank, State, District, City, BranchDetail
-from serializers import BankSerializer, StateSerializer
+from models import *
+from serializers import *
 
 
 class BankTestCase(TestCase):
@@ -482,3 +482,31 @@ class StateSerializerTestCase(TestCase):
         state.save()
         serializer = StateSerializer(state)        
         self.assertEqual(serializer.data['bank'][0].items()[2][1],'Test Bank')
+
+
+class SeoComponentTestCase(TestCase):
+    def test_seo_component(self):
+        seo_component = SeoComponent(name='seo_component',template_type="TEXT",heading="page heading",content="This is home page")
+        serializer = SeoComponentSerializer(seo_component)
+        self.assertEqual(serializer.data['name'],"seo_component")
+
+class SeoComponentGroupTestCase(TestCase):
+    def test_seo_component_group(self):
+        seo_component = SeoComponent(name='seo_component',template_type="TEXT",heading="page heading",content="This is home page")
+        seo_component.save()
+        group = SeoComponentGroup(name="home_page_group")
+        group.components.add(seo_component)        
+        serializer = SeoComponentGroupSerializer(group)
+        logging.info(serializer.data['components'])
+        self.assertEqual(serializer.data['components'][0].items()[1][1],"seo_component")
+
+class PageTestCase(TestCase):
+    def test_page(self):
+        seo_component = SeoComponent(name='seo_component',template_type="TEXT",heading="page heading",content="This is home page")
+        seo_component.save()
+        group = SeoComponentGroup(name="home_page_group")
+        group.components.add(seo_component)
+        group.save()
+        page = Page(name="home_page",component_group=group)
+        serializer = PageSerializer(page)        
+        self.assertEqual(serializer.data['component_group']['name'],'home_page_group')

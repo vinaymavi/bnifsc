@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import Bank, Page
+from models import *
 import logging
 from django.conf import settings
-from serializers import PageSerializer,BankSerializer
+from serializers import *
 
 
 def index(request):
@@ -14,7 +14,10 @@ def index(request):
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['HOME_PAGE'])
     page_serializer = PageSerializer(page)
     bank_serializer = BankSerializer(banks, many=True)
-    context = {"banks": bank_serializer.data, 'seo_data': page_serializer.data}
+    context = {"banks": bank_serializer.data,
+               'seo_data': page_serializer.data,
+                "page_items": bank_serializer.data
+                }
     logging.info("Banks count = %s" % (len(context["banks"])))
     return render(request, 'basic_page.html', context=context)
 
@@ -53,17 +56,38 @@ def by_ifsc(request):
     context = {'seo_data': serializer.data}
     return render(request, 'by_ifsc.html', context=context)
 
-def bank(request,seo_string, bank_id):
-    return HttpResponse("Bank id {}".format(bank_id))
 
-def state(request,seo_string, bank_id,state_id):
-    return HttpResponse("Bank id {},state id {}".format(bank_id,state_id))
+def bank(request, seo_string, bank_id):
+    params = {'bank_id': int(bank_id)}
+    banks = Bank().list_all()
+    bank_serializer = BankSerializer(banks, many=True)
+    bank = Bank.objects.get(bank_id=bank_id)
+    logging.info("Bank database name = %s and id=%s", bank.name, bank.pk)
+    state_list = State().by_bank_id(bank.pk)
+    state_serializer = StateSerializer(state_list, many=True, context={'bank_id':bank_id,'bank_name':bank.name})
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['BANK_PAGE'])
+    page_serializer = PageSerializer(page)
+    context = {
+        'params': params,
+        'banks': bank_serializer.data,
+        'states': state_serializer.data,
+        'page_items': state_serializer.data,
+        'seo_data': page_serializer.data,
+    }
+    return render(request, 'bank_page.html', context=context)
 
-def district(request,seo_string, bank_id,state_id,district_id):
-    return HttpResponse("Bank id {},state id {},district id {}".format(bank_id,state_id,district_id))
 
-def city(request,seo_string, bank_id,state_id,district_id,city_id):
-    return HttpResponse("Bank id {},state id {},district id {},city id {}".format(bank_id,state_id,district_id,city_id))    
+def state(request, seo_string, bank_id, state_id):
+    return HttpResponse("Bank id {},state id {}".format(bank_id, state_id))
 
-def branch(request,seo_string, bank_id,state_id,district_id,city_id,branch_id):
-    return HttpResponse("Bank id {},state id {},district id {},city id {},branch id {}".format(bank_id,state_id,district_id,city_id,branch_id))
+
+def district(request, seo_string, bank_id, state_id, district_id):
+    return HttpResponse("Bank id {},state id {},district id {}".format(bank_id, state_id, district_id))
+
+
+def city(request, seo_string, bank_id, state_id, district_id, city_id):
+    return HttpResponse("Bank id {},state id {},district id {},city id {}".format(bank_id, state_id, district_id, city_id))
+
+
+def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_id):
+    return HttpResponse("Bank id {},state id {},district id {},city id {},branch id {}".format(bank_id, state_id, district_id, city_id, branch_id))

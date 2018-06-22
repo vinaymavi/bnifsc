@@ -1,0 +1,59 @@
+<div class='col-12 col-md-8 bank-form'>
+    <form action="">
+        <div>
+            <label for="bank">Banks</label>
+            <select name="bank" id="bank">
+                <option value="0">Select</option>
+                {% for bank in banks%}
+                <option data-bank-id="{{bank.id}}" 
+                {% if params.bank_id == bank.bank_id %} selected="selected" {% endif%}
+                value={{bank.bank_id}}>{{bank.name}}</option>
+                {% endfor%}
+            </select>
+        </div>
+        <div>
+            <label for="state">State</label>
+            <select name="state" id="state">
+                <option value="0">Select </option>
+                {% for state in states %}
+                <option data-state-id="{{state.id}}" 
+                 {% if params.state_id == state.state_id%}selected='selected' {% endif%} 
+                value="{{state.state_id}}">{{state.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="district">District</label>
+            <select name="district" id="district">
+                <option value="0">Select </option>
+                {% for district in districts%}
+                <option data-district-id="{{district.id}}" 
+                {% if params.district_id == district.district_id%}selected='selected' {% endif%}
+                    value="{{district.district_id}}">{{district.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="city">City</label>
+            <select name="city" id="city">
+                <option value="0">Select </option>
+                {% for city in cites%}
+                <option data-city-id="{{city.id}}" 
+                {% if params.city_id == city.city_id%}selected='selected' {% endif%} 
+                value="{{city.city_id}}">{{city.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="branch">Branch</label>
+            <select name="branch" id="branch">
+                <option value="0">Select</option>
+                {% for branch in branches%}
+                <option data-branch-id="{{branch.id}}" 
+                {% if params.branch_id == branch.branch_id%}selected='selected' {% endif%} 
+                value="{{branch.branch_id}}">{{branch.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+</div>

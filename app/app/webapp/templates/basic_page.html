@@ -1,124 +1,27 @@
-{% extends "base.html"%}
-{% block page_content%}
-{% block form%}
-<h1 class="page-heading">{{seo_data.heading_template.h1_template}}</h1>
-<section class='row form-section'>    
-    <div class='col-12 col-md-8 bank-form'>
-        <form action="">
-            <div>
-                <label for="bank">Banks</label>
-                <select name="bank" id="bank">
-                    <option value="0">Select</option>
-                    {% for bank in banks%}
-                    <option data-bank-id="{{bank.id}}" value={{bank.bank_id}}>{{bank.name}}</option>
-                    {% endfor%}
-                </select>
-            </div>
-            <div>
-                <label for="state">State</label>
-                <select name="state" id="state">
-                    <option value="0">Select </option>
-                    {% for state in states %}
-                    <option data-state-id="{{state.id}}" value="{{state.url_name}}">{{state.name}}</option>
-                    {% endfor %}
+{% extends "base.html"%} {% block page_content%}
 
-                </select>
-            </div>
-            <div>
-                <label for="district">District</label>
-                <select name="district" id="district">
-                    <option value="0">Select </option>
-                    {% for district in districts%}
-                    <option data-district-id="{{district.id}}" value="{{district.url_name}}">{{district.name}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label for="city">City</label>
-                <select name="city" id="city">
-                    <option value="0">Select </option>
-                    {% for city in cites%}
-                    <option data-city-id="{{city.id}}" value="{{city.url_name}}">{{city.name}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label for="branch">Branch</label>
-                <select name="branch" id="branch">
-                    <option value="0">Select</option>
-                    {% for branch in branches%}
-                    <option data-branch-id="{{branch.id}}" value="{{branch.url_name}}">{{branch.name}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </form>
-    </div>
+<h1 class="page-heading">{{seo_data.heading_template.h1_template}}</h1>
+
+<!-- Main page form-->
+<section class='row form-section'>
+    {% block form%} {% include "components/main_form.html"%} {% endblock %}
     <div class='col-12 col-md-4'>
         <h1>Ads</h1>
     </div>
 </section>
-{% endblock %} {% block banklist%}
+
+<!-- page items like bank, state, district-->
+{% block page_items%}
 <section class='row list-container'>
     <div class="col-12">
         <h2>{{seo_data.heading_template.h2_template}}</h2>
     </div>
     <div class="item-list col-12">
-        {% for bank in banks%}
+        {% for item in page_items%}
         <div class="item col-12 col-md-4">
-            <a href="{{bank.url}}">{{bank.name}}</a>
+            <a href="{{item.url}}">{{item.name}}</a>
         </div>
         {% endfor %}
     </div>
 </section>
-{% endblock%} 
-{% block seo_body%}
-    {% include 'components/seo_component.html'%}
-{% endblock%}
-<!--Bank Detail-->
-<!--Bank Details list-->
-<div class="bank-detail">
-    <h2>Name Of Bank</h2>
-    <table class="table">
-        <tr class="ifsc">
-            <td>label 1</td>
-            <td>value 1</td>
-        </tr>
-        <tr>
-            <td>label 2</td>
-            <td>value 2</td>
-        </tr>
-        <tr>
-            <td>label 3</td>
-            <td>value 3</td>
-        </tr>
-        <tr>
-            <td>label 4</td>
-            <td>value 4</td>
-        </tr>
-        <tr>
-            <td>label 5</td>
-            <td>value 5</td>
-        </tr>
-        <tr>
-            <td>label 6</td>
-            <td>value 6</td>
-        </tr>
-        <tr>
-            <td>label 7</td>
-            <td>value 7</td>
-        </tr>
-        <tr>
-            <td>label 8</td>
-            <td>value 8</td>
-        </tr>
-        <tr>
-            <td>label 9</td>
-            <td>value 9</td>
-        </tr>
-        <tr>
-            <td>label 10</td>
-            <td>value 10</td>
-        </tr>
-    </table>
-</div>
-{% endblock %}
+{% endblock%} {% block seo_body%} {% include 'components/seo_component.html'%} {% endblock%} {% endblock %}

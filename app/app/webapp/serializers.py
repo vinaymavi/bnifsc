@@ -28,7 +28,7 @@ class BankSerializer(serializers.ModelSerializer):
         serializer = PageSerializer(page)
         logging.info(serializer.data['url_template']['template'])
         template = Template(serializer.data['url_template']['template'])
-        context = Context({'url_name': "-".join(obj.name.split(' '))})
+        context = Context({'url_name': "-".join(obj.url_name.split(' '))})
         url_str = template.render(context)
         logging.info('url string = {}'.format(url_str))
         return reverse('bank_page', args=[url_str, obj.bank_id])
@@ -48,6 +48,7 @@ class BranchDetailSerializer(serializers.ModelSerializer):
 class StateSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')
     bank = BankSerializer(many=True, read_only=True)
+    url = serializers.SerializerMethodField()
 
     class Meta:
         model = State
@@ -55,6 +56,22 @@ class StateSerializer(serializers.ModelSerializer):
 
     def get_custom_id(self, obj):
         return obj.state_id
+
+    def get_url(self, obj):
+        """
+        Generate URL for state.
+        """
+        bank_id = self.context.get('bank_id')
+        bank_name = self.context.get('bank_name')
+        page = Page.by_page_name(settings.URL_PAGE_MAPPING['STATE_PAGE'])
+        serializer = PageSerializer(page)
+        logging.info(serializer.data['url_template']['template'])
+        template = Template(serializer.data['url_template']['template'])
+        context = Context({'state_name': "-".join(obj.url_name.split(' ')),
+                           'bank_name': "-".join(bank_name.split(' '))})
+        url_str = template.render(context)
+        logging.info('url string = {}'.format(url_str))
+        return reverse('state_page', args=[url_str, bank_id, obj.state_id])
 
 
 class DistrictSerializer(serializers.ModelSerializer):

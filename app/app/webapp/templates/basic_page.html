@@ -73,10 +73,12 @@
 <!-- SEO content -->
 <section class="row seo-content">
     <div class="col-12">
-        <h3>Seo content</h3>
-        <div class="content">
-            all rich text.
-        </div>
+        {%for component in seo_data.component_group.components %}
+            <h3>{{component.heading}}</h3>
+            <div class="content">
+                {{component.content | safe}}
+            </div>
+        {% endfor%}        
     </div>
 </section>
 {% endblock%}

@@ -475,7 +475,7 @@ class BankSerializserTestCase(TestCase):
 
 class StateSerializerTestCase(TestCase):
     def test_state_serializer(self):
-        bank = Bank(name="Test Bank", url_name="TB")        
+        bank = Bank(name="Test Bank", url_name="TB")
         bank.save()
         state = State(name="Test State", url_name="TS")
         state.bank.add(bank)

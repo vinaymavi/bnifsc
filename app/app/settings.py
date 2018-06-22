@@ -139,3 +139,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     )
 }
+
+URL_PAGE_MAPPING={
+    'HOME_PAGE':'home_page'
+}

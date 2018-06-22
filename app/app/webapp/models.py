@@ -277,7 +277,7 @@ class SeoComponent(models.Model):
 
 
 class SeoComponentGroup(models.Model):
-    name = fields.CharField(max_length=100)
+    name = fields.CharField(max_length=100, unique=True)
     components = fields.RelatedSetField(SeoComponent)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
@@ -285,14 +285,23 @@ class SeoComponentGroup(models.Model):
     def __str__(self):
         return self.name
 
+
 class Page(models.Model):
-    name = fields.CharField(max_length=100)
+    name = fields.CharField(max_length=100, unique=True)
     component_group = models.ForeignKey(SeoComponentGroup)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
-    
+
     def __str__(self):
         return self.name
+
+    @staticmethod
+    def by_page_name(page_name):
+        try:
+            return Page.objects.get(name=page_name)
+        except Page.DoesNotExist as err:
+            logging.warning("Page name=%s does not exist ", page_name)
+            return None
 
 
 class AppInfo(models.Model):

@@ -16,13 +16,15 @@
     // Bank change listener
    bank_sel.addEventListener("change", function(event) {
         event.preventDefault();
+        show_loader();
         event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
     // State change listener
     document
       .querySelector(config.selector.state)
       .addEventListener("change", function(event) {
-        event.preventDefault();        
+        event.preventDefault();
+        show_loader();        
         event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
 
@@ -31,6 +33,7 @@
       .querySelector(config.selector.district)
       .addEventListener("change", function(event) {
         event.preventDefault();
+        show_loader();
         event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
 
@@ -39,6 +42,7 @@
       .querySelector(config.selector.city)
       .addEventListener("change", function(event) {
         event.preventDefault();
+        show_loader();
         event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
 
@@ -47,10 +51,13 @@
       .querySelector(config.selector.branch)
       .addEventListener("change", function(event) {
         event.preventDefault();
+        show_loader();
         event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
   }
-
+  function show_loader(){
+    document.querySelector('.loader').style.display='block';
+  }
   function init() {
     register_listener();
   }  

@@ -182,7 +182,18 @@ footer .disclaimer {
   text-align: center;
   margin: 10px 0;
 }
-
+.loader{  
+  display: none;
+  position: absolute;
+  width: 50%;
+  left:25%;
+  height: 30px;
+  margin: 10px 0;
+  background-color:#fbbc05cf;
+  color: white;
+  text-align: center;
+  z-index: 2;
+}
 @media (max-width: 720px) {
   h1,h2{
     font-size:1rem;

@@ -89,7 +89,7 @@ footer a {
 }
 footer .container {
   height: 100%;
-  display: felx;
+  display: flex;
   flex-direction: column;
 }
 footer .container nav {
@@ -163,4 +163,9 @@ footer .disclaimer {
 }
 .bank-detail tr.address {
   font-size: 18px;
+}
+
+.page-heading{
+  text-align: center;
+  margin: 10px 0;
 }

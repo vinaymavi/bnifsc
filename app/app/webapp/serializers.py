@@ -28,7 +28,7 @@ class BankSerializer(serializers.ModelSerializer):
         serializer = PageSerializer(page)
         logging.info(serializer.data['url_template']['template'])
         template = Template(serializer.data['url_template']['template'])
-        context = Context({'url_name': "-".join(obj.url_name.split(' '))})
+        context = Context({'bank_name': "-".join(obj.url_name.split(' '))})
         url_str = template.render(context)
         logging.info('url string = {}'.format(url_str))
         return reverse('bank_page', args=[url_str, obj.bank_id])

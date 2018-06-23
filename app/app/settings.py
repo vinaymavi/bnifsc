@@ -148,5 +148,6 @@ URL_PAGE_MAPPING={
     'DISCLAIMER_PAGE':'disclaimer_page',
     'BY_IFSC_PAGE':'by_ifsc_page',
     'BANK_PAGE':'bank_page',
-    'STATE_PAGE':'state_page'
+    'STATE_PAGE':'state_page',
+    'DISTRICT_PAGE':'district_page'
 }

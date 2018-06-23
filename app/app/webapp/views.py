@@ -78,7 +78,34 @@ def bank(request, seo_string, bank_id):
 
 
 def state(request, seo_string, bank_id, state_id):
-    return HttpResponse("Bank id {},state id {}".format(bank_id, state_id))
+    params = {'bank_id': int(bank_id),'state_id':int(state_id)}
+    
+    banks = Bank().list_all()
+    bank_serializer = BankSerializer(banks, many=True)    
+    bank = Bank.objects.get(bank_id=bank_id)
+    logging.info("Bank database name = %s and id=%s", bank.name, bank.pk)
+
+    state_list = State().by_bank_id(bank.pk)
+    state_serializer = StateSerializer(state_list, many=True, context={'bank_id':bank_id,'bank_name':bank.name})    
+    state = State().by_state_id(state_id)
+
+    districts = District().by_bank_and_state(bank,state)
+    district_serializer = DistrictSerializer(
+        districts, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name}
+        )
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['STATE_PAGE'])
+    page_serializer = PageSerializer(page)
+    context = {
+        'params': params,
+        'banks': bank_serializer.data,
+        'states': state_serializer.data,
+        'districts': district_serializer.data,
+        'page_items': district_serializer.data,
+        'seo_data': page_serializer.data,
+    }
+    return render(request, 'bank_page.html', context=context)
 
 
 def district(request, seo_string, bank_id, state_id, district_id):

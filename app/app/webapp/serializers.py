@@ -76,7 +76,7 @@ class StateSerializer(serializers.ModelSerializer):
 
 class DistrictSerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')
-
+    url = serializers.SerializerMethodField()
     class Meta:
         model = District
         fields = '__all__'
@@ -84,6 +84,24 @@ class DistrictSerializer(serializers.ModelSerializer):
     def get_custom_id(self, obj):
         return obj.district_id
 
+    def get_url(self,obj):
+        bank_id = self.context.get('bank_id')
+        bank_name = self.context.get('bank_name')
+        state_id = self.context.get('state_id')
+        state_name = self.context.get('state_name')
+
+        page = Page.by_page_name(settings.URL_PAGE_MAPPING['DISTRICT_PAGE'])
+        serializer = PageSerializer(page)
+        logging.info(serializer.data['url_template']['template'])
+        template = Template(serializer.data['url_template']['template'])
+        context = Context({
+                            'state_name': "-".join(state_name.split(' ')),
+                           'bank_name': "-".join(bank_name.split(' ')),
+                           'district_name': "-".join(obj.name.split(' '))
+                           })
+        url_str = template.render(context)
+        logging.info('url string = {}'.format(url_str))
+        return reverse('district_page', args=[url_str, bank_id, state_id, obj.district_id])
 
 class CitySerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')

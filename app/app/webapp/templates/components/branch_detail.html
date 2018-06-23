@@ -1,47 +1,43 @@
 <!--Bank Detail-->
 <!--Bank Details list-->
 <div class="bank-detail">
-        <h2>Name Of Bank</h2>
+        <h2>{{seo_data.heading_template.h2_template}}</h2>
         <table class="table">
             <tr class="ifsc">
-                <td>label 1</td>
-                <td>value 1</td>
+                <td>IFSC Code</td>
+                <td>{{branch.ifsc_code}}</td>
             </tr>
             <tr>
-                <td>label 2</td>
-                <td>value 2</td>
+                <td>Branch</td>
+                <td><a href='{{branch.url}}'>{{branch.name}}</a></td>
             </tr>
             <tr>
-                <td>label 3</td>
-                <td>value 3</td>
+                <td>Address</td>
+                <td>{{branch.address}}</td>
             </tr>
             <tr>
-                <td>label 4</td>
-                <td>value 4</td>
+                <td>MICR</td>
+                <td>{{branch.micr}}</td>
             </tr>
             <tr>
-                <td>label 5</td>
-                <td>value 5</td>
+                <td>SWIFT</td>
+                <td>{{branch.swift}}</td>
             </tr>
             <tr>
-                <td>label 6</td>
-                <td>value 6</td>
+                <td>City</td>
+                <td><a href={{branch.city.url}}>{{branch.city.name}}</a></td>
+            </tr>           
+            <tr>
+                <td>District</td>
+                <td><a href={{branch.district.url}}>{{branch.district.name}}</a></td>
+            </tr>           
+            <tr>
+                <td>State</td>
+                <td><a href={{branch.state.url}}>{{branch.state.name}}</a></td>
             </tr>
             <tr>
-                <td>label 7</td>
-                <td>value 7</td>
-            </tr>
-            <tr>
-                <td>label 8</td>
-                <td>value 8</td>
-            </tr>
-            <tr>
-                <td>label 9</td>
-                <td>value 9</td>
-            </tr>
-            <tr>
-                <td>label 10</td>
-                <td>value 10</td>
+                <td>Bank</td>
+                <td><a href={{branch.bank.url}}>{{branch.bank.name}}</a></td>
             </tr>
         </table>
     </div>

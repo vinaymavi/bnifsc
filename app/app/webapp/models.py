@@ -262,6 +262,7 @@ class BranchDetail(models.Model):
             return BranchDetail.objects.get(branch_id=branch_id)
         except BranchDetail.DoesNotExist:
             logging.warn("Branch does not exist with branch_id=%s", branch_id)
+            return None
 
 
 class SeoComponent(models.Model):

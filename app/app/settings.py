@@ -149,5 +149,7 @@ URL_PAGE_MAPPING={
     'BY_IFSC_PAGE':'by_ifsc_page',
     'BANK_PAGE':'bank_page',
     'STATE_PAGE':'state_page',
-    'DISTRICT_PAGE':'district_page'
+    'DISTRICT_PAGE':'district_page',
+    'CITY_PAGE':'city_page',
+    'BRANCH_PAGE':'branch_page'
 }

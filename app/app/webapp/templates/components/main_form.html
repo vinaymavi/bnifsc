@@ -37,7 +37,7 @@
             <label for="city">City</label>
             <select name="city" id="city">
                 <option value="0">Select </option>
-                {% for city in cites%}
+                {% for city in cities%}
                 <option data-city-id="{{city.id}}" 
                 {% if params.city_id == city.city_id%}selected='selected' {% endif%} 
                 value="{{city.city_id}}">{{city.name}}</option>

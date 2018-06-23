@@ -34,15 +34,6 @@ class BankSerializer(serializers.ModelSerializer):
         return reverse('bank_page', args=[url_str, obj.bank_id])
 
 
-class BranchDetailSerializer(serializers.ModelSerializer):
-    _id = serializers.SerializerMethodField('get_custom_id')
-
-    class Meta:
-        model = BranchDetail
-        fields = '__all__'
-
-    def get_custom_id(self, obj):
-        return obj.branch_id
 
 
 class StateSerializer(serializers.ModelSerializer):
@@ -105,7 +96,7 @@ class DistrictSerializer(serializers.ModelSerializer):
 
 class CitySerializer(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_custom_id')
-
+    url = serializers.SerializerMethodField()
     class Meta:
         model = City
         fields = '__all__'
@@ -113,7 +104,68 @@ class CitySerializer(serializers.ModelSerializer):
     def get_custom_id(self, obj):
         return obj.city_id
 
+    def get_url(self,obj):
+        bank_id = self.context.get('bank_id')
+        bank_name = self.context.get('bank_name')
+        state_id = self.context.get('state_id')
+        state_name = self.context.get('state_name')
+        district_id = self.context.get('district_id')
+        district_name = self.context.get('district_name')
 
+        page = Page.by_page_name(settings.URL_PAGE_MAPPING['CITY_PAGE'])
+        serializer = PageSerializer(page)
+        logging.info(serializer.data['url_template']['template'])
+        template = Template(serializer.data['url_template']['template'])
+        context = Context({
+                            'state_name': "-".join(state_name.split(' ')),
+                           'bank_name': "-".join(bank_name.split(' ')),
+                           'district_name': "-".join(district_name.split(' ')),
+                           'city_name':"-".join(obj.name.split(' '))
+                           })
+        url_str = template.render(context)
+        logging.info('url string = {}'.format(url_str))
+        return reverse('city_page', args=[url_str, bank_id, state_id, district_id,obj.city_id])
+
+
+class BranchDetailSerializer(serializers.ModelSerializer):
+    _id = serializers.SerializerMethodField('get_custom_id')
+    url = serializers.SerializerMethodField()
+    bank = BankSerializer(read_only=True)
+    state = StateSerializer(read_only=True)
+    district = DistrictSerializer(read_only=True)
+    city = CitySerializer(read_only=True)
+    class Meta:
+        model = BranchDetail
+        fields = '__all__'
+
+    def get_custom_id(self, obj):
+        return obj.branch_id
+
+    def get_url(self,obj):
+        bank_id = self.context.get('bank_id')
+        bank_name = self.context.get('bank_name')
+        state_id = self.context.get('state_id')
+        state_name = self.context.get('state_name')
+        district_id = self.context.get('district_id')
+        district_name = self.context.get('district_name')
+        city_id = self.context.get('city_id')
+        city_name = self.context.get('city_name')
+
+        page = Page.by_page_name(settings.URL_PAGE_MAPPING['BRANCH_PAGE'])
+        serializer = PageSerializer(page)
+        logging.info(serializer.data['url_template']['template'])
+        template = Template(serializer.data['url_template']['template'])
+        context = Context({
+                            'state_name': "-".join(state_name.split(' ')),
+                           'bank_name': "-".join(bank_name.split(' ')),
+                           'district_name': "-".join(district_name.split(' ')),
+                           'city_name':"-".join(city_name.split(' ')),
+                           'branch_name':"-".join(obj.name.split(' '))
+                           })
+        url_str = template.render(context)
+        logging.info('url string = {}'.format(url_str))
+        return reverse('branch_page', args=[url_str, bank_id, state_id, district_id,city_id,obj.branch_id])
+        
 class BankDetailSerializer(serializers.Serializer):
     bank = serializers.CharField(max_length=200)
     ifsc = serializers.CharField(max_length=200)
@@ -160,3 +212,4 @@ class PageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
         fields = '__all__'
+

@@ -109,12 +109,151 @@ def state(request, seo_string, bank_id, state_id):
 
 
 def district(request, seo_string, bank_id, state_id, district_id):
-    return HttpResponse("Bank id {},state id {},district id {}".format(bank_id, state_id, district_id))
+    params = {'bank_id': int(bank_id),'state_id':int(state_id),'district_id':int(district_id)}
+    
+    banks = Bank().list_all()
+    bank_serializer = BankSerializer(banks, many=True)
+    bank = Bank.objects.get(bank_id=bank_id)
+    logging.info("Bank database name = %s and id=%s", bank.name, bank.pk)
+
+    state_list = State().by_bank_id(bank.pk)
+    state_serializer = StateSerializer(state_list, many=True, context={'bank_id':bank_id,'bank_name':bank.name})    
+    state = State().by_state_id(state_id)
+
+    districts = District().by_bank_and_state(bank,state)
+    district_serializer = DistrictSerializer(
+        districts, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name}
+        )
+    district = District().by_district_id(district_id)
+
+
+    cities = City().by_bank_and_district(bank,district)
+    city_serializer = CitySerializer(
+        cities, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name,'district_id':district_id,'district_name':district.name}
+        )
+
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['DISTRICT_PAGE'])
+    page_serializer = PageSerializer(page)
+    context = {
+        'params': params,
+        'banks': bank_serializer.data,
+        'states': state_serializer.data,
+        'districts': district_serializer.data,
+        'cities':city_serializer.data,
+        'page_items': city_serializer.data,
+        'seo_data': page_serializer.data,
+    }
+    return render(request, 'bank_page.html', context=context)
 
 
 def city(request, seo_string, bank_id, state_id, district_id, city_id):
-    return HttpResponse("Bank id {},state id {},district id {},city id {}".format(bank_id, state_id, district_id, city_id))
+    params = {'bank_id': int(bank_id),'state_id':int(state_id),'district_id':int(district_id),'city_id':int(city_id)}
+    
+    banks = Bank().list_all()
+    bank_serializer = BankSerializer(banks, many=True)
+    bank = Bank.objects.get(bank_id=bank_id)
+    logging.info("Bank database name = %s and id=%s", bank.name, bank.pk)
+
+    state_list = State().by_bank_id(bank.pk)
+    state_serializer = StateSerializer(state_list, many=True, context={'bank_id':bank_id,'bank_name':bank.name})    
+    state = State().by_state_id(state_id)
+
+    districts = District().by_bank_and_state(bank,state)
+    district_serializer = DistrictSerializer(
+        districts, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name}
+        )
+    district = District().by_district_id(district_id)
+
+
+    cities = City().by_bank_and_district(bank,district)
+    city_serializer = CitySerializer(
+        cities, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name,'district_id':district_id,'district_name':district.name}
+        )
+    city = City().by_city_id(city_id)
+
+    branches = BranchDetail().by_bank_and_city(bank, city)
+    branch_serializer = BranchDetailSerializer(
+        branches, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name,'district_id':district_id,'district_name':district.name,'city_id':city_id,'city_name':city.name}
+        )
+
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['CITY_PAGE'])
+    page_serializer = PageSerializer(page)
+    context = {
+        'params': params,
+        'banks': bank_serializer.data,
+        'states': state_serializer.data,
+        'districts': district_serializer.data,
+        'cities':city_serializer.data,
+        'branches':branch_serializer.data,
+        'page_items': branch_serializer.data,        
+        'seo_data': page_serializer.data,
+    }
+    return render(request, 'bank_page.html', context=context)
 
 
 def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_id):
-    return HttpResponse("Bank id {},state id {},district id {},city id {},branch id {}".format(bank_id, state_id, district_id, city_id, branch_id))
+    params = {'bank_id': int(bank_id),'state_id':int(state_id),'district_id':int(district_id),'city_id':int(city_id),'branch_id':int(branch_id)}
+    
+    banks = Bank().list_all()
+    bank_serializer = BankSerializer(banks, many=True)
+    bank = Bank.objects.get(bank_id=bank_id)
+    logging.info("Bank database name = %s and id=%s", bank.name, bank.pk)
+
+    state_list = State().by_bank_id(bank.pk)
+    state_serializer = StateSerializer(state_list, many=True, context={'bank_id':bank_id,'bank_name':bank.name})    
+    state = State().by_state_id(state_id)
+
+    districts = District().by_bank_and_state(bank,state)
+    district_serializer = DistrictSerializer(
+        districts, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name}
+        )
+    district = District().by_district_id(district_id)
+
+
+    cities = City().by_bank_and_district(bank,district)
+    city_serializer = CitySerializer(
+        cities, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name,'district_id':district_id,'district_name':district.name}
+        )
+    city = City().by_city_id(city_id)
+
+    branches = BranchDetail().by_bank_and_city(bank, city)
+    branch_serializer = BranchDetailSerializer(
+        branches, 
+        many=True,
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name,'district_id':district_id,'district_name':district.name,'city_id':city_id,'city_name':city.name}
+        )
+    branch = BranchDetail().by_branch_id(branch_id)
+    serializer = BranchDetailSerializer(
+        branch,         
+        context={'bank_id':bank_id,'bank_name':bank.name,'state_id':state_id,'state_name':state.name,'district_id':district_id,'district_name':district.name,'city_id':city_id,'city_name':city.name}
+        )
+    
+
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['BRANCH_PAGE'])
+    page_serializer = PageSerializer(page)
+    context = {
+        'params': params,
+        'banks': bank_serializer.data,
+        'states': state_serializer.data,
+        'districts': district_serializer.data,
+        'cities':city_serializer.data,
+        'branches':branch_serializer.data,
+        'branch': serializer.data,
+        'seo_data': page_serializer.data,
+    }
+    return render(request, 'branch_page.html', context=context)
+

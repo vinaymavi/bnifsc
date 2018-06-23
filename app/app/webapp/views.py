@@ -7,16 +7,20 @@ from models import *
 import logging
 from django.conf import settings
 from serializers import *
-
+import utils
 
 def index(request):
     banks = Bank().list_all()
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['HOME_PAGE'])
     page_serializer = PageSerializer(page)
     bank_serializer = BankSerializer(banks, many=True)
+    seo_context={
+        
+    }
+
     context = {"banks": bank_serializer.data,
                'seo_data': page_serializer.data,
-                "page_items": bank_serializer.data
+                "page_items": utils.process_seo_data(bank_serializer.data,seo_context)
                 }
     logging.info("Banks count = %s" % (len(context["banks"])))
     return render(request, 'basic_page.html', context=context)
@@ -67,12 +71,15 @@ def bank(request, seo_string, bank_id):
     state_serializer = StateSerializer(state_list, many=True, context={'bank_id':bank_id,'bank_name':bank.name})
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['BANK_PAGE'])
     page_serializer = PageSerializer(page)
+    seo_context = {
+        'bank_name':bank.name
+    }
     context = {
         'params': params,
         'banks': bank_serializer.data,
         'states': state_serializer.data,
         'page_items': state_serializer.data,
-        'seo_data': page_serializer.data,
+        'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
     return render(request, 'bank_page.html', context=context)
 
@@ -97,13 +104,17 @@ def state(request, seo_string, bank_id, state_id):
         )
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['STATE_PAGE'])
     page_serializer = PageSerializer(page)
+    seo_context={
+        'bank_name':bank.name,
+        'state_name':state.name
+    }
     context = {
         'params': params,
         'banks': bank_serializer.data,
         'states': state_serializer.data,
         'districts': district_serializer.data,
         'page_items': district_serializer.data,
-        'seo_data': page_serializer.data,
+        'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
     return render(request, 'bank_page.html', context=context)
 
@@ -138,6 +149,11 @@ def district(request, seo_string, bank_id, state_id, district_id):
 
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['DISTRICT_PAGE'])
     page_serializer = PageSerializer(page)
+    seo_context = {
+        'bank_name':bank.name,
+        'state_name':state.name,
+        'district_name':district.name
+    }
     context = {
         'params': params,
         'banks': bank_serializer.data,
@@ -145,7 +161,7 @@ def district(request, seo_string, bank_id, state_id, district_id):
         'districts': district_serializer.data,
         'cities':city_serializer.data,
         'page_items': city_serializer.data,
-        'seo_data': page_serializer.data,
+        'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
     return render(request, 'bank_page.html', context=context)
 
@@ -188,6 +204,12 @@ def city(request, seo_string, bank_id, state_id, district_id, city_id):
 
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['CITY_PAGE'])
     page_serializer = PageSerializer(page)
+    seo_context = {
+        'bank_name':bank.name,
+        'state_name':state.name,
+        'district_name':district.name,
+        'city_name':city.name
+    }
     context = {
         'params': params,
         'banks': bank_serializer.data,
@@ -196,7 +218,7 @@ def city(request, seo_string, bank_id, state_id, district_id, city_id):
         'cities':city_serializer.data,
         'branches':branch_serializer.data,
         'page_items': branch_serializer.data,        
-        'seo_data': page_serializer.data,
+        'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
     return render(request, 'bank_page.html', context=context)
 
@@ -245,6 +267,13 @@ def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_
 
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['BRANCH_PAGE'])
     page_serializer = PageSerializer(page)
+    seo_context = {
+        'bank_name':bank.name,
+        'state_name':state.name,
+        'district_name':district.name,
+        'city_name':city.name,
+        'branch_name':branch.name
+    }
     context = {
         'params': params,
         'banks': bank_serializer.data,
@@ -253,7 +282,7 @@ def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_
         'cities':city_serializer.data,
         'branches':branch_serializer.data,
         'branch': serializer.data,
-        'seo_data': page_serializer.data,
+        'seo_data': utils.process_seo_data(page_serializer.data, seo_context)
     }
     return render(request, 'branch_page.html', context=context)
 

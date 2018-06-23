@@ -7,6 +7,7 @@ from rest_framework import status
 import logging
 from models import *
 from serializers import *
+import utils
 
 
 class BankTestCase(TestCase):
@@ -261,8 +262,8 @@ class ApiTesting(APITestCase):
                 "city": "VEJALPORE",
                 "district": "PANCH MAHALS",
                 "state": "GUJARAT"
-            },
-            {
+                },
+                {
                 "bank": "AXIS BANK",
                 "ifsc": "UTIB0SWUCB1",
                 "micr": "NA",
@@ -272,8 +273,8 @@ class ApiTesting(APITestCase):
                 "city": "WARANGAL",
                 "district": "WARANGAL",
                 "state": "TELANGANA"
-            },
-            {
+                },
+                {
                 "bank": "AXIS BANK",
                 "ifsc": "UTIB0SWJP01",
                 "micr": "NA",
@@ -283,8 +284,8 @@ class ApiTesting(APITestCase):
                 "city": "WARDHA",
                 "district": "WARDHA",
                 "state": "MAHARASHTRA"
-            },
-            {
+                },
+                {
                 "bank": "CITI BANK",
                 "ifsc": "CITI0000047",
                 "micr": "NA",
@@ -294,8 +295,8 @@ class ApiTesting(APITestCase):
                 "city": "HYDERABAD",
                 "district": "RANGA REDDY DISTRICT",
                 "state": "ANDHRA PRADESH"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0600002",
                 "micr": "NA",
@@ -305,8 +306,8 @@ class ApiTesting(APITestCase):
                 "city": "CHENNAI",
                 "district": "CHENNAI",
                 "state": "TAMIL NADU"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0400012",
                 "micr": "NA",
@@ -316,8 +317,8 @@ class ApiTesting(APITestCase):
                 "city": "MUMBAI",
                 "district": "GREATER MUMBAI",
                 "state": "MAHARASHTRA"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0560003",
                 "micr": "NA",
@@ -327,8 +328,8 @@ class ApiTesting(APITestCase):
                 "city": "BANGALORE",
                 "district": "BANGALORE URBAN",
                 "state": "KARNATAKA"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0500002",
                 "micr": "NA",
@@ -338,8 +339,8 @@ class ApiTesting(APITestCase):
                 "city": "HYDERABAD",
                 "district": "HYDERABAD URBAN",
                 "state": "ANDHRA PRADESH"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0400010",
                 "micr": "NA",
@@ -349,8 +350,8 @@ class ApiTesting(APITestCase):
                 "city": "MUMBAI",
                 "district": "GREATER MUMBAI",
                 "state": "MAHARASHTRA"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0411002",
                 "micr": "NA",
@@ -360,8 +361,8 @@ class ApiTesting(APITestCase):
                 "city": "PUNE",
                 "district": "PUNE",
                 "state": "MAHARASHTRA"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0400008",
                 "micr": "NA",
@@ -371,8 +372,8 @@ class ApiTesting(APITestCase):
                 "city": "MUMBAI",
                 "district": "GREATER MUMBAI",
                 "state": "MAHARASHTRA"
-            },
-            {
+                },
+                {
                 "bank": "HSBC BANK",
                 "ifsc": "HSBC0560002",
                 "micr": "NA",
@@ -382,8 +383,8 @@ class ApiTesting(APITestCase):
                 "city": "BANGALORE",
                 "district": "BANGALORE URBAN",
                 "state": "KARNATAKA"
-            },
-            {
+                },
+                {
                 "bank": "FEDERAL BANK",
                 "ifsc": "FDRL0WDCB01",
                 "micr": "NA",
@@ -393,8 +394,8 @@ class ApiTesting(APITestCase):
                 "city": "KALPETTA",
                 "district": "WAYANAD",
                 "state": "KERALA"
-            },
-            {
+                },
+                {
                 "bank": "BANK OF INDIA",
                 "ifsc": "BKID0BESCOM",
                 "micr": "NA",
@@ -404,8 +405,8 @@ class ApiTesting(APITestCase):
                 "city": "BANGALORE URBAN",
                 "district": "BANGALORE",
                 "state": "KARNATAKA"
-            },
-            {
+                },
+                {
                 "bank": "BANK OF INDIA",
                 "ifsc": "BKID0JHARGB",
                 "micr": "NA",
@@ -415,8 +416,8 @@ class ApiTesting(APITestCase):
                 "city": "RANCHI",
                 "district": "RANCHI",
                 "state": "JHARKHAND"
-            },
-            {
+                },
+                {
                 "bank": "BANK OF INDIA",
                 "ifsc": "BKID0WAINGB",
                 "micr": "NA",
@@ -426,8 +427,8 @@ class ApiTesting(APITestCase):
                 "city": "SOLAPUR",
                 "district": "SOLAPUR",
                 "state": "MAHARASHTRA"
-            },
-            {
+                },
+                {
                 "bank": "ALLAHABAD BANK",
                 "ifsc": "ALLA0AU1662",
                 "micr": "NA",
@@ -437,9 +438,9 @@ class ApiTesting(APITestCase):
                 "city": "KAISARGANJ",
                 "district": "BAHRAICH",
                 "state": "UTTAR PRADESH"
-            }
-            ]
-        res = self.client.post(url,data,format='json')
+                }
+                ]
+        res = self.client.post(url, data, format='json')
         logging.info("SET-UP DONE.")
 
     def test_api_bank(self):
@@ -464,14 +465,16 @@ class ApiTesting(APITestCase):
 
     def test_api_branch(self):
         url = reverse('api_branch')
-        res = self.client.get(url,{'bank_id': 1, 'city_id': 1})
+        res = self.client.get(url, {'bank_id': 1, 'city_id': 1})
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
 
 class BankSerializserTestCase(TestCase):
     def test_bank_serializer(self):
         bank = Bank(name="Test Bank", url_name="TB")
         serializer = BankSerializer(bank)
-        self.assertEqual("Test Bank",serializer.data['name'])
+        self.assertEqual("Test Bank", serializer.data['name'])
+
 
 class StateSerializerTestCase(TestCase):
     def test_state_serializer(self):
@@ -480,33 +483,76 @@ class StateSerializerTestCase(TestCase):
         state = State(name="Test State", url_name="TS")
         state.bank.add(bank)
         state.save()
-        serializer = StateSerializer(state)        
-        self.assertEqual(serializer.data['bank'][0].items()[2][1],'Test Bank')
+        serializer = StateSerializer(state)
+        self.assertEqual(serializer.data['bank'][0].items()[2][1], 'Test Bank')
 
 
 class SeoComponentTestCase(TestCase):
     def test_seo_component(self):
-        seo_component = SeoComponent(name='seo_component',template_type="TEXT",heading="page heading",content="This is home page")
+        seo_component = SeoComponent(
+            name='seo_component', template_type="TEXT", heading="page heading", content="This is home page")
         serializer = SeoComponentSerializer(seo_component)
-        self.assertEqual(serializer.data['name'],"seo_component")
+        self.assertEqual(serializer.data['name'], "seo_component")
+
 
 class SeoComponentGroupTestCase(TestCase):
     def test_seo_component_group(self):
-        seo_component = SeoComponent(name='seo_component',template_type="TEXT",heading="page heading",content="This is home page")
+        seo_component = SeoComponent(
+            name='seo_component', template_type="TEXT", heading="page heading", content="This is home page")
         seo_component.save()
         group = SeoComponentGroup(name="home_page_group")
-        group.components.add(seo_component)        
+        group.components.add(seo_component)
         serializer = SeoComponentGroupSerializer(group)
         logging.info(serializer.data['components'])
-        self.assertEqual(serializer.data['components'][0].items()[1][1],"seo_component")
+        self.assertEqual(serializer.data['components'][0].items()[
+                         1][1], "seo_component")
+
 
 class PageTestCase(TestCase):
     def test_page(self):
-        seo_component = SeoComponent(name='seo_component',template_type="TEXT",heading="page heading",content="This is home page")
+        seo_component = SeoComponent(
+            name='seo_component', template_type="TEXT", heading="page heading", content="This is home page")
         seo_component.save()
         group = SeoComponentGroup(name="home_page_group")
         group.components.add(seo_component)
         group.save()
-        page = Page(name="home_page",component_group=group)
-        serializer = PageSerializer(page)        
-        self.assertEqual(serializer.data['component_group']['name'],'home_page_group')
+        page = Page(name="home_page", component_group=group)
+        serializer = PageSerializer(page)
+        self.assertEqual(
+            serializer.data['component_group']['name'], 'home_page_group')
+
+
+class UtilsTestCase(TestCase):
+    def test_template_to_string(self):
+        template_str = "my name is {{name}}"
+        context = {'name': "vinaymavi"}
+        template_output = utils.tempate_to_string(template_str, context)
+        self.assertEqual(template_output, "my name is vinaymavi")
+
+    def test_process_seo_headings(self):
+        headings = {
+            'h1_template': 'this is {{h1_name}}',
+            'h2_template': 'this is {{h2_name}}'
+        }
+
+        context = {
+            'h1_name': 'h1',
+            'h2_name': 'h2'
+        }
+        headings_output = utils.process_seo_headings(headings, context)
+        self.assertEqual(headings_output['h1_template'], 'this is h1')
+
+    def test_process_seo_data(self):
+        data = {
+            'heading_template': {
+                'h1_template': 'this is {{h1_name}}',
+                'h2_template': 'this is {{h2_name}}'
+            }
+        }
+
+        context = {
+            'h1_name': 'h1',
+            'h2_name': 'h2'
+        }
+        data_output = utils.process_seo_data(data,context)
+        self.assertEqual(data_output['heading_template']['h1_template'],'this is h1')

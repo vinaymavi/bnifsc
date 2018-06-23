@@ -15,15 +15,15 @@
     .querySelector(config.selector.bank);
     // Bank change listener
    bank_sel.addEventListener("change", function(event) {
-        event.preventDefault();        
-        window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
+        event.preventDefault();
+        event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
     // State change listener
     document
       .querySelector(config.selector.state)
       .addEventListener("change", function(event) {
         event.preventDefault();        
-        window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
+        event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
 
     // District change listener
@@ -31,7 +31,7 @@
       .querySelector(config.selector.district)
       .addEventListener("change", function(event) {
         event.preventDefault();
-        window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
+        event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
 
     // City change listener
@@ -39,7 +39,7 @@
       .querySelector(config.selector.city)
       .addEventListener("change", function(event) {
         event.preventDefault();
-        window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
+        event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
 
     // Branch change listener
@@ -47,7 +47,7 @@
       .querySelector(config.selector.branch)
       .addEventListener("change", function(event) {
         event.preventDefault();
-        window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
+        event.target.options[event.target.selectedIndex].dataset.url && window.location.assign(event.target.options[event.target.selectedIndex].dataset.url)
       });
   }
 

@@ -51,7 +51,7 @@
                 {% for branch in branches%}
                 <option data-url='{{branch.url}}' data-branch-id="{{branch.id}}" 
                 {% if params.branch_id == branch.branch_id%}selected='selected' {% endif%} 
-                value="{{branch.branch_id}}">{{branch.name}}</option>
+                value="{{branch.branch_id}}">{{branch.name}}-({{branch.ifsc_code}})</option>
                 {% endfor %}
             </select>
         </div>

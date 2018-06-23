@@ -1,7 +1,3 @@
-body,
-a {
-  color: #000;
-}
 
 a {
   font-size: 18px;
@@ -127,8 +123,25 @@ footer .disclaimer {
 }
 .list-container h2 .item,
 .list-container .item-list .item {
+  position: relative;
   padding: 5px 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
 }
+.list-container .item-list .item a{
+  padding-left: 10px;
+}
+.list-container .item-list .item::before{
+  position:absolute;
+  content: "";
+  left: 0;
+  padding: 5px 0;
+  height: 100%;
+  border-right: 5px solid #3b78e7;
+}
+
 
 .form-section {
   padding: 50px 0;
@@ -165,7 +178,23 @@ footer .disclaimer {
   font-size: 18px;
 }
 
-.page-heading{
+.page-heading {
   text-align: center;
   margin: 10px 0;
+}
+
+@media (max-width: 720px) {
+  h1,h2{
+    font-size:1rem;
+  }
+  
+  h3,h4{
+    font-size:.75rem;
+  }
+  .form-section {
+    padding:10px 0;
+  }
+  header{
+    height: 50px;
+  }  
 }

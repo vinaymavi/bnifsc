@@ -16,7 +16,7 @@ def process_seo_headings(heading, context):
     return heading
 
 
-def process_seo_data(data, context):
+def process_seo_data(data, context):    
     process_seo_headings(data['heading_template'], context)
     return data
 

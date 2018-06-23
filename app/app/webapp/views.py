@@ -19,8 +19,8 @@ def index(request):
     }
 
     context = {"banks": bank_serializer.data,
-               'seo_data': page_serializer.data,
-                "page_items": utils.process_seo_data(bank_serializer.data,seo_context)
+               'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
+                "page_items": bank_serializer.data
                 }
     logging.info("Banks count = %s" % (len(context["banks"])))
     return render(request, 'basic_page.html', context=context)

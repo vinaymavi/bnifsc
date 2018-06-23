@@ -203,12 +203,16 @@ class PageHeadingTemplateSerializer(serializers.ModelSerializer):
         model = PageHeadingTemplate
         fields = '__all__'
 
+class HeaderSeoComponentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HeaderSeoComponent
+        fields= '__all__'
 
 class PageSerializer(serializers.ModelSerializer):
     component_group = SeoComponentGroupSerializer(read_only=True)
     url_template = PageUrlTemplateSerializer(read_only=True)
     heading_template = PageHeadingTemplateSerializer(read_only=True)
-
+    header_seo_component = HeaderSeoComponentSerializer(read_only=True)
     class Meta:
         model = Page
         fields = '__all__'

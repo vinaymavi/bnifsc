@@ -16,14 +16,27 @@ def process_seo_headings(heading, context):
     return heading
 
 
-def process_seo_data(data, context):    
+def process_seo_data(data, context):
     process_seo_headings(data['heading_template'], context)
+    process_seo_components(data['component_group']['components'], context)
+    process_header_meta(data['header_seo_component'], context)
     return data
 
 
 def process_seo_components(components, context):
-    pass
+    for component in components:        
+        component['heading'] = tempate_to_string(component['heading'], context)
+        component['content'] = tempate_to_string(component['content'], context)
+    return components
 
 
 def process_header_meta(header, context):
-    pass
+    
+    header['title'] = tempate_to_string(header['title'], context)
+    header['meta_keywords'] = tempate_to_string(
+        header['meta_keywords'], context)
+    header['meta_description'] = tempate_to_string(
+        header['meta_description'], context)
+    header['canonical_url'] = tempate_to_string(
+        header['canonical_url'], context)
+    return header

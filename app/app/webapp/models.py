@@ -26,7 +26,7 @@ class Bank(models.Model):
     def get_by_name(self, name):
         try:
             return Bank.objects.get(name=name)
-        except Bank.DoesNotExist: 
+        except Bank.DoesNotExist:
             return None
 
     def get_by_bank_id(self, bank_id):
@@ -338,8 +338,9 @@ class Counter(models.Model):
             counter.save()
             return Counter.get_counter()
 
+
 class PageUrlTemplate(models.Model):
-    name = fields.CharField(max_length=100,unique=True)
+    name = fields.CharField(max_length=100, unique=True)
     template = models.TextField(max_length=250)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
@@ -347,10 +348,24 @@ class PageUrlTemplate(models.Model):
     def __str__(self):
         return self.name
 
+
 class PageHeadingTemplate(models.Model):
-    name = fields.CharField(max_length=100,unique=True)
+    name = fields.CharField(max_length=100, unique=True)
     h1_template = models.TextField(max_length=250)
     h2_template = models.TextField(max_length=250)
+    add_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now())
+
+    def __str__(self):
+        return self.name
+
+
+class HeaderSeoComponent(models.Model):
+    name = fields.CharField(max_length=60)
+    title = fields.CharField(max_length=60)
+    meta_keywords = fields.CharField(max_length=260)
+    meta_description = fields.CharField(max_length=260)
+    canonical_url = fields.CharField(max_length=260,blank=True)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
 
@@ -361,7 +376,8 @@ class PageHeadingTemplate(models.Model):
 class Page(models.Model):
     name = fields.CharField(max_length=100, unique=True)
     component_group = models.ForeignKey(SeoComponentGroup)
-    url_template = models.ForeignKey(PageUrlTemplate, blank=True,null=True)
+    header_seo_component = models.ForeignKey(HeaderSeoComponent)
+    url_template = models.ForeignKey(PageUrlTemplate, blank=True, null=True)
     heading_template = models.ForeignKey(PageHeadingTemplate)
     add_date = models.DateTimeField(default=timezone.now())
     update_date = models.DateTimeField(default=timezone.now())
@@ -376,4 +392,3 @@ class Page(models.Model):
         except Page.DoesNotExist as err:
             logging.warning("Page name=%s does not exist ", page_name)
             return None
-            

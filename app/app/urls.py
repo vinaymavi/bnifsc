@@ -23,6 +23,7 @@ urlpatterns = (
     url(r'^privacy$', webapp.privacy, name='privacy'),
     url(r'^disclaimer$', webapp.disclaimer, name='disclaimer'),
     url(r'^search-by-ifsc$', webapp.by_ifsc, name='by_ifsc'),
+    url(r'^validate-ifsc$', webapp.validate_ifsc, name='validate_ifsc'),
     
     # API Urls
     url(r'^api/bank$', BankApi.as_view(), name="api_bank"),
@@ -40,6 +41,7 @@ urlpatterns = (
     url(r'^([\w-]+)/(\d+)-(\d+)-(\d+)/$',webapp.district, name="district_page"),
     url(r'^([\w-]+)/(\d+)-(\d+)-(\d+)-(\d+)/$',webapp.city, name="city_page"),
     url(r'^([\w-]+)/(\d+)-(\d+)-(\d+)-(\d+)-(\d+)/$',webapp.branch, name="branch_page"),
+    url(r'^([\w-]+)/(\w+)/$',webapp.ifsc_code_info, name="ifsc_code_info"),
 
     # Note that by default this is also locked down with login:admin in app.yaml
     url(r'^admin/', include(admin.site.urls)),

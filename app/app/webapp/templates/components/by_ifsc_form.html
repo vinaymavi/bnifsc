@@ -1,0 +1,10 @@
+
+{%block by_ifsc_form%}
+<form class="form-inline" action="{% url 'validate_ifsc' %}">        
+        <div class="form-group col-xs-12 col-md-8">
+          <label for="inputPassword2" class="sr-only">IFSC Code</label>
+          <input type="input" name='ifsc_code' class="form-control" id="inputPassword2" placeholder="Enter IFSC Code">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+</form>
+{% endblock%}

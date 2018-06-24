@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render,redirect
+from django.http import HttpResponse,HttpResponseRedirect
 from models import *
 import logging
 from django.conf import settings
@@ -57,7 +57,7 @@ def contactus(request):
 def by_ifsc(request):
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['BY_IFSC_PAGE'])
     serializer = PageSerializer(page)
-    context = {'seo_data': serializer.data}
+    context = {'seo_data': serializer.data}    
     return render(request, 'by_ifsc.html', context=context)
 
 
@@ -286,3 +286,17 @@ def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_
     }
     return render(request, 'branch_page.html', context=context)
 
+def validate_ifsc(request):
+    ifsc_code = request.GET['ifsc_code']
+    branch = BranchDetail().by_ifsc(ifsc_code.strip())
+
+    if branch is not None:
+        return HttpResponseRedirect(reverse('ifsc_code_info', args=['ifsc-code',ifsc_code]))
+    else:
+        return HttpResponseRedirect('%s?error=1&ifsc_code=%s' % (reverse('by_ifsc'),ifsc_code))
+
+
+
+
+def ifsc_code_info(request,seo_string,ifsc_code):
+    return HttpResponse('Seo string=  {}, ifsc code = {}'.format(seo_string,ifsc_code))

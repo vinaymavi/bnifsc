@@ -55,9 +55,16 @@ def contactus(request):
 
 
 def by_ifsc(request):
+    error = request.GET['error'] if 'error' in request.GET else None
+    ifsc_code = request.GET['ifsc_code'] if 'ifsc_code' in request.GET else None
+
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['BY_IFSC_PAGE'])
     serializer = PageSerializer(page)
     context = {'seo_data': serializer.data}    
+    if error:
+        context['error']={
+            "msg":"Not a valid <strong>{}</strong> ifsc code.".format(ifsc_code)
+        }
     return render(request, 'by_ifsc.html', context=context)
 
 

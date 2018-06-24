@@ -151,5 +151,6 @@ URL_PAGE_MAPPING={
     'STATE_PAGE':'state_page',
     'DISTRICT_PAGE':'district_page',
     'CITY_PAGE':'city_page',
-    'BRANCH_PAGE':'branch_page'
+    'BRANCH_PAGE':'branch_page',
+    'IFSC_CODE_INFO':'ifsc_code_info'
 }

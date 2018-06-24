@@ -306,4 +306,38 @@ def validate_ifsc(request):
 
 
 def ifsc_code_info(request,seo_string,ifsc_code):
-    return HttpResponse('Seo string=  {}, ifsc code = {}'.format(seo_string,ifsc_code))
+    branch = BranchDetail().by_ifsc(ifsc_code.strip())
+    branch_serializer = BranchDetailSerializer(
+        branch,
+        context={'bank_id':1,'bank_name':"bank name",'state_id':2,'state_name':"state name",'district_id':3,'district_name':"district name",'city_id':4,'city_name':"city name"}
+        )
+    branch_serializer = BranchDetailSerializer(
+        branch,
+        context={
+        'bank_id':branch_serializer.data['bank']['bank_id'],
+        'bank_name':branch_serializer.data['bank']['name'],
+        'state_id':branch_serializer.data['state']['state_id'],
+        'state_name':branch_serializer.data['state']['name'],
+        'district_id':branch_serializer.data['district']['district_id'],
+        'district_name':branch_serializer.data['district']['name'],
+        'city_id':branch_serializer.data['city']['city_id'],
+        'city_name':branch_serializer.data['city']['name']
+        }
+        )
+    page = Page.by_page_name(settings.URL_PAGE_MAPPING['IFSC_CODE_INFO'])
+    page_serializer = PageSerializer(page)
+    logging.info(branch_serializer.data)
+    seo_context = {
+        'bank_name':branch_serializer.data['bank']['name'],
+        'state_name':branch_serializer.data['state']['name'],
+        'district_name':branch_serializer.data['district']['name'],
+        'city_name':branch_serializer.data['city']['name'],
+        'branch_name':branch.name
+    }
+    logging.info(seo_context)
+    context = {
+        'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
+        'branch': branch_serializer.data,
+        'message':"Valid ifsc code <strong>{}</strong>.".format(branch.ifsc_code)
+        }
+    return render(request, 'ifsc_code_info.html', context=context)

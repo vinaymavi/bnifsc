@@ -165,7 +165,7 @@ class BranchDetailSerializer(serializers.ModelSerializer):
         url_str = template.render(context)
         logging.info('url string = {}'.format(url_str))
         return reverse('branch_page', args=[url_str, bank_id, state_id, district_id,city_id,obj.branch_id])
-        
+                
 class BankDetailSerializer(serializers.Serializer):
     bank = serializers.CharField(max_length=200)
     ifsc = serializers.CharField(max_length=200)

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block page_content%}
+    {% if message %}
+        <div class="alert alert-success" role="alert">{{message | safe}}</div>
+    {% endif %}
+    
+    {% include 'components/by_ifsc_form.html' %}
+    <hr/>
+    {% include 'components/branch_detail.html'%}
+    {% block seo_body%}
+        {% include 'components/seo_component.html'%}
+    {% endblock %}
+{% endblock %}

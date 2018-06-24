@@ -8,14 +8,21 @@ import logging
 from django.conf import settings
 from serializers import *
 import utils
+from google.appengine.api import memcache
+from django.template import loader, Context
 
 def index(request):
+    path = request.path
+    # memcache implementation
+    output_str = memcache.get(path)
+    if output_str is not None:
+        return HttpResponse(output_str)
+
     banks = Bank().list_all()
     page = Page.by_page_name(settings.URL_PAGE_MAPPING['HOME_PAGE'])
     page_serializer = PageSerializer(page)
     bank_serializer = BankSerializer(banks, many=True)
-    seo_context={
-        
+    seo_context={        
     }
 
     context = {"banks": bank_serializer.data,
@@ -23,7 +30,10 @@ def index(request):
                 "page_items": bank_serializer.data
                 }
     logging.info("Banks count = %s" % (len(context["banks"])))
-    return render(request, 'basic_page.html', context=context)
+    template = loader.get_template('basic_page.html')    
+    output_str = template.render(context)
+    memcache.add(path,output_str,time=24*3600)
+    return HttpResponse(output_str)
 
 
 def aboutus(request):
@@ -69,6 +79,12 @@ def by_ifsc(request):
 
 
 def bank(request, seo_string, bank_id):
+    path = request.path
+    # memcache implementation
+    output_str = memcache.get(path)
+    if output_str is not None:
+        return HttpResponse(output_str)
+
     params = {'bank_id': int(bank_id)}
     banks = Bank().list_all()
     bank_serializer = BankSerializer(banks, many=True)
@@ -88,10 +104,19 @@ def bank(request, seo_string, bank_id):
         'page_items': state_serializer.data,
         'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
-    return render(request, 'bank_page.html', context=context)
+    template = loader.get_template('bank_page.html')
+    output_str = template.render(context)
+    memcache.add(path,output_str,time=24*3600)
+    return HttpResponse(output_str)
 
 
 def state(request, seo_string, bank_id, state_id):
+    path = request.path
+    # memcache implementation
+    output_str = memcache.get(path)
+    if output_str is not None:
+        return HttpResponse(output_str)
+        
     params = {'bank_id': int(bank_id),'state_id':int(state_id)}
     
     banks = Bank().list_all()
@@ -123,10 +148,20 @@ def state(request, seo_string, bank_id, state_id):
         'page_items': district_serializer.data,
         'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
-    return render(request, 'bank_page.html', context=context)
+    template = loader.get_template('bank_page.html')
+    output_str = template.render(context)
+    memcache.add(path,output_str,time=24*3600)
+    return HttpResponse(output_str)
+    
 
 
 def district(request, seo_string, bank_id, state_id, district_id):
+    path = request.path
+    # memcache implementation
+    output_str = memcache.get(path)
+    if output_str is not None:
+        return HttpResponse(output_str)
+
     params = {'bank_id': int(bank_id),'state_id':int(state_id),'district_id':int(district_id)}
     
     banks = Bank().list_all()
@@ -170,10 +205,19 @@ def district(request, seo_string, bank_id, state_id, district_id):
         'page_items': city_serializer.data,
         'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
-    return render(request, 'bank_page.html', context=context)
+    template = loader.get_template('bank_page.html')
+    output_str = template.render(context)
+    memcache.add(path,output_str,time=24*3600)
+    return HttpResponse(output_str)
+    
 
 
 def city(request, seo_string, bank_id, state_id, district_id, city_id):
+    path = request.path
+    # memcache implementation
+    output_str = memcache.get(path)
+    if output_str is not None:
+        return HttpResponse(output_str)
     params = {'bank_id': int(bank_id),'state_id':int(state_id),'district_id':int(district_id),'city_id':int(city_id)}
     
     banks = Bank().list_all()
@@ -227,10 +271,18 @@ def city(request, seo_string, bank_id, state_id, district_id, city_id):
         'page_items': branch_serializer.data,        
         'seo_data': utils.process_seo_data(page_serializer.data,seo_context),
     }
-    return render(request, 'bank_page.html', context=context)
+    template = loader.get_template('bank_page.html')
+    output_str = template.render(context)
+    memcache.add(path,output_str,time=24*3600)
+    return HttpResponse(output_str)
 
 
 def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_id):
+    path = request.path
+    # memcache implementation
+    output_str = memcache.get(path)
+    if output_str is not None:
+        return HttpResponse(output_str)
     params = {'bank_id': int(bank_id),'state_id':int(state_id),'district_id':int(district_id),'city_id':int(city_id),'branch_id':int(branch_id)}
     
     banks = Bank().list_all()
@@ -291,7 +343,11 @@ def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_
         'branch': serializer.data,
         'seo_data': utils.process_seo_data(page_serializer.data, seo_context)
     }
-    return render(request, 'branch_page.html', context=context)
+    template = loader.get_template('branch_page.html')
+    output_str = template.render(context)
+    memcache.add(path,output_str,time=24*3600)
+    return HttpResponse(output_str)
+    
 
 def validate_ifsc(request):
     ifsc_code = request.GET['ifsc_code']
@@ -306,6 +362,11 @@ def validate_ifsc(request):
 
 
 def ifsc_code_info(request,seo_string,ifsc_code):
+    path = request.path
+    # memcache implementation
+    output_str = memcache.get(path)
+    if output_str is not None:
+        return HttpResponse(output_str)
     branch = BranchDetail().by_ifsc(ifsc_code.strip())
     branch_serializer = BranchDetailSerializer(
         branch,
@@ -340,4 +401,8 @@ def ifsc_code_info(request,seo_string,ifsc_code):
         'branch': branch_serializer.data,
         'message':"Valid ifsc code <strong>{}</strong>.".format(branch.ifsc_code)
         }
-    return render(request, 'ifsc_code_info.html', context=context)
+    template = loader.get_template('ifsc_code_info.html')
+    output_str = template.render(context)
+    memcache.add(path,output_str,time=24*3600)
+    return HttpResponse(output_str)
+    

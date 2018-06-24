@@ -209,3 +209,11 @@ footer .disclaimer {
     height: 50px;
   }  
 }
+.form-inline{
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.form-inline input.form-control{
+  width: 100%;
+}

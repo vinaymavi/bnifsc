@@ -12,7 +12,8 @@ from google.appengine.api import memcache
 from django.template import loader, Context
 
 def index(request):
-    path = request.path
+    path = request.path + request.GET.urlencode(safe=True)
+    logging.info(path)
     # memcache implementation
     output_str = memcache.get(path)
     if output_str is not None:
@@ -32,6 +33,7 @@ def index(request):
     logging.info("Banks count = %s" % (len(context["banks"])))
     template = loader.get_template('basic_page.html')    
     output_str = template.render(context)
+    path = request.path
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
 
@@ -79,7 +81,7 @@ def by_ifsc(request):
 
 
 def bank(request, seo_string, bank_id):
-    path = request.path
+    path = request.path + request.GET.urlencode(safe=True)
     # memcache implementation
     output_str = memcache.get(path)
     if output_str is not None:
@@ -106,12 +108,13 @@ def bank(request, seo_string, bank_id):
     }
     template = loader.get_template('bank_page.html')
     output_str = template.render(context)
+    path = request.path
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
 
 
 def state(request, seo_string, bank_id, state_id):
-    path = request.path
+    path = request.path + request.GET.urlencode(safe=True)
     # memcache implementation
     output_str = memcache.get(path)
     if output_str is not None:
@@ -150,13 +153,14 @@ def state(request, seo_string, bank_id, state_id):
     }
     template = loader.get_template('bank_page.html')
     output_str = template.render(context)
+    path = request.path
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
     
 
 
 def district(request, seo_string, bank_id, state_id, district_id):
-    path = request.path
+    path = request.path + request.GET.urlencode(safe=True)
     # memcache implementation
     output_str = memcache.get(path)
     if output_str is not None:
@@ -207,13 +211,14 @@ def district(request, seo_string, bank_id, state_id, district_id):
     }
     template = loader.get_template('bank_page.html')
     output_str = template.render(context)
+    path = request.path
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
     
 
 
 def city(request, seo_string, bank_id, state_id, district_id, city_id):
-    path = request.path
+    path = request.path + request.GET.urlencode(safe=True)
     # memcache implementation
     output_str = memcache.get(path)
     if output_str is not None:
@@ -273,12 +278,13 @@ def city(request, seo_string, bank_id, state_id, district_id, city_id):
     }
     template = loader.get_template('bank_page.html')
     output_str = template.render(context)
+    path = request.path
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
 
 
 def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_id):
-    path = request.path
+    path = request.path + request.GET.urlencode(safe=True)
     # memcache implementation
     output_str = memcache.get(path)
     if output_str is not None:
@@ -345,6 +351,7 @@ def branch(request, seo_string, bank_id, state_id, district_id, city_id, branch_
     }
     template = loader.get_template('branch_page.html')
     output_str = template.render(context)
+    path = request.path
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
     
@@ -362,7 +369,7 @@ def validate_ifsc(request):
 
 
 def ifsc_code_info(request,seo_string,ifsc_code):
-    path = request.path
+    path = request.path + request.GET.urlencode(safe=True)
     # memcache implementation
     output_str = memcache.get(path)
     if output_str is not None:
@@ -403,6 +410,7 @@ def ifsc_code_info(request,seo_string,ifsc_code):
         }
     template = loader.get_template('ifsc_code_info.html')
     output_str = template.render(context)
+    path = request.path
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
     

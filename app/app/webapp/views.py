@@ -406,3 +406,7 @@ def ifsc_code_info(request,seo_string,ifsc_code):
     memcache.add(path,output_str,time=24*3600)
     return HttpResponse(output_str)
     
+
+def robots(request):
+    output_string = 'User-agent: * \nDisallow: /'
+    return HttpResponse(output_string)

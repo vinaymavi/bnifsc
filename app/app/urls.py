@@ -24,7 +24,7 @@ urlpatterns = (
     url(r'^disclaimer$', webapp.disclaimer, name='disclaimer'),
     url(r'^search-by-ifsc$', webapp.by_ifsc, name='by_ifsc'),
     url(r'^validate-ifsc$', webapp.validate_ifsc, name='validate_ifsc'),
-    url(r'^robots.txt$', webapp.robots, name='validate_ifsc'),
+    url(r'^robots.txt$', webapp.robots, name='robots.txt'),
     
     # API Urls
     url(r'^api/bank$', BankApi.as_view(), name="api_bank"),

@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-upload-data",
+  "version": "0.1.0",
+  "description": "nodejs code to upload data to python service ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'No test defined.'",
+    "start":"node index.js",
+    "deploy":"gcloud app deploy "
+  },
+  "keywords": [
+    "bigquery",
+    "pubsub",
+    "google-cloud-function"
+  ],
+  "author": "vinaymavi@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

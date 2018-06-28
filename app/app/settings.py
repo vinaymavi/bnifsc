@@ -84,7 +84,6 @@ SILENCED_SYSTEM_CHECKS = [
 from .boot import register_custom_checks
 register_custom_checks()
 
-CSP_REPORT_URI = reverse_lazy('report_csp')
 CSP_REPORTS_LOG = True
 CSP_REPORTS_LOG_LEVEL = 'warning'
 CSP_REPORTS_SAVE = True

@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cspreports',
     'djangae.contrib.gauth.datastore',
     'djangae.contrib.security',
     'app',

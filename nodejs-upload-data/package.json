@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo 'No test defined.'",
     "start":"node index.js",
-    "deploy":"gcloud app deploy "
+    "deploy":"gcloud app deploy service1.yml"
   },
   "keywords": [
     "bigquery",

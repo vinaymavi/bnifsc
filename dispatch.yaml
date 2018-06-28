@@ -1,11 +1,9 @@
-
-dispatch:
+dispatch:  
 
   # Default service serves simple hostname request.
   - url: "bnifsc-beta.appspot.com/"
     service: default
 
-  # Send all traffic to service1
-  - url: "*/uplaod-data/*"
-    service: service1
-
+  # send trafic to nodejs service
+  - url: "*/nodejs/*"
+    service: service1 

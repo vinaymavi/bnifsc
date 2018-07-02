@@ -4,8 +4,14 @@
 const express = require("express");
 var bodyParser = require('body-parser')
 const PubSub = require("@google-cloud/pubsub");
-
+const logging  = require('./lib/logging')
 const app = express();
+
+// Add the request logger before anything else so that it can
+// accurately log requests.
+// [START requests]
+app.use(logging.requestLogger)
+
 app.use(bodyParser.json());
 
 const TOPIC_NAME = "nodejs";
@@ -52,12 +58,18 @@ app.get("/nodejs/subscriber", (req, res) => {
 });
 
 app.post("/nodejs/subscriber", (req, res) => {
-  console.log(JOSN.stringify(req.body));
+  logging.info(JSON.stringify(req.body));
   res
     .status(200)
     .send(`Post - subscriber calling, data received=${JSON.stringify(req.body)}`)
     .end();
 });
+
+// Add the error logger after all middleware and routes so that
+// it can log errors from the whole application. Any custom error
+// handlers should go after this.
+// [START errors]
+app.use(logging.errorLogger);
 
 // Start the server
 const PORT = process.env.PORT || 8080;

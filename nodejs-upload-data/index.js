@@ -2,8 +2,12 @@
 
 // [START app]
 const express = require("express");
+var bodyParser = require('body-parser')
 const PubSub = require("@google-cloud/pubsub");
+
 const app = express();
+app.use(bodyParser.json());
+
 const TOPIC_NAME = "nodejs";
 const pubsub = PubSub({
   projectId: 'bnifsc-beta'
@@ -41,7 +45,6 @@ app.get("/nodejs", (req, res) => {
 });
 
 app.get("/nodejs/subscriber", (req, res) => {
-  console.log(req.body);
   res
     .status(200)
     .send("GET - subscriber calling")
@@ -49,10 +52,10 @@ app.get("/nodejs/subscriber", (req, res) => {
 });
 
 app.post("/nodejs/subscriber", (req, res) => {
-  console.log(req.body);
+  console.log(JOSN.stringify(req.body));
   res
     .status(200)
-    .send("Post - subscriber calling")
+    .send(`Post - subscriber calling, data received=${JSON.stringify(req.body)}`)
     .end();
 });
 

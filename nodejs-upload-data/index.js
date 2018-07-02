@@ -1,5 +1,5 @@
 "use strict";
-
+// TODO test cases pending.
 // [START app]
 const express = require("express");
 var bodyParser = require('body-parser')
@@ -26,8 +26,7 @@ app.get("/", (req, res) => {
     .end();
 });
 
-app.get("/nodejs", (req, res) => {
-  console.log(req.body);
+app.get("/nodejs", (req, res) => {  
   const topic = pubsub.topic(TOPIC_NAME);
   const publisher = topic.publisher();
   publisher.publish(
@@ -43,7 +42,7 @@ app.get("/nodejs", (req, res) => {
         console.log("Data pushed successfully.");
         res
           .status(200)
-          .send("Hello, world!")
+          .send("Data pushed successfully.")
           .end();
       }
     }
@@ -59,6 +58,11 @@ app.get("/nodejs/subscriber", (req, res) => {
 
 app.post("/nodejs/subscriber", (req, res) => {
   logging.info(JSON.stringify(req.body));
+  // data is base64 encoded
+  const message_data = Buffer.from(req.body.message.data,'base64').toString();
+  // const message_data = req.body.message.data;
+  logging.info("New Build.");
+  logging.info(`sent message =${message_data}`);
   res
     .status(200)
     .send(`Post - subscriber calling, data received=${JSON.stringify(req.body)}`)

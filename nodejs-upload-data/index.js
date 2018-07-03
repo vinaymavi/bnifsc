@@ -3,10 +3,10 @@
 // [START app]
 const express = require("express");
 var bodyParser = require("body-parser");
-const PubSub = require("@google-cloud/pubsub");
 const BigQuery = require("@google-cloud/bigquery");
 
 const logging = require("./lib/logging");
+const bnifscPubSub = require("./lib/pubsub");
 const app = express();
 const bigquery = new BigQuery();
 
@@ -19,39 +19,26 @@ app.use(logging.requestLogger);
 
 app.use(bodyParser.json());
 
-const TOPIC_NAME = "nodejs";
-const pubsub = PubSub({
-  projectId: "bnifsc-beta"
-});
-
 app.get("/", (req, res) => {
   res
     .status(200)
-    .send("Hello, world!")
+    .send("NodeJs application is running.")
     .end();
 });
 
 app.get("/nodejs", (req, res) => {
-  const topic = pubsub.topic(TOPIC_NAME);
-  const publisher = topic.publisher();
-  publisher.publish(
-    Buffer.from(JSON.stringify({ msg: "Hello World" })),
-    err => {
-      if (err) {
-        console.log("Error occurred while queuing background task", err);
-        res
-          .status(500)
-          .send("Server Error")
-          .end();
-      } else {
-        console.log("Data pushed successfully.");
-        res
-          .status(200)
-          .send("Data pushed successfully.")
-          .end();
-      }
-    }
-  );
+  logging.info(JSON.stringify(bnifscPubSub));
+  res.status(200).send("Data pushed successfully.");
+  bnifscPubSub
+    .push_data_to_prepration({ msg: "Hello World" })
+    .then(() => {
+      logging.info("Data pushed successfullly");
+      res.status(200).send("Data pushed successfully.");
+    })
+    .catch(err => {
+      logging.error(`Error in pushing${JSON.stringify(err)}`);
+      res.status(500).send(`Error on server = ${JSON.stringify(err)}`);
+    })
 });
 
 app.get("/nodejs/subscriber", (req, res) => {

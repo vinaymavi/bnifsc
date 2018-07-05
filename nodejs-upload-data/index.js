@@ -10,7 +10,8 @@ const bnifscPubSub = require("./lib/pubsub");
 const app = express();
 const bigquery = new BigQuery();
 
-const query = "SELECT *  FROM `bnifsc-beta:BNIFSC_IFSC_CODE.ifsc_sample_data`";
+const query = "SELECT *  FROM `bnifsc-beta.BNIFSC_IFSC_CODE.ifsc_sample_data`";
+const query_real = "SELECT *  FROM `bnifsc-beta:BNIFSC_IFSC_CODE.ifsc_sample_data`";
 
 // Add the request logger before anything else so that it can
 // accurately log requests.
@@ -36,9 +37,11 @@ app.get("/nodejs", (req, res) => {
       res.status(200).send("Data pushed successfully.");
     })
     .catch(err => {
-      logging.error(`Error in pushing${JSON.stringify(err)}`);
-      res.status(500).send(`Error on server = ${JSON.stringify(err)}`);
-    })
+      if (!res.headersSent) {
+        logging.error(`Error in pushing${JSON.stringify(err)}`);
+        res.status(500).send(`Error on server = ${JSON.stringify(err)}`);
+      }
+    });
 });
 
 app.get("/nodejs/subscriber", (req, res) => {
@@ -57,6 +60,7 @@ app.get("/nodejs/bigquery", (req, res) => {
     })
     .on("data", function(row) {
       logging.info(JSON.stringify(row));
+      bnifscPubSub.push_data_to_prepration(JSON.stringify(row))
     })
     .on("end", function() {
       logging.info("QUERY STREAM END");
@@ -69,7 +73,6 @@ app.post("/nodejs/subscriber", (req, res) => {
   // data is base64 encoded
   const message_data = Buffer.from(req.body.message.data, "base64").toString();
   // const message_data = req.body.message.data;
-  logging.info("New Build.");
   logging.info(`sent message =${message_data}`);
   res
     .status(200)

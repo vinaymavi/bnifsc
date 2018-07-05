@@ -12,12 +12,12 @@ const pubsub = PubSub({
  */
 function publish_data(topic_name, data) {
   const topic = pubsub.topic(topic_name);
-  const publisher = topic.publisher();
+  const publisher = topic.publisher();    
   return publisher.publish(Buffer.from(JSON.stringify(data)));
 }
 
 const BnifscPubSub = {
-  name:"BnifscPubsub",
+  name: "BnifscPubsub",
   push_data_to_prepration: data => {
     const TOPIC_NAME = "nodejs";
     return publish_data(TOPIC_NAME, data);

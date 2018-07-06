@@ -8,8 +8,8 @@ from models import AppInfo, Bank, BranchDetail, State, District, City, BranchDet
 from serializers import ApiInfoSerializer, BankSerializer, BranchDetailSerializer, BankDetailSerializer, StateSerializer, DistrictSerializer,CitySerializer
 
 import logging
-
-
+import json
+import base64
 class ApiInfo(APIView):
     def get(self, req):
         apiInfo = AppInfo(info="This BNIFSC API.")
@@ -74,10 +74,11 @@ class BranchApi(APIView):
 class BankDetailApi(APIView):
     def post(self, request):
         logging.info("Request Data %s", request.data)
-        # stream = BytesIO(request.data['_content'])
-        # data = JSONParser().parse(stream=stream)
-        # logging.info("Data %s", data)
-        serializer = BankDetailSerializer(data=request.data, many=True)
+        data = base64.b64decode(request.data['message']['data']).decode('utf-8')
+        logging.info("Message data string %s",data)
+        data_dic = json.loads(data)
+        logging.info("Data dic = %s",data_dic)
+        serializer = BankDetailSerializer(data=data_dic, many=True)
         counter = None
         if serializer.is_valid():
             logging.info("Valid Data")
@@ -127,4 +128,4 @@ class BankDetailApi(APIView):
             return JsonResponse(serializer.validated_data,safe=False)
         else:
             logging.warning("Not a valid data")
-            return JsonResponse(serializer.errors)
+            return JsonResponse(serializer.errors, safe=False)

@@ -1,0 +1,32 @@
+--   SELECT  row_number() over() as state_id, State  FROM [bnifsc-beta:BNIFSC_IFSC_CODE.full_ifsc_all]  group by state order by state
+  -- select * from  [bnifsc-beta:BNIFSC_IFSC_CODE.district_names]
+  -- SELECT  row_number() over() as city_id, city  FROM [bnifsc-beta:BNIFSC_IFSC_CODE.full_ifsc_all]  group by city order by city
+  -- SELECT  row_number() over() as bank_id, bank  FROM [bnifsc-beta:BNIFSC_IFSC_CODE.full_ifsc_all]  group by bank order by bank
+--    SELECT  row_number() over() as branch_id, branch  FROM [bnifsc-beta:BNIFSC_IFSC_CODE.full_ifsc_all] 
+  -- SELECT  row_number() over() as branch_id, branch  FROM [bnifsc-beta:BNIFSC_IFSC_CODE.full_ifsc_all]
+--   select * from [bnifsc-beta:BNIFSC_IFSC_CODE.Branch_List1] 
+SELECT
+  bl.bank_id,
+  sl.state_id,
+  dl.district_id,
+  cl.city_id,
+  fia.*
+FROM
+  [BNIFSC_IFSC_CODE.full_ifsc_all] AS fia
+INNER JOIN
+  [BNIFSC_IFSC_CODE.Bank_list] AS bl
+ON
+  bl.bank=fia.bank
+Inner join   
+  [BNIFSC_IFSC_CODE.State_list] as sl
+ON 
+sl.state = fia.state
+Inner join 
+  [BNIFSC_IFSC_CODE.District_list] as dl
+On
+dl.district = fia.district
+
+Inner join 
+  [BNIFSC_IFSC_CODE.city_list]  as cl
+On
+cl.city = fia.city

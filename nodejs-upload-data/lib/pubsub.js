@@ -12,7 +12,8 @@ const pubsub = PubSub({
  */
 function publish_data(topic_name, data) {
   const topic = pubsub.topic(topic_name);
-  const publisher = topic.publisher();    
+  const publisher = topic.publisher();
+  logging.info(`Data pushed = ${JSON.stringify(data)}`)
   return publisher.publish(Buffer.from(JSON.stringify(data)));
 }
 
@@ -22,9 +23,9 @@ const BnifscPubSub = {
     const TOPIC_NAME = "nodejs";
     return publish_data(TOPIC_NAME, data);
   },
-  push_data_to_upload: data => {
-    const TOPIC_NAME = "";
-    return publish_data(TOPIC_NAME, data);
+  push_data_to_upload: data => {    
+    const TOPIC_NAME = "add-branch";
+    return publish_data(TOPIC_NAME, [data]);
   }
 };
 

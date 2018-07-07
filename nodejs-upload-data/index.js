@@ -73,13 +73,26 @@ app.post("/nodejs/subscriber", (req, res) => {
   // data is base64 encoded
   const message_data = Buffer.from(req.body.message.data, "base64").toString();
   // const message_data = req.body.message.data;
-  logging.info(`sent message =${message_data}`);
-  res
+  logging.info(`message =${message_data}`);
+  const message_json = JSON.parse(JSON.parse(message_data));
+  logging.info(`Message JSON${message_json}`)
+  bnifscPubSub.push_data_to_upload(message_json)
+  .then(() => {
+    logging.info("Data pushed to upload");
+    res
     .status(200)
     .send(
-      `Post - subscriber calling, data received=${JSON.stringify(req.body)}`
+      `Post - subscriber calling, data received=${JSON.stringify([message_json])}`
     )
     .end();
+  })
+  .catch(err => {
+    if (!res.headersSent) {
+      logging.error(`Error in pushing${JSON.stringify(err)}`);
+      res.status(500).send(`Error on server = ${JSON.stringify(err)}`);
+    }
+  });
+  
 });
 
 // Add the error logger after all middleware and routes so that

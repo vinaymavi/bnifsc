@@ -6,11 +6,19 @@
   -- SELECT  row_number() over() as branch_id, branch  FROM [bnifsc-beta:BNIFSC_IFSC_CODE.full_ifsc_all]
 --   select * from [bnifsc-beta:BNIFSC_IFSC_CODE.Branch_List1] 
 SELECT
-  bl.bank_id,
-  sl.state_id,
-  dl.district_id,
-  cl.city_id,
-  fia.*
+  bl.bank_id as bank_id,
+  sl.state_id as state_id,
+  dl.district_id as district_id,
+  cl.city_id as city_id,
+  fia.bank as bank,
+  fia.ifsc as ifsc,
+  fia.micr as micr,
+  fia.branch as branch,
+  fia.address as address,
+  fia.contact as contact,
+  fia.city as city,
+  fia.district as district,
+  fia.state as state
 FROM
   [BNIFSC_IFSC_CODE.full_ifsc_all] AS fia
 INNER JOIN

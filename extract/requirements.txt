@@ -2,3 +2,4 @@ Flask==0.12.2
 Werkzeug<0.13.0,>=0.12.0
 google-cloud-pubsub
 gunicorn==19.7.1
+google-cloud-bigquery

@@ -32,6 +32,7 @@ def transform_bank():
     logging.info("TRANSFORM BANK REQUEST START")
     logging.info("JSON DATA = {}".format(data))
     message_data = utils.get_request_data(data)
+    pubsub.publish_load_bank(message_data)
     logging.info("TRANSFORM BANK REQUEST END")
     return "Transform Bank Calling..."
 
@@ -44,6 +45,7 @@ def transform_state():
     logging.info("TRANSFORM STATE REQUEST START")
     logging.info("JSON DATA = {}".format(data))
     message_data = utils.get_request_data(data)
+    pubsub.publish_load_state(message_data)
     logging.info("TRANSFORM STATE REQUEST END")
     return "Transform state Calling..."
 
@@ -56,6 +58,7 @@ def transform_district():
     logging.info("TRANSFORM DISTRICT REQUEST START")
     logging.info("JSON DATA = {}".format(data))
     message_data = utils.get_request_data(data)
+    pubsub.publish_load_district(message_data)
     logging.info("TRANSFORM DISTRICT REQUEST END")
     return "Transform district Calling..."
 
@@ -68,6 +71,7 @@ def transform_city():
     logging.info("TRANSFORM CITY REQUEST START")
     logging.info("JSON DATA = {}".format(data))
     message_data = utils.get_request_data(data)
+    pubsub.publish_load_city(message_data)
     logging.info("TRANSFORM CITY REQUEST END")
     return "Transform city Calling..."
 
@@ -80,6 +84,7 @@ def transform_branch():
     logging.info("TRANSFORM BRANCH REQUEST START")
     logging.info("JSON DATA = {}".format(data))
     message_data = utils.get_request_data(data)
+    pubsub.publish_load_branch(message_data)
     logging.info("TRANSFORM BRANCH REQUEST END")
     return "Transform branch Calling..."
 

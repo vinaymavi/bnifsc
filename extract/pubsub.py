@@ -17,6 +17,7 @@ PUB_SUB_TOPIC_STATE_LOAD = 'load-state'
 PUB_SUB_TOPIC_DISTRICT_LOAD = 'load-district'
 PUB_SUB_TOPIC_CITY_LOAD = 'load-city'
 PUB_SUB_TOPIC_BRANCH_LOAD = 'load-branch'
+PUB_SUB_TOPIC_TEMP_LOAD = 'load-temp'
 
 publisher = pubsub_v1.PublisherClient()
 # pub-sub topic paths
@@ -41,6 +42,8 @@ TOPIC_CITY_LOAD_PATH = publisher.topic_path(
     PROJECT, PUB_SUB_TOPIC_CITY_LOAD)
 TOPIC_BRANCH_LOAD_PATH = publisher.topic_path(
     PROJECT, PUB_SUB_TOPIC_BRANCH_LOAD)
+TOPIC_TEMP_LOAD_PATH = publisher.topic_path(
+    PROJECT, PUB_SUB_TOPIC_TEMP_LOAD)
 
 
 class PubSub(object):
@@ -63,21 +66,24 @@ class PubSub(object):
         self.__publish(TOPIC_BRANCH_TRANSFORM_PATH, data)
 
     def publish_load_bank(self, data):
-        self.__publish(TOPIC_BANK_LOAD_PATH, data)
+        self.__publish(TOPIC_TEMP_LOAD_PATH, data)
 
     def publish_load_state(self, data):
-        self.__publish(TOPIC_STATE_LOAD_PATH, data)
+        self.__publish(TOPIC_TEMP_LOAD_PATH, data)
 
     def publish_load_district(self, data):
-        self.__publish(TOPIC_DISTRICT_LOAD_PATH, data)
+        self.__publish(TOPIC_TEMP_LOAD_PATH, data)
 
     def publish_load_city(self, data):
-        self.__publish(TOPIC_CITY_LOAD_PATH, data)
+        self.__publish(TOPIC_TEMP_LOAD_PATH, data)
 
     def publish_load_branch(self, data):
-        self.__publish(TOPIC_BRANCH_LOAD_PATH, data)
+        self.__publish(TOPIC_TEMP_LOAD_PATH, data)
 
     def __publish(self, topic_path, data):
-        data_str = json.dumps(data)
+        if isinstance(data, basestring):
+            logging.info("THIS IS {} a String instacne".format(data))
+
+        data_str = data if isinstance(data, basestring) else json.dumps(data)
         logging.info("Data Str = {}".format(data_str))
-        publisher.publish(topic_path, json.dumps(data_str))
+        publisher.publish(topic_path, data_str)
